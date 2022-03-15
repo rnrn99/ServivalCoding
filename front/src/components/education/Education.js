@@ -1,5 +1,6 @@
 import React from "react";
 import { Card, Row, Button, Col } from "react-bootstrap";
+import EducationAddForm from "./EducationAddForm";
 
 function Education() {
   return (
@@ -13,6 +14,9 @@ function Education() {
             <Col>
               <Button variant="primary">+</Button>
             </Col>
+          </Row>
+          <Row>
+            <EducationAddForm />
           </Row>
         </Card.Body>
       </Card>
