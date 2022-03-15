@@ -24,9 +24,14 @@ educationRouter.post(
   }
 );
 
-educationRouter.get("/education/:id", async function (req, res, next) {
-  const test = educationService.getEducation(req.params.id);
-  res.status(201).json(test);
+educationRouter.get("/educationlist/:id", async function (req, res) {
+  const educations = await educationService.getEducations(req.params.id);
+  res.status(201).json(educations);
+});
+
+educationRouter.get("/education/:id", async function (req, res) {
+  const education = await educationService.getEducation(req.params.id);
+  res.status(201).json(education);
 });
 
 export { educationRouter };

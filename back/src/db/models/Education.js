@@ -1,24 +1,26 @@
 import { UserModel } from "../schemas/user.js";
 import { User } from "../models/User.js";
+import { EducationModel } from "../schemas/education.js";
+
 class Education {
-  static async create(user_id, newEducation) {
-    const author = await User.findById({ user_id });
-    console.log(author);
-    const school = newEducation.school;
-    const major = newEducation.major;
-    const position = newEducation.position;
-    const education = await UserModel.updateOne(
-      { user_id },
-      {
-        $push: { education: { school, major, position, author } },
-      }
-    );
-    return education;
+  static async create(newEducation) {
+    const createdNewEducation = await EducationModel.create(newEducation);
+    return createdNewEducation;
+  }
+
+  static async findById(id) {
+    return await EducationModel.findOne(id);
+  }
+
+  static async findEducations(user_id) {
+    const educations = await User.findById({ user_id });
+    console.log(educations);
+    return educations;
   }
 
   static async findEducation(user_id) {
-    const education = await User.findById({ user_id });
-    console.log(education);
+    const user = await UserModel.findOne({ _id: user_id });
+
     return education;
   }
 }
