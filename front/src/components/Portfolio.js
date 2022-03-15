@@ -63,7 +63,7 @@ function Portfolio() {
         </Col>
         <Col>
 
-          <div style={{ textAlign: "center" }}>
+          <div>
             <Award portfolioOwnerId={portfolioOwner.id}/>
           </div>
 

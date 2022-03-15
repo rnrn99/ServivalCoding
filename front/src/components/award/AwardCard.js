@@ -22,12 +22,12 @@ function AwardCard ({portfolioOwnerId}) {
                 variant="primary"
                 onClick={()=>setAddAward(true)}>
                 +
-              </Button>
-            </Col>
+              </Button><br />  <br />  
+            </Col> 
           </Row>
            {addAward&&(
             <Row>
-                <AwardAddForm addAward={{addAward, setAddAward}}/>
+                <AwardAddForm formController={{addAward, setAddAward}}/>
             </Row>
            )}
         </Card.Body>
