@@ -12,16 +12,25 @@ class Education {
     return await EducationModel.findOne(id);
   }
 
-  static async findEducations(user_id) {
-    const educations = await User.findById({ user_id });
+  static async findEducationsList({ user_id }) {
+    const user = await UserModel.findOne({ id: user_id });
+    console.log(user);
+    const educations = await EducationModel.find({ athor: user });
     console.log(educations);
     return educations;
   }
 
-  static async findEducation(user_id) {
-    const user = await UserModel.findOne({ _id: user_id });
+  static async findEducation({ id }) {
+    return await EducationModel.findOne({ _id: id });
+  }
 
-    return education;
+  static async putEducation({ id, fieldToUpdate, newValue }) {
+    const filter = { _id: id };
+    const update = { [fieldToUpdate]: newValue };
+    const option = { returnOriginal: false };
+
+    const updateEdu = await EducationModel.updateOne(filter, update, option);
+    return updateEdu;
   }
 }
 

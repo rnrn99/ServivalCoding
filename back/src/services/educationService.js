@@ -1,7 +1,7 @@
 import { Education } from "../db/models/Education.js";
 import { User } from "../db/models/User.js";
 class educationService {
-  static async addEducation(user_id, school, major, position) {
+  static async addEducation({ user_id, school, major, position }) {
     const user = await User.findById({ user_id });
     const newEducation = {
       school,
@@ -10,22 +10,54 @@ class educationService {
       author: user,
     };
 
-    console.log(newEducation);
-
     const createNewEducation = await Education.create(newEducation);
     console.log(createNewEducation);
     return createNewEducation;
   }
 
-  static async getEducations(user_id) {
-    const getData = await Education.findEducations(user_id);
-    const educations = getData.education;
-    return educations;
+  static async getEducationsList({ user_id }) {
+    return await Education.findEducationsList({ user_id });
   }
 
-  static async getEducation(user_id) {
-    const data = await Education.findEducation(user_id);
-    return data;
+  static async getEducation({ id }) {
+    return await Education.findEducation({ id });
+  }
+
+  static async updateEducation({ id, toUpdate }) {
+    let education = await Education.findEducation({ id });
+    if (!education) {
+      const errorMessage = "학력 내역이 없습니다.";
+      return { errorMessage };
+    }
+
+    if (toUpdate.school) {
+      const fieldToUpdate = "school";
+      const newValue = toUpdate.school;
+      education = await Education.putEducation({
+        id,
+        fieldToUpdate,
+        newValue,
+      });
+    }
+    if (toUpdate.major) {
+      const fieldToUpdate = "major";
+      const newValue = toUpdate.major;
+      education = await Education.putEducation({
+        id,
+        fieldToUpdate,
+        newValue,
+      });
+    }
+    if (toUpdate.position) {
+      const fieldToUpdate = "position";
+      const newValue = toUpdate.position;
+      education = await Education.putEducation({
+        id,
+        fieldToUpdate,
+        newValue,
+      });
+    }
+    return education;
   }
 }
 
