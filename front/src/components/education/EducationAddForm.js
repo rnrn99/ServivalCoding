@@ -13,7 +13,7 @@ function EducationAddForm() {
         </Form.Group>
         <Form.Group>
           <Form.Check inline type="radio" label="재학중" name="group1" />
-          <Form.Check inline type="radio" label="학사 졸업" name="group1" />
+          <Form.Check inline type="radio" label="학사졸업" name="group1" />
           <Form.Check inline type="radio" label="석사졸업" name="group1" />
           <Form.Check inline type="radio" label="박사졸업" name="group1" />
         </Form.Group>
