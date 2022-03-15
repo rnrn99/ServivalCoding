@@ -1,27 +1,105 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
+import * as Api from "../../api";
 
-function EducationAddForm() {
+function EducationAddForm({ user, setClickAddBtn }) {
+  const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
+  const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
+  const [position, setPosition] = useState(""); // 재학/졸업 여부를 저장할 상태입니다.
+
+  // radio button 클릭에 따라 position을 저장합니다.
+  const RadioBtnClickHandler = (e) => {
+    setPosition(e.target.value);
+  };
+
+  // submit event handler 입니다.
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    // 학력 추가를 위해 유저 아이디, 학교, 전공, 재학/졸업 여부를 객체로 저장합니다.
+    const dataToSubmit = {
+      user_id: user.id,
+      school,
+      major,
+      position,
+    };
+
+    // education/create로 POST 요청을 보냅니다.
+    Api.post("education/create", dataToSubmit, {
+      headers: {
+        Authorization:
+          "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWY0ZmYwYWYtMmE1Zi00ZWVhLTk5ZjItZDE4YjQyYWJhNDE5IiwiaWF0IjoxNjQ3MjMwOTQzfQ.jOGfqncuG-kMk9Oiie27WvI5SdYlJu_4xbucUXlg_z4",
+      },
+    });
+
+    // 학력 추가 후 EducationAddForm을 닫습니다.
+    setClickAddBtn(false);
+  };
+
   return (
-    <Form className="mt-3">
+    <Form className="mt-3" onSubmit={onSubmitHandler}>
       <Row>
         <Form.Group className="mb-3">
-          <Form.Control type="text" placeholder="학교 이름" />
+          <Form.Control
+            type="text"
+            placeholder="학교 이름"
+            onChange={(e) => setSchool(e.target.value)}
+          />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Control type="text" placeholder="전공" />
+          <Form.Control
+            type="text"
+            placeholder="전공"
+            onChange={(e) => setMajor(e.target.value)}
+          />
         </Form.Group>
         <Form.Group>
-          <Form.Check inline type="radio" label="재학중" name="group1" />
-          <Form.Check inline type="radio" label="학사졸업" name="group1" />
-          <Form.Check inline type="radio" label="석사졸업" name="group1" />
-          <Form.Check inline type="radio" label="박사졸업" name="group1" />
+          <Form.Check
+            inline
+            type="radio"
+            label="재학중"
+            value="재학중"
+            name="group1"
+            onClick={RadioBtnClickHandler}
+          />
+          <Form.Check
+            inline
+            type="radio"
+            label="학사졸업"
+            value="학사졸업"
+            name="group1"
+            onClick={RadioBtnClickHandler}
+          />
+          <Form.Check
+            inline
+            type="radio"
+            label="석사졸업"
+            value="석사졸업"
+            name="group1"
+            onClick={RadioBtnClickHandler}
+          />
+          <Form.Check
+            inline
+            type="radio"
+            label="박사졸업"
+            value="박사졸업"
+            name="group1"
+            onClick={RadioBtnClickHandler}
+          />
         </Form.Group>
       </Row>
       <Row className="text-center mt-3">
         <Col>
-          <Button variant="primary">확인</Button>{" "}
-          <Button variant="secondary">취소</Button>{" "}
+          <Button variant="primary" type="submit">
+            확인
+          </Button>{" "}
+          <Button
+            variant="secondary"
+            type="reset"
+            onClick={() => setClickAddBtn(false)}
+          >
+            취소
+          </Button>{" "}
         </Col>
       </Row>
     </Form>

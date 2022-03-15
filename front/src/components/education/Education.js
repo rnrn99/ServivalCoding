@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import EducationAddForm from "./EducationAddForm";
+import * as Api from "../../api";
 
-function Education() {
+function Education({ portfolioOwnerId }) {
   // 학력 추가 버튼 클릭 상태를 저장합니다.
   const [clickAddBtn, setClickAddBtn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
+    Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
+  }, [portfolioOwnerId]);
 
   return (
     <>
@@ -25,7 +32,7 @@ function Education() {
           </Row>
           {clickAddBtn && (
             <Row>
-              <EducationAddForm />
+              <EducationAddForm user={user} setClickAddBtn={setClickAddBtn} />
             </Row>
           )}
         </Card.Body>
