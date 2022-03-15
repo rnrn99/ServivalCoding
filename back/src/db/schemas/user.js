@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
+import { EducationSchema } from "./education.js";
+const Schema = mongoose.Schema;
+const model = mongoose.model;
 
 const UserSchema = new Schema(
   {
@@ -23,6 +26,7 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
+    education: [EducationSchema],
   },
   {
     timestamps: true,
