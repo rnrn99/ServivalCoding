@@ -63,7 +63,7 @@ function Portfolio() {
         </Col>
         <Col>
           <div>
-            <Education />
+            <Education portfolioOwnerId={portfolioOwner.id} />
           </div>
         </Col>
       </Row>
