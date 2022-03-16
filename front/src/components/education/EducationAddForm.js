@@ -90,7 +90,11 @@ function EducationAddForm({ user, setClickAddBtn }) {
       </Row>
       <Row className="text-center mt-3">
         <Col>
-          <Button variant="primary" type="submit">
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ marginRight: "1rem" }}
+          >
             확인
           </Button>{" "}
           <Button
