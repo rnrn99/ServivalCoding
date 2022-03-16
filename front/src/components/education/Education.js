@@ -6,14 +6,10 @@ import * as Api from "../../api";
 
 function Education({ portfolioOwnerId }) {
   const [clickAddBtn, setClickAddBtn] = useState(false); // 학력 추가 버튼 클릭 상태를 저장합니다.
-  const [user, setUser] = useState(null); // user의 정보를 저장합니다.
   const [educations, setEducations] = useState([]); // 해당 유저의 학력을 저장합니다.
   const [clickSubmitBtn, setClickSubmitBtn] = useState(false); // EducationAddForm의 확인 버튼 클릭 상태를 저장합니다.
 
   useEffect(() => {
-    // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
-    Api.get("users", portfolioOwnerId).then((res) => setUser(res.data));
-
     // "educationlist/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
     Api.get("educationlist", portfolioOwnerId).then((res) =>
       setEducations(res.data),
@@ -44,7 +40,7 @@ function Education({ portfolioOwnerId }) {
           {clickAddBtn && (
             <Row>
               <EducationAddForm
-                user={user}
+                portfolioOwnerId={portfolioOwnerId}
                 setClickAddBtn={setClickAddBtn}
                 setClickSubmitBtn={setClickSubmitBtn}
               />

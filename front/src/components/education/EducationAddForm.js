@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationAddForm({ user, setClickAddBtn, setClickSubmitBtn }) {
+function EducationAddForm({
+  portfolioOwnerId,
+  setClickAddBtn,
+  setClickSubmitBtn,
+}) {
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [position, setPosition] = useState(""); // 재학/졸업 여부를 저장할 상태입니다.
@@ -18,7 +22,7 @@ function EducationAddForm({ user, setClickAddBtn, setClickSubmitBtn }) {
 
     // 학력 추가를 위해 유저 아이디, 학교, 전공, 재학/졸업 여부를 객체로 저장합니다.
     const dataToSubmit = {
-      user_id: user.id,
+      user_id: portfolioOwnerId,
       school,
       major,
       position,
