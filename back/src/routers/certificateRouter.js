@@ -57,8 +57,22 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
 });
 
 certificateRouter.get("/certificates/:id", async function (req, res, next) {
-// TODO
-//  id에 해당하는 자격증 하나를 가져오는 함수 구현
+  const { id } = req.params;
+
+  try {// id를 이용하여 db에서 자격증 검색
+    const certificate = await certificateService.getCertificate({ id });
+
+    // 에러가 발생했다면
+    if (certificate.errorMessage) {
+      // 에러를 throw
+      throw new Error(certificate.errorMessage);
+    }
+
+    // 201 코드와 함께 자격증 정보 send
+    res.status(201).send(certificate);
+  } catch (error) {
+    next(error);
+  }
 });
 
 certificateRouter.put("/certificates/:id", async function (req, res, next) {
@@ -76,15 +90,21 @@ certificateRouter.get("/certificatelist/:user_id", async function (req, res, nex
     // user 정보를 db에서 가져오기
     const user = await userAuthService.getUserInfo({ user_id })
 
-    console.log(user);
-
     // 에러가 났다면
     if (user.errorMessage) {
       // 에러를 throw
       throw new Error(user.errorMessage);
     }
 
+    // 해당 user의 자격증 목록 가져오기
     const certificates = await certificateService.getCertificates({ user });
+
+    // 에러가 났다면
+    if (certificates.errorMessage) {
+      // 에러를 throw
+      throw new Error(certificates.errorMessage);
+    }
+
     res.status(201).send(certificates);
   } catch (error) {
     next(error);
