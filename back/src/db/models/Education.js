@@ -1,5 +1,4 @@
 import { UserModel } from "../schemas/user.js";
-import { User } from "../models/User.js";
 import { EducationModel } from "../schemas/education.js";
 
 class Education {
@@ -14,9 +13,7 @@ class Education {
 
   static async findEducationsList({ user_id }) {
     const user = await UserModel.findOne({ id: user_id });
-    console.log(user);
-    const educations = await EducationModel.find({ athor: user });
-    console.log(educations);
+    const educations = await EducationModel.find({ author: user });
     return educations;
   }
 

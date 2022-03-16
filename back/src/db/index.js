@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import { User } from "./models/User.js";
+import { User } from "./models/User";
+import { Certificate } from "./models/Certificate";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -17,4 +18,4 @@ db.on("error", (error) =>
   console.error("MongoDB 연결에 실패하였습니다...\n" + DB_URL + "\n" + error),
 );
 
-export { User };
+export { User, Certificate };
