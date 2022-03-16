@@ -40,7 +40,7 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
   };
 
   return (
-    <Form className="mt-3" onSubmit={onSubmitHandler}>
+    <Form className="mt-3 mb-3" onSubmit={onSubmitHandler}>
       <Row>
         <Form.Group className="mb-3">
           <Form.Control
