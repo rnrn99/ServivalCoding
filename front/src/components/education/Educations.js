@@ -3,10 +3,10 @@ import { Button, Row, Col } from "react-bootstrap";
 
 function Educations({ educations }) {
   return educations.map((edu) => (
-    <Row>
+    <Row key={edu.id}>
       <Col>
         <p style={{ marginBottom: "5px" }}>{edu.school}</p>
-        <p class="text-muted">
+        <p className="text-muted">
           {edu.major} ({edu.position})
         </p>
       </Col>

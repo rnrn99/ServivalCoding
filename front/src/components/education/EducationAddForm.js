@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationAddForm({ user, setClickAddBtn }) {
+function EducationAddForm({ user, setClickAddBtn, setClickSubmitBtn }) {
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [position, setPosition] = useState(""); // 재학/졸업 여부를 저장할 상태입니다.
@@ -25,15 +25,11 @@ function EducationAddForm({ user, setClickAddBtn }) {
     };
 
     // education/create로 POST 요청을 보냅니다.
-    Api.post("education/create", dataToSubmit, {
-      headers: {
-        Authorization:
-          "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYWY0ZmYwYWYtMmE1Zi00ZWVhLTk5ZjItZDE4YjQyYWJhNDE5IiwiaWF0IjoxNjQ3MjMwOTQzfQ.jOGfqncuG-kMk9Oiie27WvI5SdYlJu_4xbucUXlg_z4",
-      },
-    });
+    Api.post("education/create", dataToSubmit);
 
-    // 학력 추가 후 EducationAddForm을 닫습니다.
+    // 학력 추가 후 EducationAddForm을 닫고 SubmitBtn 클릭 이벤트 발생을 알립니다.
     setClickAddBtn(false);
+    setClickSubmitBtn(true);
   };
 
   return (
