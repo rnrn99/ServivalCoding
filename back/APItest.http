@@ -7,4 +7,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5001/certificatelist/2575121f-cad1-4f1f-a3e8-00293ec4a34b
+GET http://localhost:5001/projects/4a4d6df2-775a-455c-905f-67bc5fb833fe
