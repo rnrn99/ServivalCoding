@@ -4,7 +4,7 @@ dotenv.config();
 
 function login_required(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
-  const userToken = req.headers["authorization"];
+  const userToken = req.headers["authorization"]?.split(" ")[1] ?? "null";
   console.log(userToken);
 
   // 이 토큰은 jwt 토큰 문자열이거나, 혹은 "null" 문자열임.

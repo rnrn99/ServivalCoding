@@ -21,11 +21,11 @@ class Education {
   }
 
   static async findEducation({ id }) {
-    return await EducationModel.findOne({ _id: id });
+    return await EducationModel.findOne({ id: id });
   }
 
   static async putEducation({ id, fieldToUpdate, newValue }) {
-    const filter = { _id: id };
+    const filter = { id: id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 

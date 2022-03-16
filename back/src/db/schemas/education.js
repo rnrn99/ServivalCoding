@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 const model = mongoose.model;
 
 const EducationSchema = new Schema({
+  id: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   school: String,
   major: String,
   position: {
