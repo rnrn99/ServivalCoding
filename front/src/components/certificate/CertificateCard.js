@@ -1,11 +1,13 @@
 import React from "react";
 
-const CertificateCard = ({isEditable, title, description, when_date}) => {
+const CertificateCard = ({isEditable, checkEditing, title, description, when_date}) => {
     //isEditing <<부모 Certificate 한테 전달해줘야함.
-    const handleClick = () => {
+    const handleClick = (e) => {
         //수정하기 버튼이 눌린 것이므로 
         //isEditing <<부모 Certificate 한테 전달해줘야함. true값을 전달.
-        alert("수정하겠습니다");
+        e.preventDefault();
+        console.log("수정하기 버튼이 눌렸습니다.");
+        checkEditing(true);
     }
     return (
         <div>

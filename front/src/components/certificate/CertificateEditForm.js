@@ -6,6 +6,13 @@ const CertificateEditForm = (props) => {
     const [description, setDescription] = useState(props.description);
     const [date, setDate] = useState(props.when_date);
 
+    const handleSubmit = (e) => {
+        //{title, description, date} 객체를 보내줘야함. 얼루? 
+        //여기서도 수정완료 이후 isEditing을 다시 보내주어야하나?
+        //그럴 필요 없음. 
+        //PUT 요청이후 리스펀스를 받음.
+        e.preventDefault();
+    }
     return (
         <div>
             <p>CertificateEditForm 불려왔습니다.</p>
@@ -24,7 +31,7 @@ const CertificateEditForm = (props) => {
                 placeholder="2000-00-00"
                 onChange={(e) => {setDate(e.target.value)}}>
             </input>
-            <button>OK</button>
+            <button type="submit" onSubmit={handleSubmit}>OK</button>
         
         </div>
     );

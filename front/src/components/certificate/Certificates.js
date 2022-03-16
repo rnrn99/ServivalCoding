@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import Certificate from "./Certificate"
 import CertificateAddForm from "./CertificateAddForm";
@@ -38,20 +38,6 @@ import CertificateAddForm from "./CertificateAddForm";
 //isEditable 는 boolean 값으로 포트폴리오를 요청한 사용자일 경우에만 수정 가능하도록한다.
 
 
-const testData = [
-    {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-    "title":"운전면허증",
-    "description":"2종 보통입니다.",
-    "when_date":"2021-03-20"},
-    {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-    "title":"꽃꽂이 전문가",
-    "description":"1급입니다.",
-    "when_date":"2021-08-23"},
-    {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-    "title":"백수생활 준전문가",
-    "description":"준전문가입니다.",
-    "when_date":"2022-01-11"},
-];
 
 
 //<h1>Certificates 모듈입니다.</h1>
@@ -60,10 +46,27 @@ const testData = [
 ////<CertificateAddForm /> <<버튼이 눌리면 활성화.
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
 
-    const setCertificates = () => {
-        const certList = testData;
+    //개발용 임시데이터.
+    const testData = [
+        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
+        "title":"운전면허증",
+        "description":"2종 보통입니다.",
+        "when_date":"2021-03-20"},
+        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
+        "title":"꽃꽂이 전문가",
+        "description":"1급입니다.",
+        "when_date":"2021-08-23"},
+        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
+        "title":"백수생활 준전문가",
+        "description":"준전문가입니다.",
+        "when_date":"2022-01-11"},
+    ];
     
-        return certList.map((cert, index) => {
+    const [certs, setCerts] = useState(testData);
+
+    const setCertificateList = () => {
+     
+        return certs.map((cert, index) => {
             return <Certificate 
                 key = {index}
                 isEditable = {isEditable}
@@ -78,7 +81,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     return (
         <>
             <p>자격증 목록</p>
-            {setCertificates()}
+            {setCertificateList()}
         </>
     );
 };
