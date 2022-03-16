@@ -5,7 +5,7 @@ import { Container, Col, Row } from "react-bootstrap";
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
-import Education from "./education/Education";
+import Educations from "./education/Educations";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -63,7 +63,10 @@ function Portfolio() {
         </Col>
         <Col>
           <div>
-            <Education portfolioOwnerId={portfolioOwner.id} />
+            <Educations
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
           </div>
         </Col>
       </Row>
