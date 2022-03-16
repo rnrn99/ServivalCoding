@@ -34,7 +34,7 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
     const res = await Api.get("educationlist", portfolioOwnerId);
     setEducations(res.data);
 
-    // 학력 추가 후 EducationAddForm을 닫고 SubmitBtn 클릭 이벤트 발생을 알립니다.
+    // 학력 추가 후 EducationAddForm을 닫습니다.
     setClickAddBtn(false);
   };
 

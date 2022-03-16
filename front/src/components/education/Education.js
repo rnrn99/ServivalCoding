@@ -3,19 +3,19 @@ import EducationCard from "./EducationCard";
 import EducationEditForm from "./EducationEditForm";
 
 function Education({ education, setEducations, isEditable }) {
-  const [clickEditBtn, setclickEditBtn] = useState(false); // 편집 버튼 클릭 상태를 저장합니다.
+  const [clickEditBtn, setClickEditBtn] = useState(false); // 편집 버튼 클릭 상태를 저장합니다.
   return (
     <>
       {clickEditBtn ? (
         <EducationEditForm
           education={education}
           setEducations={setEducations}
-          setclickEditBtn={setclickEditBtn}
+          setclickEditBtn={setClickEditBtn}
         />
       ) : (
         <EducationCard
           education={education}
-          setclickEditBtn={setclickEditBtn}
+          setclickEditBtn={setClickEditBtn}
           isEditable={isEditable}
         />
       )}
