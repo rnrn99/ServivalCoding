@@ -1,4 +1,7 @@
-import { Schema, model } from "mongoose";
+import mongoose from "mongoose";
+import { EducationSchema } from "./education.js";
+const Schema = mongoose.Schema;
+const model = mongoose.model;
 
 const UserSchema = new Schema(
   {

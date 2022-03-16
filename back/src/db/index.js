@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
-import { User } from "./models/User";
+import { User } from "./models/User.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const DB_URL =
   process.env.MONGODB_URL ||
