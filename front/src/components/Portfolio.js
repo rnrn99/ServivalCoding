@@ -67,7 +67,10 @@ function Portfolio() {
             <Education portfolioOwnerId={portfolioOwner.id} />
           </div>
           <div>
-            <Certificates />
+            <Certificates 
+              portfolioOwnerId={portfolioOwner.id}
+              isEditable={portfolioOwner.id === userState.user?.id}
+            />
           </div>
         </Col>
       </Row>
