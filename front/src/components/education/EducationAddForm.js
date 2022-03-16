@@ -7,6 +7,9 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [position, setPosition] = useState(""); // 재학/졸업 여부를 저장할 상태입니다.
 
+  // postion을 저장하는 배열입니다.
+  const positionArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
+
   // radio button 클릭에 따라 position을 저장합니다.
   const RadioBtnClickHandler = (e) => {
     setPosition(e.target.value);
@@ -53,38 +56,17 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
           />
         </Form.Group>
         <Form.Group>
-          <Form.Check
-            inline
-            type="radio"
-            label="재학중"
-            value="재학중"
-            name="group1"
-            onClick={RadioBtnClickHandler}
-          />
-          <Form.Check
-            inline
-            type="radio"
-            label="학사졸업"
-            value="학사졸업"
-            name="group1"
-            onClick={RadioBtnClickHandler}
-          />
-          <Form.Check
-            inline
-            type="radio"
-            label="석사졸업"
-            value="석사졸업"
-            name="group1"
-            onClick={RadioBtnClickHandler}
-          />
-          <Form.Check
-            inline
-            type="radio"
-            label="박사졸업"
-            value="박사졸업"
-            name="group1"
-            onClick={RadioBtnClickHandler}
-          />
+          {positionArr.map((item, i) => (
+            <Form.Check
+              key={"position" + i}
+              inline
+              type="radio"
+              label={item}
+              value={item}
+              name="group1"
+              onClick={RadioBtnClickHandler}
+            />
+          ))}
         </Form.Group>
       </Row>
       <Row className="text-center mt-3">
