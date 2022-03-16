@@ -22,11 +22,11 @@ function AwardAddForm ({formController, portfolioOwnerId, setAwardList}) {
     return(
         <Form onSubmit={(e)=> e.preventDefault()}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="email" placeholder="수상내역" value={award} onChange={(e)=>setAward(e.target.value)}/>
+                <Form.Control type="text" placeholder="수상내역" value={award} onChange={(e)=>setAward(e.target.value)}/>
             </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control type="password" placeholder="상세내역" value={awardDt} onChange={(e)=>setAwardDt(e.target.value)}/>
+            <Form.Control type="text" placeholder="상세내역" value={awardDt} onChange={(e)=>setAwardDt(e.target.value)}/>
         </Form.Group>
         <Row className="text-center">
             <Col>

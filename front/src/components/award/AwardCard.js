@@ -30,7 +30,9 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
             <Card.Title>수상이력</Card.Title>
           </Row>
           <Row>
-              <Award portfolioOwnerId={portfolioOwnerId} awardList={awardList}/>
+            {awardList.map((award) =>
+              <Award portfolioOwnerId={portfolioOwnerId} award={award} isEditable={isEditable}/>
+            )}
           </Row>
           {isEditable&&(
             <Row className="text-center">
