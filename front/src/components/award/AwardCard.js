@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Card, Row, Col, Button} from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
-import Awards from './Awards';
+import Award from './Award';
 
 // 메인 컴포넌트라고 할 수 있습니다. 
 // portfolioOwnerId = user.id 로, 유저별 데이터를 불러오거나 작성시 필요 
-function AwardCard ({portfolioOwnerId}) {
+function AwardCard ({portfolioOwnerId, isEditable}) {
     // award 추가할 폼을 열고 닫는 토글 기능 
     const [addAward, setAddAward] = useState(false);
     // 추가한 리스트들이 잘 뿌려지는지 가짜 데이터 (추후 삭제 예정)
@@ -30,9 +30,10 @@ function AwardCard ({portfolioOwnerId}) {
             <Card.Title>수상이력</Card.Title>
           </Row>
           <Row>
-              <Awards portfolioOwnerId={portfolioOwnerId} awardList={awardList}/>
+              <Award portfolioOwnerId={portfolioOwnerId} awardList={awardList}/>
           </Row>
-          <Row className="text-center">
+          {isEditable&&(
+            <Row className="text-center">
             <Col>
               <Button
                 variant="primary"
@@ -41,6 +42,8 @@ function AwardCard ({portfolioOwnerId}) {
               </Button><br />  <br />  
             </Col> 
           </Row>
+          )}
+          
            {addAward&&(
             <Row>
                 <AwardAddForm formController={{addAward, setAddAward}} portfolioOwnerId={portfolioOwnerId} setAwardList={setAwardList}/>
