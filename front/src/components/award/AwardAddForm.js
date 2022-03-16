@@ -1,39 +1,62 @@
-import React, {useState} from 'react';
-import {Card, Row, Col, Button} from "react-bootstrap";
-import AwardEditForm from './AwardEditForm';
+import React, {useState, useContext} from 'react';
+import {Form, Button, Row, Col} from 'react-bootstrap';
+import * as Api from "../../api";
+import { UserStateContext } from "../../App";
 
-// 실제 수상이력리스트를 메인컴포넌트에서 받아 뿌려주는 기능을 하는 컴포넌트로, {awardList}를 prop로 넘겨받음 
-//**float 기능을 쓰지 않고 버튼과 수상내역 영역을 나눠 쓰고 싶습니다. (flex 적용 불가..) */
-function Award ({award, isEditable, setAwardLists}) {
-    const [isEditing, setIsEditing] = useState(false);
+// 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {수상이력리스트 업데이트 함수}를 props로 받아옵니다. 
+function AwardAddForm ({setAddAward, setAwardLists}) {
+    // 추가는 본인만 가능하므로, 현재 접속중인 userid를 사용합니다.
+    const userState = useContext(UserStateContext);
+    const user_id = userState.user.id;
 
-    return (
-         <>  
-         {isEditing
-          ? (
-                <AwardEditForm award={award} isEditable={isEditable} setIsEditing={setIsEditing} setAwardLists={setAwardLists}/>
-            )
-          :(   
-            <Card.Text>
-                <Row className="align-items-center">
-                    <Col>
-                        <span >{award.title}</span>
-                        <br />
-                        <span class='text-muted'>{award.description}</span>
-                    </Col> 
-                    {isEditable&&
-                        <Col xs lg="1">
-                            <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
-                        </Col>
-                    }
-                </Row>
-            </Card.Text>
-            )}
-        </>
-    )
+    // 수상내역, 상세내역을 state로 관리합니다. 
+    const [awardTitle, setAwardTitle] = useState('');
+    const [awardDetail, setAwardDetail] = useState('');  
+
+    // 입력받은 값으로 수상이력에 추가하고, 목록을 다시 업데이트 합니다. 
+    const addSubmitHandler = async (e) => {
+        e.preventDefault();
     
+        const uptAwardData = {
+          user_id,
+          title: awardTitle,
+          description: awardDetail,
+        };
+    
+        await Api.post("award/create", uptAwardData);
+    
+        const updateList = await Api.get("awardlist", user_id);
+        setAwardLists(updateList.data);
+    
+        setAddAward(false);
+      };
+    
+    
+    return(
+        <Form onSubmit={addSubmitHandler}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Control type="text" placeholder="수상내역" value={awardTitle} onChange={(e)=>setAwardTitle(e.target.value)}/>
+            </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Control type="text" placeholder="상세내역" value={awardDetail} onChange={(e)=>setAwardDetail(e.target.value)}/>
+        </Form.Group>
+        <Row className="text-center">
+            <Col>
+                <Button variant="primary" type="submit" style={{marginRight: '10px'}}>
+                    확인
+                </Button>{' '}     
+                <Button variant="secondary" type="button" onClick={()=>setAddAward(false)} >
+                    취소
+                </Button>
+            </Col>
+        </Row>
+        </Form>
+
+    )
 }
 
-export default Award;
+export default AwardAddForm;
+
 
 

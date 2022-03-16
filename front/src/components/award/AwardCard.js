@@ -5,16 +5,13 @@ import Award from './Award';
 import * as Api from "../../api";
 
 // 메인 컴포넌트라고 할 수 있습니다. 
-// portfolioOwnerId = user.id 로, 유저별 데이터를 불러오거나 작성시 필요 
+// portfolioOwnerId는 해당하는 포트폴리오의 userID를 가리킵니다. (!== 현재 접속중인 userID)
 function AwardCard ({portfolioOwnerId, isEditable}) {
-    // award 추가할 폼을 열고 닫는 토글 기능 
+ 
     const [addAward, setAddAward] = useState(false);
-    // 추가한 리스트들이 잘 뿌려지는지 가짜 데이터 (추후 삭제 예정)
     const [awardLists, setAwardLists] = useState([]);
-   // api가 완성된다면, 가짜데이터가 아닌, 불러온 데이터로 수상이력목록을 업데이트 할 예정
-   // 이 때, user.id가 바뀌면 수상리스트를 다시 불러옴 
 
-
+    // 포트폴리오의 주인 ID가 달라지면, 수상이력을 해당 유저의 것으로 새로 불러옵니다. 
     useEffect(() =>
         Api.get("awardlist", portfolioOwnerId).then((res) => setAwardLists(res.data))
     ,[portfolioOwnerId])
