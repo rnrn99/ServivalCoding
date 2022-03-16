@@ -23,9 +23,24 @@ awardRouter.post("/award/create", login_required, async (req, res, next) => {
 awardRouter.get("/awards/:id", login_required, async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
     const award = await AwardService.getAward({ id });
     return res.status(201).json(award);
+  } catch (error) {
+    next(error);
+  }
+});
+
+awardRouter.put("/awards/:id", login_required, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    const toUpdate = {
+      title,
+      description,
+    };
+
+    const award = await AwardService.putAward({ id, toUpdate });
+    res.status(201).json({ status: "succ", message: "수정 성공", award });
   } catch (error) {
     next(error);
   }

@@ -22,6 +22,35 @@ class AwardService {
     const award = await Award.findAward({ id });
     return award;
   }
+
+  static async putAward({ id, toUpdate }) {
+    let award = await Award.findAward({ id });
+    if (!award) {
+      const errorMessage = "수상 내역이 없습니다.";
+      return { errorMessage };
+    }
+
+    if (toUpdate.title) {
+      const fieldToUpdate = "title";
+      const newValue = toUpdate.title;
+      award = await Award.putAward({
+        id,
+        fieldToUpdate,
+        newValue,
+      });
+    }
+    if (toUpdate.description) {
+      const fieldToUpdate = "description";
+      const newValue = toUpdate.description;
+      award = await Award.putAward({
+        id,
+        fieldToUpdate,
+        newValue,
+      });
+    }
+
+    return award;
+  }
 }
 
 export { AwardService };

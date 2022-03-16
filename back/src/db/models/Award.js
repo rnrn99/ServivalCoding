@@ -10,6 +10,15 @@ class Award {
     const findAward = await AwardModel.findOne({ id });
     return findAward;
   }
+
+  static async putAward({ id, fieldToUpdate, newValue }) {
+    const filter = { id: id };
+    const update = { [fieldToUpdate]: newValue };
+    const option = { returnOriginal: false };
+
+    const award = await AwardModel.updateOne(filter, update, option);
+    return award;
+  }
 }
 
 export { Award };
