@@ -106,6 +106,8 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         setIsAdd(false);
     };
 
+    
+
     const handleClick = (e) => {
         e.preventDefault();
         console.log("handleClick 추가하기 버튼이 눌렸습니다.")
