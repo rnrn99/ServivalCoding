@@ -1,14 +1,14 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
-import { certificateService } from "../services/certificateService";
-import { userAuthService } from "../services/userService";
+import { login_required } from "../middlewares/login_required.js";
+import { certificateService } from "../services/certificateService.js";
+import { userAuthService } from "../services/userService.js";
 
 const certificateRouter = Router();
 
 certificateRouter.post("/certificate/create", async function (req, res, next) {
-// 새로운 자격증을 등록
-// 로그인 필요
+  // 새로운 자격증을 등록
+  // 로그인 필요
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -25,7 +25,7 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
     const when_date = req.body.when_date;
 
     // user 정보를 db에서 가져오기
-    const user = await userAuthService.getUserInfo({ user_id })
+    const user = await userAuthService.getUserInfo({ user_id });
 
     // 에러가 났다면
     if (user.errorMessage) {
@@ -48,18 +48,18 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
     }
 
     res.status(201).json(newCertificate);
-
   } catch (error) {
     next(error);
   }
-// TODO
-//  로그인 확인 미들웨어 추가
+  // TODO
+  //  로그인 확인 미들웨어 추가
 });
 
 certificateRouter.get("/certificates/:id", async function (req, res, next) {
   const { id } = req.params;
 
-  try {// id를 이용하여 db에서 자격증 검색
+  try {
+    // id를 이용하여 db에서 자격증 검색
     const certificate = await certificateService.getCertificate({ id });
 
     // 에러가 발생했다면
@@ -73,8 +73,8 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-// TODO
-//  로그인 확인 미들웨어 추가
+  // TODO
+  //  로그인 확인 미들웨어 추가
 });
 
 certificateRouter.put("/certificates/:id", async function (req, res, next) {
@@ -100,7 +100,10 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
     const toUpdate = { title, description, when_date };
 
     // 자격증 정보를 업데이트
-    const updatedCertificate = await certificateService.setCertificate({ id, toUpdate });
+    const updatedCertificate = await certificateService.setCertificate({
+      id,
+      toUpdate,
+    });
 
     // 만약 에러가 발생했다면
     if (updatedCertificate.errorMessage) {
@@ -112,39 +115,42 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-// TODO
-//  로그인 확인 미들웨어 추가
+  // TODO
+  //  로그인 확인 미들웨어 추가
 });
 
-certificateRouter.get("/certificatelist/:user_id", async function (req, res, next) {
-//user_id의 자격증 목록을 가져옴
-  const { user_id } = req.params;
+certificateRouter.get(
+  "/certificatelist/:user_id",
+  async function (req, res, next) {
+    //user_id의 자격증 목록을 가져옴
+    const { user_id } = req.params;
 
-  try {
-    // user 정보를 db에서 가져오기
-    const user = await userAuthService.getUserInfo({ user_id })
+    try {
+      // user 정보를 db에서 가져오기
+      const user = await userAuthService.getUserInfo({ user_id });
 
-    // 에러가 났다면
-    if (user.errorMessage) {
-      // 에러를 throw
-      throw new Error(user.errorMessage);
+      // 에러가 났다면
+      if (user.errorMessage) {
+        // 에러를 throw
+        throw new Error(user.errorMessage);
+      }
+
+      // 해당 user의 자격증 목록 가져오기
+      const certificates = await certificateService.getCertificates({ user });
+
+      // 에러가 났다면
+      if (certificates.errorMessage) {
+        // 에러를 throw
+        throw new Error(certificates.errorMessage);
+      }
+
+      res.status(200).send(certificates);
+    } catch (error) {
+      next(error);
     }
-
-    // 해당 user의 자격증 목록 가져오기
-    const certificates = await certificateService.getCertificates({ user });
-
-    // 에러가 났다면
-    if (certificates.errorMessage) {
-      // 에러를 throw
-      throw new Error(certificates.errorMessage);
-    }
-
-    res.status(200).send(certificates);
-  } catch (error) {
-    next(error);
+    // TODO
+    //  로그인 확인 미들웨어 추가
   }
-// TODO
-//  로그인 확인 미들웨어 추가
-});
+);
 
 export { certificateRouter };
