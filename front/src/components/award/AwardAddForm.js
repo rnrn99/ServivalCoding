@@ -1,51 +1,39 @@
 import React, {useState} from 'react';
-import {Form, Button, Row, Col} from 'react-bootstrap';
-import * as Api from "../../api";
+import {Card, Row, Col, Button} from "react-bootstrap";
+import AwardEditForm from './AwardEditForm';
 
-// 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {user.id}, {리스트 업데이트 함수}를 props로 받아옵니다. 
-function AwardAddForm ({setAddAward, portfolioOwnerId, setAwardList}) {
-    // 수상내역, 상세내역 state 
-    const [awardtitle, setAwardtitle] = useState('');
-    const [awardDtail, setAwardDtail] = useState('');
-    // **확인 버튼 시, 보내질 form data 형식&내용 ** 확인버튼 구현 예정 (submit)
-    async function addSubmitHandler (e) {
-        e.preventDefault();
-        const uptAwardData = {
-            userId: portfolioOwnerId,
-            title: awardtitle,
-            description: awardDtail,
-        }
-        
-        // ** 데이터를 보내고, ** 수정 ** 보낸 데이터를 기존 리스트에 추가 후, setAwardList에 업데이트 해야함 
-        await Api.post('award/create', uptAwardData)
-    
-        const updateList = await Api.get('awardlist', portfolioOwnerId )
-        setAwardList(updateList);
-        setAddAward(false)
-    }
+// 실제 수상이력리스트를 메인컴포넌트에서 받아 뿌려주는 기능을 하는 컴포넌트로, {awardList}를 prop로 넘겨받음 
+//**float 기능을 쓰지 않고 버튼과 수상내역 영역을 나눠 쓰고 싶습니다. (flex 적용 불가..) */
+function Award ({award, isEditable, setAwardLists}) {
+    const [isEditing, setIsEditing] = useState(false);
 
-    return(
-        <Form onSubmit={(e)=> addSubmitHandler(e)}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Control type="text" placeholder="수상내역" value={awardtitle} onChange={(e)=>setAwardtitle(e.target.value)}/>
-            </Form.Group>
-
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Control type="text" placeholder="상세내역" value={awardDtail} onChange={(e)=>setAwardDtail(e.target.value)}/>
-        </Form.Group>
-        <Row className="text-center">
-            <Col>
-                <Button variant="primary" type="submit" style={{marginRight: '10px'}}>
-                    확인
-                </Button>{' '}     
-                <Button variant="secondary" type="button" onClick={()=>setAddAward(false)} >
-                    취소
-                </Button>
-            </Col>
-        </Row>
-        </Form>
-
+    return (
+         <>  
+         {isEditing
+          ? (
+                <AwardEditForm award={award} isEditable={isEditable} setIsEditing={setIsEditing} setAwardLists={setAwardLists}/>
+            )
+          :(   
+            <Card.Text>
+                <Row className="align-items-center">
+                    <Col>
+                        <span >{award.title}</span>
+                        <br />
+                        <span class='text-muted'>{award.description}</span>
+                    </Col> 
+                    {isEditable&&
+                        <Col xs lg="1">
+                            <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
+                        </Col>
+                    }
+                </Row>
+            </Card.Text>
+            )}
+        </>
     )
+    
 }
 
-export default AwardAddForm;
+export default Award;
+
+
