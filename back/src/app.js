@@ -1,17 +1,11 @@
 import cors from "cors";
 import express from "express";
-<<<<<<< HEAD
 import { userAuthRouter } from "./routers/userRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { educationRouter } from "./routers/educationRouter.js";
 import { awardRouter } from "./routers/awardRouter.js";
-=======
-import { userAuthRouter } from "./routers/userRouter";
 import { certificateRouter } from "./routers/certificateRouter";
-import { errorMiddleware } from "./middlewares/errorMiddleware";
-import { educationRouter } from "./routers/educationRouter";
 
->>>>>>> 6b0dbe65a20fe91745bcb90823611d7e0897ff40
 const app = express();
 
 // CORS 에러 방지
@@ -32,11 +26,8 @@ app.get("/", (req, res) => {
 app.use(userAuthRouter);
 app.use(certificateRouter);
 app.use(educationRouter);
-<<<<<<< HEAD
 app.use(awardRouter);
-=======
 
->>>>>>> 6b0dbe65a20fe91745bcb90823611d7e0897ff40
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
 
