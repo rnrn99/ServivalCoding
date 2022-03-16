@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 
-function EducationAddForm({
-  portfolioOwnerId,
-  setClickAddBtn,
-  setClickSubmitBtn,
-}) {
+function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [position, setPosition] = useState(""); // 재학/졸업 여부를 저장할 상태입니다.
@@ -17,7 +13,7 @@ function EducationAddForm({
   };
 
   // submit event handler 입니다.
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     // 학력 추가를 위해 유저 아이디, 학교, 전공, 재학/졸업 여부를 객체로 저장합니다.
@@ -29,11 +25,14 @@ function EducationAddForm({
     };
 
     // education/create로 POST 요청을 보냅니다.
-    Api.post("education/create", dataToSubmit);
+    await Api.post("education/create", dataToSubmit);
+
+    // educationlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
+    const res = await Api.get("educationlist", portfolioOwnerId);
+    setEducations(res.data);
 
     // 학력 추가 후 EducationAddForm을 닫고 SubmitBtn 클릭 이벤트 발생을 알립니다.
     setClickAddBtn(false);
-    setClickSubmitBtn(true);
   };
 
   return (
