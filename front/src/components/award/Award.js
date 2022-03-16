@@ -9,22 +9,25 @@ function Award ({award, isEditable}) {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
-        <>
-        {isEditable
-        ?(
-            <AwardEditForm award={award} isEditable={isEditable}/>
-        )
-        :(
-                <div>
+         <>  
+         {isEditing
+          ? (
+                <AwardEditForm award={award} isEditable={isEditable} setIsEditing={setIsEditing} />
+            )
+          :(   
+            <div>
                     <div style={{float: 'left'}}>
                         <span >{award.title}</span>
                         <br />
                         <span class='text-muted'>{award.description}</span>
                     </div><br />
-
-                </div>
-  
-        )}
+                    <div style={{float: 'right', marginRight: '15px'}}>
+                        {isEditable&&
+                            <Button variant="outline-info" onClick={()=>setIsEditing(true)}>편집</Button>
+                        }
+                    </div><br />
+            </div>
+            )}
         </>
     )
     
