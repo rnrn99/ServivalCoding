@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Card, Row, Col, Button} from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import Award from './Award';
+import * as Api from "../../api";
 
 // 메인 컴포넌트라고 할 수 있습니다. 
 // portfolioOwnerId = user.id 로, 유저별 데이터를 불러오거나 작성시 필요 
@@ -9,6 +10,8 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
     // award 추가할 폼을 열고 닫는 토글 기능 
     const [addAward, setAddAward] = useState(false);
     // 추가한 리스트들이 잘 뿌려지는지 가짜 데이터 (추후 삭제 예정)
+
+
     const fake = [
       {title: '행복상', description: '행복해서 받았습니다.'},
       {title: '궁금상', description: '매 사 잘 할 수 있을까 궁금합니다.'},
@@ -19,7 +22,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
     const [awardList, setAwardList] = useState(fake)
 
     // useEffect(() =>
-    //     axios.get('award/create', portfolioOwnerId).then((res) => setAwardList(res.data))
+    //     Api.get('awardlist', portfolioOwnerId).then((res) => setAwardList(res.data))
     //,[portfolioOwnerId])
 
     return(
@@ -31,7 +34,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
           </Row>
           <Row>
             {awardList.map((award) =>
-              <Award portfolioOwnerId={portfolioOwnerId} award={award} isEditable={isEditable}/>
+              <Award portfolioOwnerId={portfolioOwnerId} award={award} isEditable={isEditable} setAwardList={setAwardList}/>
             )}
           </Row>
           {isEditable&&(
@@ -48,7 +51,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
           
            {addAward&&(
             <Row>
-                <AwardAddForm formController={{addAward, setAddAward}} portfolioOwnerId={portfolioOwnerId} setAwardList={setAwardList}/>
+                <AwardAddForm setAddAward={setAddAward} portfolioOwnerId={portfolioOwnerId} setAwardList={setAwardList}/>
             </Row>
            )}
         </Card.Body>
