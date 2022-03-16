@@ -17,9 +17,8 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    //const user_id = req.currentUserId; //로그인한 user의 id
-
-    const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
+    //const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
+    const user_id = req.currentUserId; //로그인한 user의 id
     const title = req.body.title;
     const description = req.body.description;
     const when_date = req.body.when_date;

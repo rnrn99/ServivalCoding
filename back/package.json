@@ -1,9 +1,8 @@
 {
   "name": "cafe-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "## 실행 방법",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
     "test": "jest --setupFiles dotenv/config",
@@ -30,7 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",
     "supertest": "^6.1.6",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yarn": "^1.22.17"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.0",

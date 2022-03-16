@@ -1,6 +1,4 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
 
 function login_required(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
