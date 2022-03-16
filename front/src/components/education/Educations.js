@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, Row, Button, Col } from "react-bootstrap";
 import EducationAddForm from "./EducationAddForm";
+import Education from "./Education";
 import * as Api from "../../api";
 
 function Educations({ portfolioOwnerId, isEditable }) {
@@ -23,15 +24,26 @@ function Educations({ portfolioOwnerId, isEditable }) {
           <Row>
             <Card.Title>학력</Card.Title>
           </Row>
-          <Row></Row>
+          <Row>
+            {educations.map((edu) => (
+              <Education
+                key={edu.id}
+                education={edu}
+                setEducations={setEducations}
+                isEditable={isEditable}
+              />
+            ))}
+          </Row>
           <Row className="text-center">
             <Col>
-              <Button
-                variant="primary"
-                onClick={() => setClickAddBtn((cur) => !cur)}
-              >
-                +
-              </Button>
+              {isEditable && (
+                <Button
+                  variant="primary"
+                  onClick={() => setClickAddBtn((cur) => !cur)}
+                >
+                  +
+                </Button>
+              )}
             </Col>
           </Row>
           {clickAddBtn && (
