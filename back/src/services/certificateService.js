@@ -1,22 +1,21 @@
-import {Certificate} from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import {User, Certificate} from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
 class certificateService {
-  static async addCertificate({ user_id, title, description, when_date }) {
+  static async addCertificate({ user, title, description, when_date }) {
     // 자격증 이름 중복 확인
-    const certificate = await Certificate.findByTitle({ title });
-    if (certificate) {
+    const certificate = await Certificate.find({ title });
+
+    if (certificate.length !== 0) {
       const errorMessage =
         "같은 이름의 자격증이 이미 존재합니다.";
       return { errorMessage };
     }
 
-    //랜덤 id 부여
     const id = uuidv4();
-    const newCertificate = { id, user_id, title, description, when_date };
+    const newCertificate = { id, user, title, description, when_date };
 
-    const createdNewCertificate = await Certificate.create(newCertificate);
-
+    const createdNewCertificate = await Certificate.create({ newCertificate });
     createdNewCertificate.errorMessage = null;
 
     return createdNewCertificate;
@@ -35,9 +34,14 @@ class certificateService {
     return certificate;
   }
 
-  static async getCertificates() {
-    const certificates = await Certificate.findAll();
+  static async getCertificates({ user }) {
+    const certificates = await Certificate.findByUser({ user });
 
+    if (!certificates) {
+      const errorMessage =
+        "자격증 목록이 존재하지 않습니다.";
+      return { errorMessage };
+    }
     return certificates;
   }
 
