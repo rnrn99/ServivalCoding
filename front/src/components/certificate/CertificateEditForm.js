@@ -1,11 +1,48 @@
-import React from "react";
+import React, {useState} from "react";
 
-const CertificateEditForm = () => {
+const CertificateEditForm = (props) => {
+
+    const [title, setTitle] = useState(props.title);
+    const [description, setDescription] = useState(props.description);
+    const [date, setDate] = useState(props.when_date);
+
     return (
         <div>
-            CertificateEditForm 불려왔습니다.
+            <p>CertificateEditForm 불려왔습니다.</p>
+            <input name ="title" type="text" 
+                value={title} 
+                placeholder="자격증"
+                onChange={(e)=>{setTitle(e.target.value)}}>
+            </input>
+            <input name ="description" type="text" 
+                value={description} 
+                placeholder="자격증설명"
+                onChange={(e) => {setDescription(e.target.value)}}>
+            </input>
+            <input name ="date" type="text" 
+                value={date} 
+                placeholder="2000-00-00"
+                onChange={(e) => {setDate(e.target.value)}}>
+            </input>
+            <button>OK</button>
+        
         </div>
     );
 };
 
 export default CertificateEditForm;
+
+// 유저 수정 부분. 
+// const res = await Api.put(`users/${user.id}`, {
+//     name,
+//     email,
+//     description,
+//   });
+//   // 유저 정보는 response의 data임.
+//   const updatedUser = res.data;
+//   // 해당 유저 정보로 user을 세팅함.
+//   setUser(updatedUser);
+
+//   // isEditing을 false로 세팅함.
+//   setIsEditing(false);
+// };

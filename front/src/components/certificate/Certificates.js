@@ -29,6 +29,15 @@ import CertificateAddForm from "./CertificateAddForm";
 //리스트를 뿌릴때 Certificate에 인자를 전달하여 CertificateEditFrom을 활성화 할수 있도록 한다. < 삭제도 포함된다.
 //작성자가 보고 있지 않은 경우에는 수정 폼을 비활성화 한다. 
 
+//Certificates는 Portfolio 모듈에서 호출되는 시점 prop으로
+// portfolioOwnerId={portfolioOwner.id}
+// isEditable={portfolioOwner.id === userState.user?.id}
+// 를 전달받는다. 
+//
+//portfolioOwnerId 는 현재 그려지고 있는 사용자(작성자)의 id 
+//isEditable 는 boolean 값으로 포트폴리오를 요청한 사용자일 경우에만 수정 가능하도록한다.
+
+
 const testData = [
     {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
     "title":"운전면허증",
@@ -45,29 +54,31 @@ const testData = [
 ];
 
 
-const setCertificates = () => {
-    const certList = testData;
-
-    return certList.map((cert) => {
-        return <Certificate 
-            title={cert.title}
-            description={cert.description}
-            when_date={cert.when_date}
-        />;
-    });
-    
-};
-
 //<h1>Certificates 모듈입니다.</h1>
 //사용자가 오너일 경우
 //<button>추가하기</button> << 활성화
 ////<CertificateAddForm /> <<버튼이 눌리면 활성화.
-const Certificates = () => {
+const Certificates = ({ portfolioOwnerId, isEditable }) => {
+
+    const setCertificates = () => {
+        const certList = testData;
+    
+        return certList.map((cert, index) => {
+            return <Certificate 
+                key = {index}
+                isEditable = {isEditable}
+                title={cert.title}
+                description={cert.description}
+                when_date={cert.when_date}
+            />;
+        });
+        
+    };
+
     return (
         <>
             <p>자격증 목록</p>
             {setCertificates()}
-            
         </>
     );
 };
