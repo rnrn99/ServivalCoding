@@ -1,0 +1,10 @@
+POST http://localhost:5001/user/login
+Content-Type: application/json
+
+{
+  "email": "elice@elice.com",
+  "password": "asdfqwer"
+}
+
+###
+GET http://localhost:5001/certificatelist/2575121f-cad1-4f1f-a3e8-00293ec4a34b

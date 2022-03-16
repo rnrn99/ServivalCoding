@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import { User } from "./models/User";
 import { Certificate } from "./models/Certificate";
-import dotenv from "dotenv";
-dotenv.config();
 
 const DB_URL =
   process.env.MONGODB_URL ||
