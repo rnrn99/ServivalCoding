@@ -68,8 +68,8 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
       throw new Error(certificate.errorMessage);
     }
 
-    // 201 코드와 함께 자격증 정보 send
-    res.status(201).send(certificate);
+    // 200 코드와 함께 자격증 정보 send
+    res.status(200).send(certificate);
   } catch (error) {
     next(error);
   }
@@ -105,7 +105,7 @@ certificateRouter.get("/certificatelist/:user_id", async function (req, res, nex
       throw new Error(certificates.errorMessage);
     }
 
-    res.status(201).send(certificates);
+    res.status(200).send(certificates);
   } catch (error) {
     next(error);
   }
