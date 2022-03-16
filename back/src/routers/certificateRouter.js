@@ -118,9 +118,6 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
 
 certificateRouter.get("/certificatelist/:user_id", async function (req, res, next) {
 //user_id의 자격증 목록을 가져옴
-
-  console.log(req.headers);
-
   const { user_id } = req.params;
 
   try {
