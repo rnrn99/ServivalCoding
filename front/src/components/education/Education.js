@@ -10,12 +10,12 @@ function Education({ education, setEducations, isEditable }) {
         <EducationEditForm
           education={education}
           setEducations={setEducations}
-          setclickEditBtn={setClickEditBtn}
+          setClickEditBtn={setClickEditBtn}
         />
       ) : (
         <EducationCard
           education={education}
-          setclickEditBtn={setClickEditBtn}
+          setClickEditBtn={setClickEditBtn}
           isEditable={isEditable}
         />
       )}
