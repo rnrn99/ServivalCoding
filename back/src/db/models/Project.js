@@ -7,7 +7,7 @@ class Project {
   }
 
   static async findById({ id }) {
-    const project = await ProjectModel.findOne({ id });
+    const project = await ProjectModel.findOne({ id }).populate('user');
     return project;
   }
 

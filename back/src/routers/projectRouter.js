@@ -6,7 +6,7 @@ import { projectService } from "../services/projectService.js";
 
 const projectRouter = Router();
 
-projectRouter.post("/project/create", async function (req, res, next) {
+projectRouter.post("/project/create", login_required, async function (req, res, next) {
 // 새로운 프로젝트를 등록
 // 로그인 필요
   try {
@@ -17,9 +17,8 @@ projectRouter.post("/project/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    //const user_id = req.currentUserId; //로그인한 user의 id
-
-    const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
+    const user_id = req.currentUserId; //로그인한 user의 id
+    //const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
     const title = req.body.title;
     const description = req.body.description;
     const from_date = req.body.from_date;
@@ -56,11 +55,9 @@ projectRouter.post("/project/create", async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-// TODO
-//  로그인 확인 미들웨어 추가
 });
 
-projectRouter.get("/projects/:id", async function (req, res, next) {
+projectRouter.get("/projects/:id", login_required, async function (req, res, next) {
   const { id } = req.params;
 
   try {// project id를 이용하여 db에서 프로젝트 검색
@@ -72,13 +69,20 @@ projectRouter.get("/projects/:id", async function (req, res, next) {
       throw new Error(project.errorMessage);
     }
 
+    // 현재 로그인한 유저의 id와
+    const user_id = req.currentUserId;
+
+    // project 소유자의 id가 다르다면
+    if (user_id !== project.user.id) {
+      // 에러를 throw
+      throw new Error('잘못된 접근입니다.');
+    }
+
     // 200 코드와 함께 프로젝트 정보 전송
     res.status(200).json(project);
   } catch (error) {
     next(error);
   }
-// TODO
-//  로그인 확인 미들웨어 추가
 });
 
 projectRouter.put("/projects/:id", async function (req, res, next) {
@@ -93,7 +97,7 @@ projectRouter.put("/projects/:id", async function (req, res, next) {
     //  // 에러를 throw
     //  throw new Error(project.errorMessage);
     //}
-    // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
+    // 가져온 project의 user와 현재 로그인한 유저의 id 비교
     //const user = project.user;
 
     const title = req.body.title ?? null;
