@@ -1,5 +1,4 @@
 import { UserModel } from "../schemas/user.js";
-import { User } from "../models/User.js";
 import { EducationModel } from "../schemas/education.js";
 
 class Education {
