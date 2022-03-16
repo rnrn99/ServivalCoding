@@ -53,7 +53,7 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
     next(error);
   }
 // TODO
-//  로그인 미들웨어 추가
+//  로그인 확인 미들웨어 추가
 });
 
 certificateRouter.get("/certificates/:id", async function (req, res, next) {
@@ -68,23 +68,57 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
       throw new Error(certificate.errorMessage);
     }
 
-    // 200 코드와 함께 자격증 정보 send
-    res.status(200).send(certificate);
+    // 200 코드와 함께 자격증 정보 전송
+    res.status(200).json(certificate);
   } catch (error) {
     next(error);
   }
+// TODO
+//  로그인 확인 미들웨어 추가
 });
 
 certificateRouter.put("/certificates/:id", async function (req, res, next) {
-// TODO
-//  id에 해당하는 자격증 하나를 수정하는 함수 구현
+  const { id } = req.params;
 
+  try {
+    // 기존의 certificate를 가져옴
+    //const certificate = await certificateService.getCertificate({id});
+
+    // 에러가 발생했다면
+    //if (certificate.errorMessage) {
+    //  // 에러를 throw
+    //  throw new Error(certificate.errorMessage);
+    //}
+    // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
+    //const user = certificate.user;
+
+    const title = req.body.title ?? null;
+    const description = req.body.description ?? null;
+    const when_date = req.body.when_date ?? null;
+
+    // 업데이트할 정보를 묶어서
+    const toUpdate = { title, description, when_date };
+
+    // 자격증 정보를 업데이트
+    const updatedCertificate = await certificateService.setCertificate({ id, toUpdate });
+
+    // 만약 에러가 발생했다면
+    if (updatedCertificate.errorMessage) {
+      // 에러를 throw
+      throw new Error(updatedCertificate.errorMessage);
+    }
+
+    res.status(200).json(updatedCertificate);
+  } catch (error) {
+    next(error);
+  }
+// TODO
+//  로그인 확인 미들웨어 추가
 });
 
 certificateRouter.get("/certificatelist/:user_id", async function (req, res, next) {
 //user_id의 자격증 목록을 가져옴
-  // const { user_id } = req.params;
-  const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
+  const { user_id } = req.params;
 
   try {
     // user 정보를 db에서 가져오기
@@ -109,6 +143,8 @@ certificateRouter.get("/certificatelist/:user_id", async function (req, res, nex
   } catch (error) {
     next(error);
   }
+// TODO
+//  로그인 확인 미들웨어 추가
 });
 
 export { certificateRouter };

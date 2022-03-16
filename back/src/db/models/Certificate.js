@@ -26,8 +26,8 @@ class Certificate {
     return certificates;
   }
 
-  static async update({ user_id, id, fieldToUpdate, newValue }) {
-    const filter = { id: id, user_id: user_id };
+  static async update({ id, fieldToUpdate, newValue }) {
+    const filter = { id: id };
     const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 

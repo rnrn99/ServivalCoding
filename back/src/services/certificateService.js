@@ -1,4 +1,4 @@
-import {User, Certificate} from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { Certificate } from "../db"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
 class certificateService {
@@ -25,7 +25,7 @@ class certificateService {
     // 유효한 id인지 확인
     const certificate = await Certificate.findById({id});
 
-    if (certificate) {
+    if (certificate.length === 0) {
       const errorMessage =
         "존재하지 않는 자격증입니다.";
       return { errorMessage };
@@ -50,7 +50,7 @@ class certificateService {
     let certificate = await Certificate.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!certificate) {
+    if (certificate.length === 0) {
       const errorMessage =
         "존재하지 않는 자격증입니다.";
       return { errorMessage };
@@ -59,25 +59,19 @@ class certificateService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
-      certificate = await Certificate.update({ user_id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      certificate = await Certificate.update({ user_id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.password) {
-      const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
-      certificate = await Certificate.update({ user_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 
     if (toUpdate.description) {
       const fieldToUpdate = "description";
       const newValue = toUpdate.description;
-      certificate = await Certificate.update({ user_id, fieldToUpdate, newValue });
+      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
+    }
+
+    if (toUpdate.when_date) {
+      const fieldToUpdate = "when_date";
+      const newValue = toUpdate.when_date;
+      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
     }
 
     return certificate;
