@@ -46,4 +46,18 @@ awardRouter.put("/awards/:id", login_required, async (req, res, next) => {
   }
 });
 
+awardRouter.get(
+  "/awardlist/:user_id",
+  login_required,
+  async (req, res, next) => {
+    try {
+      const { user_id } = req.params;
+      const awards = await AwardService.listAward({ user_id });
+      res.status(201).json(awards);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export { awardRouter };

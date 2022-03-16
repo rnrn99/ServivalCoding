@@ -51,6 +51,11 @@ class AwardService {
 
     return award;
   }
+
+  static async listAward({ user_id }) {
+    const awards = await Award.findAwards({ user_id });
+    return awards;
+  }
 }
 
 export { AwardService };

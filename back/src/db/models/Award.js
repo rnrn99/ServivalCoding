@@ -1,5 +1,5 @@
 import { AwardModel } from "../schemas/award.js";
-
+import { UserModel } from "../schemas/user.js";
 class Award {
   static async create(newAward) {
     const createdNewAward = await AwardModel.create(newAward);
@@ -18,6 +18,12 @@ class Award {
 
     const award = await AwardModel.updateOne(filter, update, option);
     return award;
+  }
+
+  static async findAwards({ user_id }) {
+    const user = await UserModel.findOne({ id: user_id });
+    const findAwards = await AwardModel.find({ author: user });
+    return findAwards;
   }
 }
 
