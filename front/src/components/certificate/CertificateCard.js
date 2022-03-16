@@ -1,9 +1,9 @@
 import React from "react";
 
-const CertificateCard = () => {
+const CertificateCard = ({title, description, when_date}) => {
     return (
         <div>
-            CertificateCard가 불려왔습니다.
+            <p>자격증:{title} 설명:{description} 취득일:{when_date}</p>
         </div>
     );
 };
