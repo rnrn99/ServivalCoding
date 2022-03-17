@@ -54,9 +54,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //추가하기인 상황에서는 추가하기 버튼이 보여선 안됨 
     //때문에 isEditable && !isAdd 로 숨김
     const [isAdd, setIsAdd] = useState(false);
-    
-    //isAddComplete 은 AddForm에서 추가하기가 완료되었는지를 체크
-    const [isAddComplete, setIsAddComplete] = useState(false);
 
     useEffect(() => {
         Api.get("certificatelist", portfolioOwnerId)
@@ -83,13 +80,10 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //isAddComplete 스테이트를 건들수 있는 함수를 AddForm에 전달함
     //AddForm에서는 완료 버튼이 눌렸을 때 결과 값들을 보내줌
     //props에는 서버로 post할 자격증 정보가 담겨있음
-    const checkAddComplete = async (result, props) => {
-        //result 가 true 인 경우에만 성공적으로 데이터를 POST 한 것.
-        //취소하기 버튼을 누르면 false 값이 들어옴
-        setIsAddComplete(result);
-        console.log("Check Add Complete", result);
-        //certificate/create
-        if(result) {
+    const checkAddComplete = async (props) => {
+  
+        console.log("Check Add Complete");
+        if(props) {
             //데이터를 업데이트 합니다. 
             const newData = {
                 ...props,

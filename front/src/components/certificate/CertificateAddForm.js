@@ -10,8 +10,14 @@ const CertificateAddForm = ({checkAddComplete}) => {
         e.preventDefault();
         //서버에 post 요청을 하고 갱신. 
         const isAccepted = (e.target.name === "accept")? true : false;
-        console.log("추가하기 완료 버튼이 눌렸습니다.");
-        checkAddComplete(isAccepted, {title, description, when_date});
+
+        if(isAccepted) {
+            console.log("추가하기 완료 버튼이 눌렸습니다.");
+            checkAddComplete({title, description, when_date});    
+        } else {
+            console.log("추가하기 취소 버튼이 눌렸습니다.");
+            checkAddComplete(null);
+        }
     };
 
     return (
