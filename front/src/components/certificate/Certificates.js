@@ -1,7 +1,7 @@
-import React, {useState} from "react";
-import { Button } from "react-bootstrap";
-
-import Certificate from "./Certificate"
+import React, {useEffect, useState} from "react";
+//import { Button } from "react-bootstrap";
+import * as Api from "../../api";
+import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
 // Certificates 모듈의 컨테이너
@@ -47,24 +47,9 @@ import CertificateAddForm from "./CertificateAddForm";
 //<button>추가하기</button> << 활성화
 ////<CertificateAddForm /> <<버튼이 눌리면 활성화.
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
-    //개발용 임시데이터.
-    const testData = [
-        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-        "title":"운전면허증",
-        "description":"2종 보통입니다.",
-        "when_date":"2021-03-20"},
-        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-        "title":"꽃꽂이 전문가",
-        "description":"1급입니다.",
-        "when_date":"2021-08-23"},
-        {"user_id":"af4ff0af-2a5f-4eea-99f2-d18b42aba419",
-        "title":"백수생활 준전문가",
-        "description":"준전문가입니다.",
-        "when_date":"2022-01-11"},
-    ];
 
     //서버에서 받아온 자격증 데이터
-    const [certs, setCerts] = useState(testData);
+    const [certs, setCerts] = useState([]);
     //isAdd는 자격증 항목을 추가하기 버튼을 눌렀을 때 활성화
     //추가하기인 상황에서는 추가하기 버튼이 보여선 안됨 
     //때문에 isEditable && !isAdd 로 숨김
@@ -73,11 +58,18 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //isAddComplete 은 AddForm에서 추가하기가 완료되었는지를 체크
     const [isAddComplete, setIsAddComplete] = useState(false);
 
+    useEffect(() => {
+        Api.get("certificatelist", portfolioOwnerId)
+            .then((res) => setCerts(res.data));
+    }, [portfolioOwnerId]);
+
+
+
     const setCertificateList = () => {  
-        return certs.map((cert, index) => {
+        return certs.map((cert) => {
             return <Certificate 
-                key = {index}
-                id = {index}
+                key = {cert.id}
+                cert = {cert}
                 isEditable = {isEditable}
                 checkModified = {checkModified}
                 title={cert.title}
@@ -91,32 +83,34 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //isAddComplete 스테이트를 건들수 있는 함수를 AddForm에 전달함
     //AddForm에서는 완료 버튼이 눌렸을 때 결과 값들을 보내줌
     //props에는 서버로 post할 자격증 정보가 담겨있음
-    const checkAddComplete = (result, props) => {
+    const checkAddComplete = async (result, props) => {
         //result 가 true 인 경우에만 성공적으로 데이터를 POST 한 것.
         //취소하기 버튼을 누르면 false 값이 들어옴
         setIsAddComplete(result);
         console.log("Check Add Complete", result);
-        
+        //certificate/create
         if(result) {
             //데이터를 업데이트 합니다. 
-            //개발용 임시 데이터 업데이트
-            const newData = [
-                ...certs,
-                {...props}
-            ];
-            setCerts(newData);
+            const newData = {
+                ...props,
+                user_id: portfolioOwnerId,
+            }
+            console.log(newData);
+            await Api.post("certificate/create", newData);
+            const res = await Api.get("certificatelist", portfolioOwnerId);
+            setCerts(res.data);
         }
 
         //추가하기가 완료되어 AddForm은 닫아줍니다.
         setIsAdd(false);
     };
 
-    const checkModified = (idx, props) => {
-        //key 인덱스임, props 데이터임
+    const checkModified = async (id, props) => {
         //certificate 에서 수정이 이뤄진경우 데이터 처리. 
-        //서버연동시에도 필요할지 의문
-        certs[idx] = {...props};
-        setCerts([...certs]);
+        //id는 param으로 전달된 상태이기때문에 프랍만.
+        await Api.put(`certificates/${id}`, props);
+        const res = await Api.get("certificatelist", portfolioOwnerId);
+        setCerts(res.data);
     }
 
     const handleClick = (e) => {
