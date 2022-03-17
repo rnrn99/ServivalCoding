@@ -7,12 +7,12 @@ class Project {
   }
 
   static async findById({ id }) {
-    const project = await ProjectModel.findOne({ id });
+    const project = await ProjectModel.findOne({ id }).populate('user');
     return project;
   }
 
   static async findByUser({ user }) {
-    const projects = await ProjectModel.find({ user });
+    const projects = await ProjectModel.find({ user }).populate('user');
     return projects;
   }
 
