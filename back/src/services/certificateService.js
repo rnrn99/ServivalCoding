@@ -86,4 +86,4 @@ class CertificateService {
   }
 }
 
-export { certificateService };
+export { CertificateService };

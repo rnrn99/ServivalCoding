@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { login_required } from "../middlewares/login_required.js";
-import { educationService } from "../services/educationService.js";
+import { EducationService } from "../services/educationService.js";
 
 const educationRouter = Router();
 
@@ -13,7 +13,7 @@ educationRouter.post(
       const { school } = req.body;
       const { major } = req.body;
       const { position } = req.body;
-      const newEducation = await educationService.addEducation({
+      const newEducation = await EducationService.addEducation({
         user_id,
         school,
         major,
@@ -34,7 +34,7 @@ educationRouter.get(
   async function (req, res, next) {
     try {
       const id = req.params.id;
-      const education = await educationService.getEducation({ id });
+      const education = await EducationService.getEducation({ id });
       res.status(201).json(education);
     } catch (error) {
       next(error);
@@ -48,7 +48,7 @@ educationRouter.get(
   async function (req, res, next) {
     try {
       const { user_id } = req.params;
-      const education = await educationService.getEducationsList({ user_id });
+      const education = await EducationService.getEducationsList({ user_id });
       res.status(201).json(education);
     } catch (error) {
       next(error);
@@ -70,7 +70,7 @@ educationRouter.put(
         major,
         position,
       };
-      const education = await educationService.updateEducation({
+      const education = await EducationService.updateEducation({
         id,
         toUpdate,
       });

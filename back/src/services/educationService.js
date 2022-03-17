@@ -65,4 +65,4 @@ class EducationService {
   }
 }
 
-export { educationService };
+export { EducationService };

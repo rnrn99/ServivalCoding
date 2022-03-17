@@ -127,4 +127,4 @@ class UserAuthService {
   }
 }
 
-export { userAuthService };
+export { UserAuthService };

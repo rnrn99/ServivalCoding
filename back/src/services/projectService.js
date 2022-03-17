@@ -91,4 +91,4 @@ class ProjectService {
   }
 }
 
-export { projectService };
+export { ProjectService };
