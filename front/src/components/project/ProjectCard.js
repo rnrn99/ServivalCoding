@@ -1,14 +1,14 @@
 import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
 
-function ProjectCard() {
+function ProjectCard({ project, setClickEditBtn, isEditable }) {
   return (
     <Row>
       <Col>
-        <p style={{ marginBottom: 0 }}>프로젝트이름</p>
+        <p style={{ marginBottom: 0 }}>{project.title}</p>
         <p className="text-muted">
-          상세내역 <br />
-          기간
+          {project.description} <br />
+          {project.from_date} ~ {project.to_date}
         </p>
       </Col>
       <Col>
