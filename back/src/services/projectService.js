@@ -1,7 +1,7 @@
 import { Project } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-class projectService {
+class ProjectService {
   static async addProject({ user, title, description, from_date, to_date }) {
     // 랜덤 id 부여
     const id = uuidv4();

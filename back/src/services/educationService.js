@@ -1,7 +1,7 @@
 import { Education } from "../db/models/Education.js";
 import { User } from "../db/models/User.js";
 import { v4 as uuidv4 } from "uuid";
-class educationService {
+class EducationService {
   static async addEducation({ user_id, school, major, position }) {
     const id = uuidv4();
 

@@ -1,7 +1,7 @@
 import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
-class certificateService {
+class CertificateService {
   static async addCertificate({ user, title, description, when_date }) {
     // 자격증 이름 중복 확인
     const certificate = await Certificate.find({ title });
