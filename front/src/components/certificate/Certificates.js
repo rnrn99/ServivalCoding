@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
-//import { Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Card, Row, Col, Button } from "react-bootstrap";
+
 import * as Api from "../../api";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
@@ -62,18 +63,18 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
 
 
 
-    const setCertificateList = () => {  
+    const setCertificateList = () => {
         return certs.map((cert) => {
-            return <Certificate 
-                key = {cert.id}
-                cert = {cert}
-                isEditable = {isEditable}
-                checkModified = {checkModified}
+            return <Certificate
+                key={cert.id}
+                cert={cert}
+                isEditable={isEditable}
+                checkModified={checkModified}
                 title={cert.title}
                 description={cert.description}
                 when_date={cert.when_date}
             />;
-        });      
+        });
     };
 
     //추가하기가 완료되었는지 체크를 위해 
@@ -81,9 +82,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //AddForm에서는 완료 버튼이 눌렸을 때 결과 값들을 보내줌
     //props에는 서버로 post할 자격증 정보가 담겨있음
     const checkAddComplete = async (props) => {
-  
+
         console.log("Check Add Complete");
-        if(props) {
+        if (props) {
             //데이터를 업데이트 합니다. 
             const newData = {
                 ...props,
@@ -114,12 +115,23 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     };
 
     return (
-        <>
-            <p>자격증 목록</p>
-            {setCertificateList()}
-            {(isEditable && !isAdd) && (<button onClick={handleClick}>자격증 추가하기</button>)}
-            {isAdd && <CertificateAddForm checkAddComplete = {checkAddComplete}/>}
-        </>
+        <Card className="ml-3">
+            <Card.Body style={{ marginBottom: "15px" }}>
+                <Row>
+                    <Card.Title>자격증 정보</Card.Title>
+                </Row>
+                <Row>
+                    {setCertificateList()}
+                </Row>
+                <Row className="text-center">
+                    <Col>
+                        {(isEditable && !isAdd) && (<Button onClick={handleClick}>자격증 추가하기</Button>)}
+                        {isAdd && <CertificateAddForm checkAddComplete={checkAddComplete} />}
+                    </Col>
+                </Row>
+            </Card.Body>
+        </Card>
+
     );
 };
 

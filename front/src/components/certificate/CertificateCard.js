@@ -1,4 +1,5 @@
 import React from "react";
+import { Button, Row, Col } from "react-bootstrap";
 
 const CertificateCard = ({isEditable, checkEditing, title, description, when_date}) => {
     //isEditing <<부모 Certificate 한테 전달해줘야함.
@@ -10,12 +11,15 @@ const CertificateCard = ({isEditable, checkEditing, title, description, when_dat
         checkEditing(true);
     }
     return (
-        <div>
-            <p>자격증:{title} 설명:{description} 취득일:{when_date} 
-            {isEditable && (<button onClick={handleClick}>수정하기</button>)}
-            </p>
+        <Row>
+            <Col>자격사항: {title}</Col>
+            <Col>{description}</Col>
+            <Col>취득일자 : {when_date}</Col>
+            <Col>
+                {isEditable && (<Button onClick={handleClick}>수정하기</Button>)}
+            </Col>
             
-        </div>
+        </Row>
     );
 };
 
