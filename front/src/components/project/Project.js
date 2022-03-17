@@ -1,7 +1,12 @@
 import React from "react";
+import ProjectCard from "./ProjectCard";
 
 function Project() {
-  return <div>Project</div>;
+  return (
+    <>
+      <ProjectCard />
+    </>
+  );
 }
 
 export default Project;
