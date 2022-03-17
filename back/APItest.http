@@ -1,10 +1,15 @@
-POST http://localhost:5001/user/login
+POST http://localhost:5001/project/create
 Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
 
 {
-  "email": "elice@elice.com",
-  "password": "asdfqwer"
+  "title": "C++ 개발",
+  "description": "물리 시뮬레이션 코드",
+  "from_date": "2021-04-03",
+  "to_date": "2022-04-03"
 }
 
+
 ###
-GET http://localhost:5001/projects/4a4d6df2-775a-455c-905f-67bc5fb833fe
+GET http://localhost:5001/projectlist/9fa66f23-f075-45d5-816a-48c283a388e7
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU

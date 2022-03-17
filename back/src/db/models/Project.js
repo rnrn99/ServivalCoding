@@ -12,7 +12,7 @@ class Project {
   }
 
   static async findByUser({ user }) {
-    const projects = await ProjectModel.find({ user });
+    const projects = await ProjectModel.find({ user }).populate('user');
     return projects;
   }
 

@@ -52,6 +52,7 @@ class projectService {
     if (toUpdate.title) {
       const fieldToUpdate = "title";
       const newValue = toUpdate.title;
+
       project = await Project.update({ id, fieldToUpdate, newValue });
     }
 
