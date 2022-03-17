@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Card, Row, Col, Button} from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import Award from './Award';
