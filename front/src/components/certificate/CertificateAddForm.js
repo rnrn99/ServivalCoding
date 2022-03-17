@@ -27,7 +27,8 @@ const CertificateAddForm = ({checkAddComplete}) => {
                 value={date} 
                 onChange={(e) => {setDate(e.target.value)}}>
             </input>
-            <button onClick={handleClick}>OK</button>
+            <button name="accept" onClick={handleClick}>완료</button>
+            <button name="cancel" onClick={handleClick}>취소</button>
         </div>
     );
 };
