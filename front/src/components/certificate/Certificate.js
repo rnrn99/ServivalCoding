@@ -4,6 +4,7 @@ import { Row } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
 
+//mvp 구현 1차 완료 이제부터 리파인이다.
 
 //Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
