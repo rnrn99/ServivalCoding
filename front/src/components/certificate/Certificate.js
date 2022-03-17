@@ -7,7 +7,6 @@ import CertificateCard from "./CertificateCard";
 
 //Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
-//<CertificateEditForm />
 const Certicate = ({ cert, checkModified, isEditable, title, description, when_date }) => {
     const [isEditing, setIsEditing] = useState(false);
 
