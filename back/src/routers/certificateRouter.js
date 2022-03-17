@@ -6,7 +6,7 @@ import { userAuthService } from "../services/userService.js";
 
 const certificateRouter = Router();
 
-certificateRouter.post("/certificate/create", async function (req, res, next) {
+certificateRouter.post("/certificate/create", login_required, async function (req, res, next) {
   // 새로운 자격증을 등록
   // 로그인 필요
   try {
@@ -17,11 +17,8 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    //const user_id = "2575121f-cad1-4f1f-a3e8-00293ec4a34b";
-    const user_id = req.currentUserId; //로그인한 user의 id
-    const title = req.body.title;
-    const description = req.body.description;
-    const when_date = req.body.when_date;
+    const user_id = req.currentUserId;
+    const { title, description, when_date } = req.body;//로그인한 user의 id
 
     // user 정보를 db에서 가져오기
     const user = await userAuthService.getUserInfo({ user_id });
@@ -50,11 +47,9 @@ certificateRouter.post("/certificate/create", async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-  // TODO
-  //  로그인 확인 미들웨어 추가
 });
 
-certificateRouter.get("/certificates/:id", async function (req, res, next) {
+certificateRouter.get("/certificates/:id", login_required, async function (req, res, next) {
   const { id } = req.params;
 
   try {
@@ -67,29 +62,47 @@ certificateRouter.get("/certificates/:id", async function (req, res, next) {
       throw new Error(certificate.errorMessage);
     }
 
+    // // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
+    // //
+    // // 현재 로그인한 유저의 id와
+    // const user_id = req.currentUserId;
+    //
+    // // certificate 소유자의 id가 다르다면
+    // if (user_id !== certificate.user.id) {
+    //   // 에러를 throw
+    //   throw new Error('잘못된 접근입니다.');
+    // }
+
     // 200 코드와 함께 자격증 정보 전송
     res.status(200).json(certificate);
   } catch (error) {
     next(error);
   }
-  // TODO
-  //  로그인 확인 미들웨어 추가
 });
 
-certificateRouter.put("/certificates/:id", async function (req, res, next) {
+certificateRouter.put("/certificates/:id", login_required, async function (req, res, next) {
   const { id } = req.params;
 
   try {
     // 기존의 certificate를 가져옴
-    //const certificate = await certificateService.getCertificate({id});
+    const certificate = await certificateService.getCertificate({ id });
 
     // 에러가 발생했다면
-    //if (certificate.errorMessage) {
-    //  // 에러를 throw
-    //  throw new Error(certificate.errorMessage);
-    //}
+    if (certificate.errorMessage) {
+      // 에러를 throw
+      throw new Error(certificate.errorMessage);
+    }
+
     // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
-    //const user = certificate.user;
+    //
+    // 현재 로그인한 유저의 id와
+    const user_id = req.currentUserId;
+
+    // certificate 소유자의 id가 다르다면
+    if (user_id !== certificate.user.id) {
+      // 에러를 throw
+      throw new Error('잘못된 접근입니다.');
+    }
 
     const title = req.body.title ?? null;
     const description = req.body.description ?? null;
@@ -114,42 +127,41 @@ certificateRouter.put("/certificates/:id", async function (req, res, next) {
   } catch (error) {
     next(error);
   }
-  // TODO
-  //  로그인 확인 미들웨어 추가
 });
 
-certificateRouter.get(
-  "/certificatelist/:user_id",
-  async function (req, res, next) {
+certificateRouter.get("/certificatelist/:user_id", login_required, async function (req, res, next) {
     //user_id의 자격증 목록을 가져옴
-    const { user_id } = req.params;
+  const { user_id } = req.params;
 
-    try {
-      // user 정보를 db에서 가져오기
-      const user = await userAuthService.getUserInfo({ user_id });
+  try {
+    // // 만약 로그인한 유저와 요청한 유저의 id가 다르다면
+    // if ( user_id !== req.currentUserId) {
+    //   // 에러를 throw
+    //   throw new Error('잘못된 접근입니다.');
+    // }
 
-      // 에러가 났다면
-      if (user.errorMessage) {
-        // 에러를 throw
-        throw new Error(user.errorMessage);
-      }
+    // user 정보를 db에서 가져오기
+    const user = await userAuthService.getUserInfo({ user_id });
 
-      // 해당 user의 자격증 목록 가져오기
-      const certificates = await certificateService.getCertificates({ user });
-
-      // 에러가 났다면
-      if (certificates.errorMessage) {
-        // 에러를 throw
-        throw new Error(certificates.errorMessage);
-      }
-
-      res.status(200).send(certificates);
-    } catch (error) {
-      next(error);
+    // 에러가 났다면
+    if (user.errorMessage) {
+      // 에러를 throw
+      throw new Error(user.errorMessage);
     }
-    // TODO
-    //  로그인 확인 미들웨어 추가
+
+    // 해당 user의 자격증 목록 가져오기
+    const certificates = await certificateService.getCertificates({ user });
+
+    // 에러가 났다면
+    if (certificates.errorMessage) {
+      // 에러를 throw
+      throw new Error(certificates.errorMessage);
+    }
+
+    res.status(200).send(certificates);
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 export { certificateRouter };
