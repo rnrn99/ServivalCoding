@@ -12,13 +12,16 @@ function ProjectCard({ project, setClickEditBtn, isEditable }) {
         </p>
       </Col>
       <Col>
-        <Button
-          variant="outline-info"
-          size="sm"
-          style={{ float: "right", margin: "20px 15px 0 0" }}
-        >
-          편집
-        </Button>
+        {isEditable && (
+          <Button
+            variant="outline-info"
+            size="sm"
+            style={{ float: "right", margin: "20px 15px 0 0" }}
+            onClick={() => setClickEditBtn((cur) => !cur)}
+          >
+            편집
+          </Button>
+        )}
       </Col>
     </Row>
   );
