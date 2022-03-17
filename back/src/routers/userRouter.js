@@ -1,7 +1,9 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required";
-import { userAuthService } from "../services/userService";
+import { login_required } from "../middlewares/login_required.js";
+import { userAuthService } from "../services/userService.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const userAuthRouter = Router();
 
@@ -61,6 +63,7 @@ userAuthRouter.get(
     try {
       // 전체 사용자 목록을 얻음
       const users = await userAuthService.getUsers();
+      console.log(users);
       res.status(200).send(users);
     } catch (error) {
       next(error);
