@@ -4,7 +4,7 @@ const CertificateEditForm = (props) => {
 
     const [title, setTitle] = useState(props.title);
     const [description, setDescription] = useState(props.description);
-    const [date, setDate] = useState(props.when_date);
+    const [when_date, setWhen_Date] = useState(props.when_date);
 
     const handleClick = (e) => {
         //{title, description, date} 객체를 보내줘야함. 얼루? 
@@ -15,10 +15,10 @@ const CertificateEditForm = (props) => {
         console.log("Editform에서 버튼이 눌렸습니다.");
         if(e.target.name === "accept") {
             console.log("완료 버튼이 눌렸습니다.");
-            props.checkEdited(true);
+            props.checkEdited(true, {title, description, when_date});
         } else {
             console.log("취소 버튼이 눌렸습니다.");
-            props.checkEdited(false);
+            props.checkEdited(false, {});
         }
         
     };
@@ -37,9 +37,9 @@ const CertificateEditForm = (props) => {
                 onChange={(e) => {setDescription(e.target.value)}}>
             </input>
             <input name ="date" type="text" 
-                value={date} 
+                value={when_date} 
                 placeholder="2000-00-00"
-                onChange={(e) => {setDate(e.target.value)}}>
+                onChange={(e) => {setWhen_Date(e.target.value)}}>
             </input>
             <button name="accept" onClick={handleClick}>완료</button>
             <button name="cancel" onClick={handleClick}>취소</button>

@@ -77,7 +77,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         return certs.map((cert, index) => {
             return <Certificate 
                 key = {index}
+                id = {index}
                 isEditable = {isEditable}
+                checkModified = {checkModified}
                 title={cert.title}
                 description={cert.description}
                 when_date={cert.when_date}
@@ -109,7 +111,13 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         setIsAdd(false);
     };
 
-    
+    const checkModified = (idx, props) => {
+        //key 인덱스임, props 데이터임
+        //certificate 에서 수정이 이뤄진경우 데이터 처리. 
+        //서버연동시에도 필요할지 의문
+        certs[idx] = {...props};
+        setCerts([...certs]);
+    }
 
     const handleClick = (e) => {
         e.preventDefault();

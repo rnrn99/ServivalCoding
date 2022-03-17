@@ -6,7 +6,7 @@ import CertificateCard from "./CertificateCard";
 //Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
 //<CertificateEditForm />
-const Certicate = ({isEditable, title, description, when_date}) => {
+const Certicate = ({id, checkModified, isEditable, title, description, when_date}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [isEdited, setIsEdited] = useState(false);
     //const tempEditable = true;
@@ -23,16 +23,19 @@ const Certicate = ({isEditable, title, description, when_date}) => {
         setIsEditing(editing);
     };
 
-    const checkEdited = (edited) => {
+    const checkEdited = (edited, props) => {
         //editForm에서 값이 리턴됨.
         console.log("checkEdited", edited);
+        console.log(props);
         setIsEdited(edited);
         if(edited) {
             //데이터 수정에관련된 로직
             console.log("데이터 수정작업이 이루어집니다.");
+            checkModified(id, props);
         }
         //EditForm을 비활성화 시킵니다.
         setIsEditing(false);
+        setIsEdited(false);
     };
 
     return (
