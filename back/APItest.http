@@ -1,15 +1,14 @@
-POST http://localhost:5001/project/create
+PUT http://localhost:5001/certificates/11130657-9cf2-4067-a7ef-77185a7b92d4
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
 
 {
-  "title": "C++ 개발",
-  "description": "물리 시뮬레이션 코드",
-  "from_date": "2021-04-03",
-  "to_date": "2022-04-03"
+  "title": "방사선",
+  "description": "자격",
+  "when_date": "2021-04-03"
 }
 
 
 ###
-GET http://localhost:5001/projectlist/9fa66f23-f075-45d5-816a-48c283a388e7
+GET http://localhost:5001/certificatelist/9fa66f23-f075-45d5-816a-48c283a388e7
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
