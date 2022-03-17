@@ -23,8 +23,8 @@ function Award ({award, isEditable, setAwardLists}) {
                         <span class='text-muted'>{award.description}</span>
                     </Col> 
                     {isEditable&&
-                        <Col xs lg="2">
-                            <Button variant="outline-info" size="sm" style={{ float: "right", marginRight: "37px"}} onClick={()=>setIsEditing(true)}>편집</Button>
+                        <Col xs lg="1">
+                            <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
                         </Col>
                     }
                 </Row>
