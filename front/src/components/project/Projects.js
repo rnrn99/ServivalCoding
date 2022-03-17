@@ -30,7 +30,15 @@ function Projects({ portfolioOwnerId, isEditable }) {
               )}
             </Col>
           </Row>
-          <Row>{clickAddBtn && <ProjectAddForm />}</Row>
+          <Row>
+            {clickAddBtn && (
+              <ProjectAddForm
+                portfolioOwnerId={portfolioOwnerId}
+                setClickAddBtn={setClickAddBtn}
+                setProjects={setProjects}
+              />
+            )}
+          </Row>
         </Card.Body>
       </Card>
     </>
