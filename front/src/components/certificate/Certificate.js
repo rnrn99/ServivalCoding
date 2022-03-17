@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { Row } from "react-bootstrap";
 
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
 
+
 //Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
 //<CertificateEditForm />
-const Certicate = ({cert, checkModified, isEditable, title, description, when_date}) => {
+const Certicate = ({ cert, checkModified, isEditable, title, description, when_date }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     //isEditing 필요.
@@ -23,7 +25,7 @@ const Certicate = ({cert, checkModified, isEditable, title, description, when_da
         console.log("checkEdited");
         //console.log(...props);
         //setIsEdited(edited);
-        if(isEdited) {
+        if (isEdited) {
             //데이터 수정에관련된 로직
             console.log("데이터 수정작업이 이루어집니다.");
             checkModified(cert.id, props);
@@ -33,25 +35,25 @@ const Certicate = ({cert, checkModified, isEditable, title, description, when_da
     };
 
     return (
-        <div>
+        <Row>
             {isEditing ? (
-                <CertificateEditForm 
-                    checkEdited = {checkEdited}
+                <CertificateEditForm
+                    checkEdited={checkEdited}
                     title={title}
                     description={description}
                     when_date={when_date}
                 />
             ) : (
-                <CertificateCard 
+                <CertificateCard
                     isEditable={isEditable}
-                    checkEditing = {checkEditing}
+                    checkEditing={checkEditing}
                     title={title}
                     description={description}
                     when_date={when_date}
                 />
-            )}    
-        </div>
+            )}
+        </Row>
     );
 };
-//CertificateCard = ({title, description, when_date})
+
 export default Certicate;
