@@ -62,7 +62,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         "description":"준전문가입니다.",
         "when_date":"2022-01-11"},
     ];
-    
+
     //서버에서 받아온 자격증 데이터
     const [certs, setCerts] = useState(testData);
     //isAdd는 자격증 항목을 추가하기 버튼을 눌렀을 때 활성화
@@ -95,13 +95,15 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         setIsAddComplete(result);
         console.log("Check Add Complete", result);
         
-        //데이터를 업데이트 합니다. 
-        //개발용 임시 데이터 업데이트
-        const newData = [
-            ...certs,
-            {...props}
-        ];
-        setCerts(newData);
+        if(result) {
+            //데이터를 업데이트 합니다. 
+            //개발용 임시 데이터 업데이트
+            const newData = [
+                ...certs,
+                {...props}
+            ];
+            setCerts(newData);
+        }
 
         //추가하기가 완료되어 AddForm은 닫아줍니다.
         setIsAdd(false);
