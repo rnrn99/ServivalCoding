@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "## 실행 방법",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "nodemon index.js --exec babel-node",
     "test": "jest --setupFiles dotenv/config",

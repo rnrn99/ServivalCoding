@@ -74,8 +74,23 @@ educationRouter.put(
         id,
         toUpdate,
       });
-
+      console.log(education);
       res.status(201).json({ message: "수정 성공" });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+educationRouter.delete(
+  "/educations/:id",
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const deleteEducation = EducationService.removeEducation({ id });
+      console.log(deleteEducation);
+      res.status(201).json({ status: "succ", message: "삭제 성공!" });
     } catch (error) {
       next(error);
     }
