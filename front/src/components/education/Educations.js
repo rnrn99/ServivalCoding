@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Row, Button, Col, Accordion } from "react-bootstrap";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import EducationAddForm from "./EducationAddForm";
 import Education from "./Education";
 import * as Api from "../../api";
@@ -15,10 +16,25 @@ function Educations({ portfolioOwnerId, isEditable }) {
     );
   }, [portfolioOwnerId]);
 
+  const AddFormToggle = ({ children, eventKey }) => {
+    const decoratedOnClick = useAccordionButton(eventKey, () =>
+      setClickAddBtn((cur) => !cur),
+    );
+
+    return (
+      <Button
+        variant={clickAddBtn ? "secondary" : "primary"}
+        onClick={decoratedOnClick}
+      >
+        {children}
+      </Button>
+    );
+  };
+
   return (
     <>
-      <Card className="ml-3 mb-3">
-        <Accordion defaultActiveKey="0">
+      <Accordion defaultActiveKey={["0"]} alwaysOpen>
+        <Card className="ml-3 mb-3">
           <Accordion.Item eventKey="0" style={{ border: "none" }}>
             <Accordion.Header>
               <Card.Title>학력</Card.Title>
@@ -39,27 +55,22 @@ function Educations({ portfolioOwnerId, isEditable }) {
             <Row className="text-center">
               <Col>
                 {isEditable && (
-                  <Button
-                    variant="primary"
-                    onClick={() => setClickAddBtn((cur) => !cur)}
-                  >
-                    +
-                  </Button>
+                  <AddFormToggle eventKey="1">
+                    {clickAddBtn ? " - " : " + "}
+                  </AddFormToggle>
                 )}
               </Col>
             </Row>
-            {clickAddBtn && (
-              <Row>
-                <EducationAddForm
-                  portfolioOwnerId={portfolioOwnerId}
-                  setClickAddBtn={setClickAddBtn}
-                  setEducations={setEducations}
-                />
-              </Row>
-            )}
+            <Accordion.Collapse eventKey="1">
+              <EducationAddForm
+                portfolioOwnerId={portfolioOwnerId}
+                setClickAddBtn={setClickAddBtn}
+                setEducations={setEducations}
+              />
+            </Accordion.Collapse>
           </Card.Body>
-        </Accordion>
-      </Card>
+        </Card>
+      </Accordion>
     </>
   );
 }
