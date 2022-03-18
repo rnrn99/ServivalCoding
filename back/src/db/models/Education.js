@@ -31,7 +31,7 @@ class Education {
   }
 
   static async deleteEducation({ id }) {
-    const education = await EducationModel.deleteOne({ id });
+    const education = await EducationModel.findOneAndDelete({ id });
     return education;
   }
 }
