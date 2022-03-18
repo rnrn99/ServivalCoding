@@ -1,28 +1,33 @@
 import React from "react";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Grid } from "@mui/material";
 
 function EducationCard({ education, setClickEditBtn, isEditable }) {
   return (
-    <Row>
-      <Col>
+    <Grid container spacing={2}>
+      <Grid item xs={10}>
         <p style={{ marginBottom: "5px" }}>{education.school}</p>
         <p className="text-muted">
           {education.major} ({education.position})
         </p>
-      </Col>
-      <Col>
+      </Grid>
+      <Grid item xs={2}>
         {isEditable && (
           <Button
-            variant="outline-info"
-            size="sm"
-            style={{ float: "right", margin: "10px 15px 0 0" }}
+            variant="outlined"
+            size="small"
+            style={{
+              float: "right",
+              margin: "10px 15px 0 0",
+              borderColor: "#0dcaf0",
+              color: "#0dcaf0",
+            }}
             onClick={() => setClickEditBtn((cur) => !cur)}
           >
             편집
           </Button>
         )}
-      </Col>
-    </Row>
+      </Grid>
+    </Grid>
   );
 }
 
