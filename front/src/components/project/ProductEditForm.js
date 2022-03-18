@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+
+import Datepicker from "../utils/Datepicker";
+
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
+//import { ko } from "date-fns/esm/locale";
 import * as Api from "../../api";
 
 function ProductEditForm({ project, setProjects, setClickEditBtn }) {
@@ -70,20 +73,10 @@ function ProductEditForm({ project, setProjects, setClickEditBtn }) {
         </Form.Group>
         <Row xs="auto">
           <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
+            <Datepicker selected={startDate} onChange={setStartDate} />
           </Col>
           <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={dueDate}
-              onChange={(date) => setDueDate(date)}
-            />
+            <Datepicker selected={dueDate} onChange={setDueDate} />
           </Col>
         </Row>
       </Row>
