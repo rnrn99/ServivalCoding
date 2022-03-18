@@ -24,7 +24,7 @@ projectRouter.post(
       const { title, description, from, to } = req.body;
 
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id: userId });
+      const user = await UserAuthService.getUserInfo({ userId: userId });
 
       // 찾지 못했다면
       if (user.errorMessage) {
@@ -73,10 +73,10 @@ projectRouter.get(
     // // 가져온 project의 user와 현재 로그인한 유저의 id 비교
     // //
     // // 현재 로그인한 유저의 id와
-    // const user_id = req.currentUserId;
+    // const userId = req.currentUserId;
     //
     // // project 소유자의 id가 다르다면
-    // if (user_id !== project.user.id) {
+    // if (userId !== project.user.id) {
     //   // 에러를 throw
     //   throw new Error('잘못된 접근입니다.');
     // }
@@ -143,8 +143,8 @@ projectRouter.get(
   "/project-lists/:userId",
   loginRequired,
   async function (req, res, next) {
-    //user_id의 프로젝트 목록을 가져옴
-    const { user_id: userId } = req.params;
+    //userId의 프로젝트 목록을 가져옴
+    const { userId } = req.params;
 
     try {
       // // 본인이 아닌 사람의 프로젝트 목록을 요청한다면
@@ -153,7 +153,7 @@ projectRouter.get(
       //   throw new Error("잘못된 접근입니다.");
       // }
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id: userId });
+      const user = await UserAuthService.getUserInfo({ userId });
 
       // 에러가 났다면
       if (user.errorMessage) {

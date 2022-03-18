@@ -72,7 +72,7 @@ userAuthRouter.get(
 );
 
 userAuthRouter.get(
-  "/user/current",
+  "/users/current",
   loginRequired,
   async function (req, res, next) {
     try {

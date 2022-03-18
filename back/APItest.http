@@ -1,14 +1,14 @@
-DELETE http://localhost:5001/certificates/ae0d66b8-b890-4e06-bda9-8f803b255301
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
-
-
-###
-POST http://localhost:5001/certificates
+PUT http://localhost:5001/projects/0be67b83-d58a-4d42-ba26-79e312b8d1af
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
 
 {
-  "title": "자격증3",
-  "description": "123",
-  "when_date": "2021-04-03"
+  "title": "스위프트",
+  "description": "iOS 앱 만들기",
+  "from": "2020-03-03",
+  "to": "2021-03-03"
 }
+
+###
+DELETE http://localhost:5001/projects/0be67b83-d58a-4d42-ba26-79e312b8d1af
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
