@@ -29,6 +29,11 @@ class Education {
     const updateEdu = await EducationModel.updateOne(filter, update, option);
     return updateEdu;
   }
+
+  static async deleteEducation({ id }) {
+    const education = await EducationModel.deleteOne({ id });
+    return education;
+  }
 }
 
 export { Education };

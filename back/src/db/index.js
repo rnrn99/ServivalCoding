@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { User } from "./models/User.js";
 import { Certificate } from "./models/Certificate.js";
-import { Project } from "./models/Project";
+import { Project } from "./models/Project.js";
 import dotenv from "dotenv";
 dotenv.config();
 

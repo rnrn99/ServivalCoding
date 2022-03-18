@@ -63,6 +63,11 @@ class EducationService {
     }
     return education;
   }
+
+  static async removeEducation({ id }) {
+    const deleteEducation = Education.deleteEducation({ id });
+    return deleteEducation;
+  }
 }
 
 export { EducationService };
