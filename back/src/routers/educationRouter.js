@@ -84,8 +84,12 @@ educationRouter.delete(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const deleteEducation = EducationService.removeEducation({ id });
-      console.log(deleteEducation);
+      const deleteEducation = await EducationService.removeEducation({ id });
+      if (!deleteEducation) {
+        return res
+          .status(404)
+          .json({ status: "fail", message: "삭제할 자료가 없습니다." });
+      }
       res.status(201).json({ status: "succ", message: "삭제 성공!" });
     } catch (error) {
       next(error);

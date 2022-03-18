@@ -65,7 +65,10 @@ class EducationService {
   }
 
   static async removeEducation({ id }) {
-    const deleteEducation = Education.deleteEducation({ id });
+    const deleteEducation = await Education.deleteEducation({ id });
+    if (deleteEducation.deletedCount === 0) {
+      return false;
+    }
     return deleteEducation;
   }
 }
