@@ -70,17 +70,16 @@ projectRouter.get(
         throw new Error(project.errorMessage);
       }
 
-      /*
-    // 가져온 project의 user와 현재 로그인한 유저의 id 비교
+    // // 가져온 project의 user와 현재 로그인한 유저의 id 비교
+    // //
+    // // 현재 로그인한 유저의 id와
+    // const user_id = req.currentUserId;
     //
-    // 현재 로그인한 유저의 id와
-    const user_id = req.currentUserId;
-
-    // project 소유자의 id가 다르다면
-    if (user_id !== project.user.id) {
-      // 에러를 throw
-      throw new Error('잘못된 접근입니다.');
-    }*/
+    // // project 소유자의 id가 다르다면
+    // if (user_id !== project.user.id) {
+    //   // 에러를 throw
+    //   throw new Error('잘못된 접근입니다.');
+    // }
 
       // 200 코드와 함께 프로젝트 정보 전송
       res.status(200).json(project);
@@ -148,11 +147,11 @@ projectRouter.get(
     const { user_id } = req.params;
 
     try {
-      // 본인이 아닌 사람의 프로젝트 목록을 요청한다면
-      if (user_id !== req.currentUserId) {
-        // 에러를 throw
-        throw new Error("잘못된 접근입니다.");
-      }
+      // // 본인이 아닌 사람의 프로젝트 목록을 요청한다면
+      // if (user_id !== req.currentUserId) {
+      //   // 에러를 throw
+      //   throw new Error("잘못된 접근입니다.");
+      // }
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ user_id });
 

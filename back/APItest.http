@@ -1,4 +1,4 @@
-PUT http://localhost:5001/certificates/11130657-9cf2-4067-a7ef-77185a7b92d4
+PUT http://localhost:5001/projects/4a4d6df2-775a-455c-905f-67bc5fb833fe
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
 
@@ -10,5 +10,5 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNj
 
 
 ###
-GET http://localhost:5001/certificatelist/9fa66f23-f075-45d5-816a-48c283a388e7
+GET http://localhost:5001/projectlist/2575121f-cad1-4f1f-a3e8-00293ec4a34b
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
