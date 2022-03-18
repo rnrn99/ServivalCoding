@@ -15,7 +15,7 @@ function EducationCard({ education, setClickEditBtn, isEditable }) {
           <Button
             variant="outlined"
             size="small"
-            style={{
+            sx={{
               float: "right",
               margin: "10px 15px 0 0",
               borderColor: "#0dcaf0",
