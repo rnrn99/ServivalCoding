@@ -12,23 +12,20 @@ function Award ({award, isEditable, setAwardLists}) {
          <>  
          {isEditing
           ? (
-              <AwardEditForm award={award} isEditable={isEditable} setIsEditing={setIsEditing} setAwardLists={setAwardLists}/>
+            <AwardEditForm award={award} isEditable={isEditable} setIsEditing={setIsEditing} setAwardLists={setAwardLists}/>
             )
           :(   
-            <Card.Text>
-                <Row className="align-items-center">
-                    <Col>
-                        <span >{award.title}</span>
-                        <br />
-                        <span class='text-muted'>{award.description}</span>
-                    </Col> 
-                    {isEditable&&
-                        <Col xs lg="1">
-                            <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
-                        </Col>
-                    }
-                </Row>
-            </Card.Text>
+            <Row className="align-items-center">
+                <Col>
+                    <p >{award.title}</p>
+                    <p className='text-muted'>{award.description}</p>
+                </Col> 
+                {isEditable&&
+                    <Col xs lg="1">
+                        <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
+                    </Col>
+                }
+            </Row>
             )}
         </>
     )
