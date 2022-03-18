@@ -60,4 +60,19 @@ awardRouter.get(
   }
 );
 
+awardRouter.delete("/awards/:id", login_required, async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deleteAward = await AwardService.removeAward({ id });
+    if (!deleteAward) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "삭제할 자료가 없습니다." });
+    }
+    res.status(201).json({ status: "succ", message: "삭제 성공" });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { awardRouter };

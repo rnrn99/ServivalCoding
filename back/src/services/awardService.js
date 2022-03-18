@@ -56,6 +56,14 @@ class AwardService {
     const awards = await Award.findAwards({ user_id });
     return awards;
   }
+
+  static async removeAward({ id }) {
+    const deleteAward = await Award.deleteAwards({ id });
+    if (deleteAward.deletedCount === 0) {
+      return false;
+    }
+    return deleteAward;
+  }
 }
 
 export { AwardService };
