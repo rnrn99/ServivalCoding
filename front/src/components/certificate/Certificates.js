@@ -59,7 +59,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
-        Api.get("certificatelist", portfolioOwnerId)
+        Api.get("certificate-lists", portfolioOwnerId)
             .then((res) => setCerts(res.data));
     }, [portfolioOwnerId]);
 
@@ -74,7 +74,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
                 checkModified={checkModified}
                 title={cert.title}
                 description={cert.description}
-                when_date={cert.when_date}
+                date={cert.date}
             />;
         });
     };
@@ -90,11 +90,11 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
             //데이터를 업데이트 합니다. 
             const newData = {
                 ...props,
-                user_id: portfolioOwnerId,
+                //user_id: portfolioOwnerId,
             }
             console.log(newData);
-            await Api.post("certificate/create", newData);
-            const res = await Api.get("certificatelist", portfolioOwnerId);
+            await Api.post("certificates", newData);
+            const res = await Api.get("certificate-lists", portfolioOwnerId);
             setCerts(res.data);
         }
 
@@ -106,7 +106,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         //certificate 에서 수정이 이뤄진경우 데이터 처리. 
         //id는 param으로 전달된 상태이기때문에 프랍만.
         await Api.put(`certificates/${id}`, props);
-        const res = await Api.get("certificatelist", portfolioOwnerId);
+        const res = await Api.get("certificate-lists", portfolioOwnerId);
         setCerts(res.data);
     }
 

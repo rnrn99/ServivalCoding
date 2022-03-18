@@ -7,8 +7,7 @@ import Datepicker from "../utils/Datepicker";
 const CertificateEditForm = (props) => {
   const [title, setTitle] = useState(props.title);
   const [description, setDescription] = useState(props.description);
-  //const [when_date, setWhen_Date] = useState(props.when_date);
-  const [when_date, setWhen_date] = useState(new Date(props.when_date));
+  const [date, setDate] = useState(new Date(props.date));
 
   // Date를 YYYY-MM-DD의 문자열로 바꾸는 함수입니다. 지유님꺼 업어옴
   const dateToString = (date) => {
@@ -24,12 +23,12 @@ const CertificateEditForm = (props) => {
     //PUT 요청을위해 변경된 정보를 Certificate 모듈로 전달.
     e.preventDefault();
     // Date type의 시작일, 마감일 상태를 YYYY-MM-DD의 문자열로 바꿉니다.
-    const strDate = dateToString(when_date);
+    const strDate = dateToString(date);
 
     console.log("Editform에서 버튼이 눌렸습니다.");
     if (e.target.name === "accept") {
       console.log("완료 버튼이 눌렸습니다.");
-      props.checkEdited(true, { title, description, when_date: strDate });
+      props.checkEdited(true, { title, description, date: strDate });
     } else {
       console.log("취소 버튼이 눌렸습니다.");
       props.checkEdited(false, {});
@@ -59,7 +58,7 @@ const CertificateEditForm = (props) => {
         />
       </Form.Group>
 
-      <Datepicker selected={when_date} onChange={setWhen_date} />
+      <Datepicker selected={date} onChange={setDate} />
       <Row>
         <Col />
         <Col>
