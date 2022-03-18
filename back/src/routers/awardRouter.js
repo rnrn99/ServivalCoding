@@ -60,7 +60,7 @@ awardRouter.get(
   }
 );
 
-awardRouter.delete("/awards/:id", login_required, async (req, res, next) => {
+awardRouter.delete("/awards/:id", loginRequired, async (req, res, next) => {
   try {
     const { id } = req.params;
     const deleteAward = await AwardService.removeAward({ id });
