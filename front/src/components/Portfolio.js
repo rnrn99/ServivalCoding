@@ -10,6 +10,7 @@ import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
 import Certificates from "./certificate/Certificates";
+import TimeLines from "./timeline/TimeLines";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -59,13 +60,17 @@ function Portfolio() {
   return (
     <Container maxWidth={`${window.innerWidth}`}>
       <Grid container spacing={2}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
+          <TimeLines
+            portfolioOwnerId={portfolioOwner.id}
+            isEditable={portfolioOwner.id === userState.user?.id}
+          />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <Educations
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
