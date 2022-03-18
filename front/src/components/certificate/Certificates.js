@@ -115,7 +115,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     };
 
     return (
-        <Card className="ml-3">
+        <Card className="ml-3 mb-3">
             <Card.Body style={{ marginBottom: "15px" }}>
                 <Row>
                     <Card.Title>자격증 정보</Card.Title>

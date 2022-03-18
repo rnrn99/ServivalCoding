@@ -4,7 +4,7 @@ import { Card, Row, Button, Col } from "react-bootstrap";
 function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
   const navigate = useNavigate();
   return (
-    <Card className="mb-2 ms-3 mr-5">
+    <Card className="mb-3 ms-3 mr-5">
       <Card.Body>
         <Row className="justify-content-md-center">
           <Card.Img

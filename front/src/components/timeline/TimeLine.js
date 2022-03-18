@@ -5,15 +5,15 @@ import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
 
-function TimeLine ({project}) {
+function TimeLine ({career}) {
     return (
             <TimelineItem>
                 <TimelineSeparator>
-                    <TimelineDot color="warning"/>
+                    <TimelineDot color="success"/>
                     <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent style={{fontSize: '5px'}}>
-                    [{project.date}]<br /> {project.title}
+                    [{career.date}~]<br /> {career.title}
                 </TimelineContent>
             </TimelineItem>
 

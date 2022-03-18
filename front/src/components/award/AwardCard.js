@@ -18,7 +18,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
 
     return(
     <>
-      <Card className="ml-3">
+      <Card className="ml-3 mb-3">
         <Card.Body>
           <Row>
             <Card.Title>수상이력</Card.Title>

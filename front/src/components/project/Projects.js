@@ -17,7 +17,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
   return (
     <>
-      <Card className="ml-3">
+      <Card className="ml-3 mb-3">
         <Card.Body style={{ marginBottom: "15px" }}>
           <Row>
             <Card.Title>프로젝트</Card.Title>
