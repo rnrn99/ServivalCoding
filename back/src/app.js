@@ -4,7 +4,7 @@ import { userAuthRouter } from "./routers/userRouter.js";
 import { educationRouter } from "./routers/educationRouter.js";
 import { awardRouter } from "./routers/awardRouter.js";
 import { certificateRouter } from "./routers/certificateRouter.js";
-import { projectRouter } from "./routers/projectRouter";
+import { projectRouter } from "./routers/projectRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 
 const app = express();

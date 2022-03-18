@@ -25,6 +25,12 @@ class Award {
     const findAwards = await AwardModel.find({ author: user });
     return findAwards;
   }
+
+  static async deleteAwards({ id }) {
+    const deleteAwards = await AwardModel.deleteOne({ id });
+    console.log(deleteAwards);
+    return deleteAwards;
+  }
 }
 
 export { Award };
