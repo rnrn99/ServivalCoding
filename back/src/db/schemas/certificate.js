@@ -23,7 +23,7 @@ const CertificateSchema = new Schema(
       required: true,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
-    when_date: {
+    date: {
       // 자격증을 언제 취득했는지 // YYYY-MM-DD
       type: String,
       required: true,

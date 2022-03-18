@@ -2,10 +2,10 @@ import { Education } from "../db/models/Education.js";
 import { User } from "../db/models/User.js";
 import { v4 as uuidv4 } from "uuid";
 class EducationService {
-  static async addEducation({ user_id, school, major, position }) {
+  static async addEducation({ userId, school, major, position }) {
     const id = uuidv4();
 
-    const user = await User.findById({ user_id });
+    const user = await User.findById({ userId });
     const newEducation = {
       id,
       school,
@@ -19,8 +19,8 @@ class EducationService {
     return createNewEducation;
   }
 
-  static async getEducationsList({ user_id }) {
-    return await Education.findEducationsList({ user_id });
+  static async getEducationsList({ userId }) {
+    return await Education.findEducationsList({ userId });
   }
 
   static async getEducation({ id }) {
@@ -62,6 +62,11 @@ class EducationService {
       });
     }
     return education;
+  }
+
+  static async removeEducation({ id }) {
+    const deleteEducation = Education.deleteEducation({ id });
+    return deleteEducation;
   }
 }
 

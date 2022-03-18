@@ -9,8 +9,8 @@ function Projects({ portfolioOwnerId, isEditable }) {
   const [clickAddBtn, setClickAddBtn] = useState(false); // 프로젝트 추가 버튼 클릭 상태를 저장합니다.
 
   useEffect(() => {
-    // "projectlist/유저id" 엔드포인트로 GET 요청을 하고, projects를 response의 data로 세팅함.
-    Api.get("projectlist", portfolioOwnerId).then((res) =>
+    // "project-lists/유저id" 엔드포인트로 GET 요청을 하고, projects를 response의 data로 세팅함.
+    Api.get("project-lists", portfolioOwnerId).then((res) =>
       setProjects(res.data),
     );
   }, [portfolioOwnerId]);
