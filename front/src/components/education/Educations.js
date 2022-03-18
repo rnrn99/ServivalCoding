@@ -9,8 +9,8 @@ function Educations({ portfolioOwnerId, isEditable }) {
   const [clickAddBtn, setClickAddBtn] = useState(false); // 학력 추가 버튼 클릭 상태를 저장합니다.
 
   useEffect(() => {
-    // "educationlist/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
-    Api.get("educationlist", portfolioOwnerId).then((res) =>
+    // "education-lists/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
+    Api.get("education-lists", portfolioOwnerId).then((res) =>
       setEducations(res.data),
     );
   }, [portfolioOwnerId]);
