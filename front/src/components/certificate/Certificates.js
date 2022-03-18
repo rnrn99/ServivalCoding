@@ -5,6 +5,8 @@ import * as Api from "../../api";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
 
+// 이제부터 리파인입니다.
+
 // Certificates 모듈의 컨테이너
 // components/Portfolio에 전달된다.
 // 호출된 Certificates는 유저정보를 기반으로 DB에서 자격증정보를 받음
