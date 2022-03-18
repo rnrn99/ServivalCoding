@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Button, Col } from "react-bootstrap";
+import { Card, Row, Button, Col, Accordion } from "react-bootstrap";
 import EducationAddForm from "./EducationAddForm";
 import Education from "./Education";
 import * as Api from "../../api";
@@ -17,43 +17,48 @@ function Educations({ portfolioOwnerId, isEditable }) {
 
   return (
     <>
-      <Card className="ml-3">
-        <Card.Body style={{ marginBottom: "15px" }}>
-          <Row>
-            <Card.Title>학력</Card.Title>
-          </Row>
-          <Row>
-            {educations.map((edu) => (
-              <Education
-                key={edu.id}
-                education={edu}
-                setEducations={setEducations}
-                isEditable={isEditable}
-              />
-            ))}
-          </Row>
-          <Row className="text-center">
-            <Col>
-              {isEditable && (
-                <Button
-                  variant="primary"
-                  onClick={() => setClickAddBtn((cur) => !cur)}
-                >
-                  +
-                </Button>
-              )}
-            </Col>
-          </Row>
-          {clickAddBtn && (
-            <Row>
-              <EducationAddForm
-                portfolioOwnerId={portfolioOwnerId}
-                setClickAddBtn={setClickAddBtn}
-                setEducations={setEducations}
-              />
+      <Card className="ml-3 mb-3">
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0" style={{ border: "none" }}>
+            <Accordion.Header>
+              <Card.Title>학력</Card.Title>
+            </Accordion.Header>
+            <Accordion.Body>
+              {educations.map((edu) => (
+                <Education
+                  key={edu.id}
+                  education={edu}
+                  setEducations={setEducations}
+                  isEditable={isEditable}
+                />
+              ))}
+            </Accordion.Body>
+          </Accordion.Item>
+
+          <Card.Body style={{ marginBottom: "15px" }}>
+            <Row className="text-center">
+              <Col>
+                {isEditable && (
+                  <Button
+                    variant="primary"
+                    onClick={() => setClickAddBtn((cur) => !cur)}
+                  >
+                    +
+                  </Button>
+                )}
+              </Col>
             </Row>
-          )}
-        </Card.Body>
+            {clickAddBtn && (
+              <Row>
+                <EducationAddForm
+                  portfolioOwnerId={portfolioOwnerId}
+                  setClickAddBtn={setClickAddBtn}
+                  setEducations={setEducations}
+                />
+              </Row>
+            )}
+          </Card.Body>
+        </Accordion>
       </Card>
     </>
   );
