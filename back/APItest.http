@@ -1,14 +1,14 @@
-PUT http://localhost:5001/projects/4a4d6df2-775a-455c-905f-67bc5fb833fe
+DELETE http://localhost:5001/certificates/ae0d66b8-b890-4e06-bda9-8f803b255301
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
+
+
+###
+POST http://localhost:5001/certificates
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
 
 {
-  "title": "방사선",
-  "description": "자격",
+  "title": "자격증3",
+  "description": "123",
   "when_date": "2021-04-03"
 }
-
-
-###
-GET http://localhost:5001/projectlist/2575121f-cad1-4f1f-a3e8-00293ec4a34b
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU

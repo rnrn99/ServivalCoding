@@ -1,14 +1,14 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required.js";
+import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { ProjectService } from "../services/projectService.js";
 
 const projectRouter = Router();
 
 projectRouter.post(
-  "/project/create",
-  login_required,
+  "/projects",
+  loginRequired,
   async function (req, res, next) {
     // 새로운 프로젝트를 등록
     // 로그인 필요
@@ -20,11 +20,11 @@ projectRouter.post(
       }
 
       // req (request) 에서 데이터 가져오기
-      const user_id = req.currentUserId; //로그인한 user의 id
-      const { title, description, from_date, to_date } = req.body;
+      const userId = req.currentUserId; //로그인한 user의 id
+      const { title, description, from, to } = req.body;
 
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id });
+      const user = await UserAuthService.getUserInfo({ user_id: userId });
 
       // 찾지 못했다면
       if (user.errorMessage) {
@@ -37,8 +37,8 @@ projectRouter.post(
         user,
         title,
         description,
-        from_date,
-        to_date,
+        from,
+        to,
       });
 
       // 만약 추가하는 과정에서 에러가 났다면
@@ -56,7 +56,7 @@ projectRouter.post(
 
 projectRouter.get(
   "/projects/:id",
-  login_required,
+  loginRequired,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -91,7 +91,7 @@ projectRouter.get(
 
 projectRouter.put(
   "/projects/:id",
-  login_required,
+  loginRequired,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -107,21 +107,21 @@ projectRouter.put(
       // 가져온 project의 user와 현재 로그인한 유저의 id 비교
       //
       // 현재 로그인한 유저의 id와
-      const user_id = req.currentUserId;
+      const userId = req.currentUserId;
 
       // project 소유자의 id가 다르다면
-      if (user_id !== project.user.id) {
+      if (userId !== project.user.id) {
         // 에러를 throw
         throw new Error("잘못된 접근입니다.");
       }
 
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
-      const from_date = req.body.from_date ?? null;
-      const to_date = req.body.to_date ?? null;
+      const from = req.body.from ?? null;
+      const to = req.body.to ?? null;
 
       // 업데이트할 정보를 묶어서
-      const toUpdate = { title, description, from_date, to_date };
+      const toUpdate = { title, description, from, to };
 
       // 프로젝트 정보를 업데이트
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
@@ -140,20 +140,20 @@ projectRouter.put(
 );
 
 projectRouter.get(
-  "/projectlist/:user_id",
-  login_required,
+  "/project-lists/:userId",
+  loginRequired,
   async function (req, res, next) {
     //user_id의 프로젝트 목록을 가져옴
-    const { user_id } = req.params;
+    const { user_id: userId } = req.params;
 
     try {
       // // 본인이 아닌 사람의 프로젝트 목록을 요청한다면
-      // if (user_id !== req.currentUserId) {
+      // if (userId !== req.currentUserId) {
       //   // 에러를 throw
       //   throw new Error("잘못된 접근입니다.");
       // }
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id });
+      const user = await UserAuthService.getUserInfo({ user_id: userId });
 
       // 에러가 났다면
       if (user.errorMessage) {
@@ -171,6 +171,39 @@ projectRouter.get(
       }
 
       res.status(200).send(projects);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+projectRouter.delete(
+  "/projects/:id",
+  loginRequired,
+  async function (req, res, next) {
+    const { id } = req.params;
+    const userId = req.currentUserId;
+
+    try {
+      // project id를 이용해 project를 가져옴
+      const project = await ProjectService.getProject({id});
+
+      // 에러가 발생했다면
+      if (project.errorMessage) {
+        // 에러를 throw
+        throw new Error(project.errorMessage);
+      }
+
+      // project 소유자의 id가 다르다면
+      if (userId !== project.user.id) {
+        // 에러를 throw
+        throw new Error("잘못된 접근입니다.");
+      }
+
+      // 에러가 발생하지 않았다면 project를 삭제
+      await ProjectService.deleteProject({ id });
+
+      res.status(201).json({ status: "succ", message: "삭제 성공" });
     } catch (error) {
       next(error);
     }
