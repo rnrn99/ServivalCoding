@@ -28,40 +28,15 @@ class EducationService {
   }
 
   static async updateEducation({ id, toUpdate }) {
-    let education = await Education.findEducation({ id });
+    const education = await Education.findEducation({ id });
     if (!education) {
       const errorMessage = "학력 내역이 없습니다.";
       return { errorMessage };
     }
 
-    if (toUpdate.school) {
-      const fieldToUpdate = "school";
-      const newValue = toUpdate.school;
-      education = await Education.putEducation({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-    if (toUpdate.major) {
-      const fieldToUpdate = "major";
-      const newValue = toUpdate.major;
-      education = await Education.putEducation({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-    if (toUpdate.position) {
-      const fieldToUpdate = "position";
-      const newValue = toUpdate.position;
-      education = await Education.putEducation({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-    return education;
+    const updateData = await Education.putEducation({ id, toUpdate });
+
+    return updateData;
   }
 
   static async removeEducation({ id }) {

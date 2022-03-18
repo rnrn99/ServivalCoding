@@ -13,8 +13,9 @@ awardRouter.post("/award/create", login_required, async (req, res, next) => {
       title,
       description,
     });
-    console.log(createdAward);
-    return res.status(201).json({ status: "succ", meesage: "Award 생성 성공" });
+    return res
+      .status(201)
+      .json({ status: "succ", meesage: "Award 생성 성공", createdAward });
   } catch (error) {
     next(error);
   }

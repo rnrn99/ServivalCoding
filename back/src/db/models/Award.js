@@ -28,7 +28,6 @@ class Award {
 
   static async deleteAwards({ id }) {
     const deleteAwards = await AwardModel.deleteOne({ id });
-    console.log(deleteAwards);
     return deleteAwards;
   }
 }

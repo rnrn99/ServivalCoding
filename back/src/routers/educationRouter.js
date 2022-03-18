@@ -56,27 +56,28 @@ educationRouter.get(
   }
 );
 
-educationRouter.put("/educations/:id", login_required, async (req, res) => {
-  try {
-    const id = req.params.id;
-    const school = req.body.school;
-    const major = req.body.major;
-    const position = req.body.position;
-    const toUpdate = {
-      school,
-      major,
-      position,
-    };
-    const education = await EducationService.updateEducation({
-      id,
-      toUpdate,
-    });
-    console.log(education);
-    res.status(201).json({ message: "수정 성공" });
-  } catch (error) {
-    next(error);
+educationRouter.put(
+  "/educations/:id",
+  login_required,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { school, major, position } = req.body;
+      const toUpdate = {
+        school,
+        major,
+        position,
+      };
+      const education = await EducationService.updateEducation({
+        id,
+        toUpdate,
+      });
+      res.status(201).json({ message: "수정 성공", education });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 educationRouter.delete(
   "/educations/:id",
@@ -90,7 +91,7 @@ educationRouter.delete(
           .status(404)
           .json({ status: "fail", message: "삭제할 자료가 없습니다." });
       }
-      res.status(201).json({ status: "succ", message: "삭제 성공!" });
+      res.status(200).json({ status: "succ", message: "삭제 성공!" });
     } catch (error) {
       next(error);
     }
