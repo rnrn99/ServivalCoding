@@ -35,7 +35,7 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
   };
 
   return (
-    <>
+
     <Box component="form" onSubmit={editSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
           <TextField
@@ -52,8 +52,7 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
             sx={{ width: "60ch" }}
             defaultValue={awardDetail}
           />
-      </Stack>
-    </Box>  
+      </Stack>  
       <Stack
           direction="row"
           spacing={2}
@@ -73,7 +72,7 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
             취소
           </Button>{" "}
         </Stack>
-    </>
+  </Box>      
   );
 }
 
