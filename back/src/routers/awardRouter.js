@@ -40,7 +40,7 @@ awardRouter.put("/awards/:id", loginRequired, async (req, res, next) => {
       description,
     };
 
-    const award = await AwardService.putAward({ id, toUpdate });
+    const award = await AwardService.updateAward({ id, toUpdate });
     res.status(201).json({ status: "succ", message: "수정 성공", award });
   } catch (error) {
     next(error);
