@@ -11,13 +11,16 @@ class Award {
     return findAward;
   }
 
-  static async putAward({ id, fieldToUpdate, newValue }) {
+  static async putAward({ id, toUpdate }) {
     const filter = { id: id };
-    const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
-    const award = await AwardModel.updateOne(filter, update, option);
-    return award;
+    const updateAward = await EducationModel.updateOne(
+      filter,
+      toUpdate,
+      option
+    );
+    return updateAward;
   }
 
   static async findAwards({ userId }) {

@@ -23,33 +23,16 @@ class AwardService {
     return award;
   }
 
-  static async putAward({ id, toUpdate }) {
-    let award = await Award.findAward({ id });
+  static async updateAward({ id, toUpdate }) {
+    const award = await Award.findaward({ id });
     if (!award) {
-      const errorMessage = "수상 내역이 없습니다.";
+      const errorMessage = "학력 내역이 없습니다.";
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      award = await Award.putAward({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      award = await Award.putAward({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
+    const updateData = await Award.putaward({ id, toUpdate });
 
-    return award;
+    return updateData;
   }
 
   static async listAward({ userId }) {
