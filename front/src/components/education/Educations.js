@@ -51,8 +51,8 @@ function Educations({ portfolioOwnerId, isEditable }) {
         </AccordionDetails>
       </Accordion>
       {isEditable && (
-        <CardContent sx={{ justifyContent: "center" }}>
-          <Box display="flex" justifyContent="center" alignItems="center">
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
               color="primary"
               aria-label="add-education"
