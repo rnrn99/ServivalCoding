@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
+import { Grid, Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
@@ -24,6 +24,7 @@ const Certicate = ({
   //isEditing은 수정하기 버튼이 눌렸을때 작동됨.
 
   const checkEditing = (editing) => {
+    console.log(">>>>>>checkEditing", editing);
     setIsEditing(editing);
   };
   const checkDeleting = () => {
@@ -50,8 +51,42 @@ const Certicate = ({
   };
 
   return (
-    <Row>
+    <Grid>
+      <CertificateCard
+        isEditable={isEditable}
+        checkEditing={checkEditing}
+        checkDeleting={checkDeleting}
+        title={title}
+        description={description}
+        date={date}
+      />
+
+      <Dialog open={isEditing} onClose={() => setIsEditing((cur) => !cur)}>
+        <DialogTitle>자격증 항목 수정</DialogTitle>
+        <DialogContent>
+          <CertificateEditForm
+            checkEdited={checkEdited}
+            title={title}
+            description={description}
+            date={date}
+          />
+        </DialogContent>
+      </Dialog>
+    </Grid>
+  );
+};
+
+export default Certicate;
+
+/*
       {isEditing ? (
+                  <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
+                  <DialogTitle>자격증 추가</DialogTitle>
+                  <DialogContent>
+                    <CertificateAddForm checkAddComplete={checkAddComplete} />
+                  </DialogContent>
+                </Dialog>
+
         <CertificateEditForm
           checkEdited={checkEdited}
           title={title}
@@ -59,17 +94,4 @@ const Certicate = ({
           date={date}
         />
       ) : (
-        <CertificateCard
-          isEditable={isEditable}
-          checkEditing={checkEditing}
-          checkDeleting={checkDeleting}
-          title={title}
-          description={description}
-          date={date}
-        />
-      )}
-    </Row>
-  );
-};
-
-export default Certicate;
+*/

@@ -2,8 +2,7 @@ import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 �
 import { v4 as uuidv4 } from "uuid";
 
 function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
+  return Object.entries(toUpdate)
     .filter(([key, value]) => !!value)
     .reduce((result, [key, value]) => {
       result[key] = value;
@@ -16,10 +15,12 @@ class CertificateService {
     // 자격증 이름 중복 확인
     const certificate = await Certificate.find({ title });
 
-    if (user.id === certificate.user.id && certificate.length !== 0) {
-      const errorMessage = "같은 이름의 자격증이 이미 존재합니다.";
-      return { errorMessage };
-    }
+    //console.log("CertificateService>>여기서 나는 에러입니다.");
+    // if (user.id === certificate.user.id && certificate.length !== 0) {
+    //   const errorMessage = "같은 이름의 자격증이 이미 존재합니다.";
+    //   return { errorMessage };
+    // }
+    //console.log("CertificateService>>여기서 나는 에러입니다. 22222");
 
     const id = uuidv4();
     const newCertificate = { id, user, title, description, date };
