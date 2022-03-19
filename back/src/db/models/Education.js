@@ -29,7 +29,7 @@ class Education {
     return updateEdu;
   }
 
-  static async update({ id }) {
+  static async delete({ id }) {
     const education = await EducationModel.findOneAndDelete({ id });
     return education;
   }
