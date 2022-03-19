@@ -1,7 +1,20 @@
-import React from "react";
-import { Button, Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Button, Grid, IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function EducationCard({ education, setClickEditBtn, isEditable }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid item xs={10}>
@@ -12,19 +25,26 @@ function EducationCard({ education, setClickEditBtn, isEditable }) {
       </Grid>
       <Grid item xs={2}>
         {isEditable && (
-          <Button
-            variant="outlined"
-            size="small"
-            sx={{
-              float: "right",
-              margin: "10px 15px 0 0",
-              borderColor: "#0dcaf0",
-              color: "#0dcaf0",
-            }}
-            onClick={() => setClickEditBtn((cur) => !cur)}
-          >
-            편집
-          </Button>
+          <>
+            <IconButton onClick={handleClick} sx={{ float: "right", mb: 2 }}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem onClick={handleClose}>
+                <Button
+                  onClick={() => setClickEditBtn((cur) => !cur)}
+                  startIcon={<EditIcon />}
+                >
+                  편집
+                </Button>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Button color="error" startIcon={<DeleteIcon />}>
+                  삭제
+                </Button>
+              </MenuItem>
+            </Menu>
+          </>
         )}
       </Grid>
     </Grid>
