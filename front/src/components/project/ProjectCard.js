@@ -8,7 +8,7 @@ function ProjectCard({ project, setClickEditBtn, isEditable }) {
         <p style={{ marginBottom: 0 }}>{project.title}</p>
         <p className="text-muted">
           {project.description} <br />
-          {project.from_date} ~ {project.to_date}
+          {project.from} ~ {project.to}
         </p>
       </Col>
       <Col>

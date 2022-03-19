@@ -59,7 +59,7 @@ class AwardService {
 
   static async removeAward({ id }) {
     const deleteAward = await Award.deleteAwards({ id });
-    if (deleteAward.deletedCount === 0) {
+    if (!deleteAward) {
       return false;
     }
     return deleteAward;

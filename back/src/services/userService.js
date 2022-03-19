@@ -71,7 +71,6 @@ class UserAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
-    console.log(users);
     return users;
   }
 
