@@ -1,5 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Button, Col } from "react-bootstrap";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ProjectAddForm from "./ProjectAddForm";
 import Project from "./Project";
 import * as Api from "../../api";
@@ -16,46 +30,53 @@ function Projects({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <>
-      <Card className="ml-3">
-        <Card.Body style={{ marginBottom: "15px" }}>
-          <Row>
-            <Card.Title>프로젝트</Card.Title>
-          </Row>
-          <Row>
-            {projects.map((project) => (
-              <Project
-                key={project.id}
-                project={project}
-                setProjects={setProjects}
-                isEditable={isEditable}
-              />
-            ))}
-          </Row>
-          <Row className="text-center">
-            <Col>
-              {isEditable && (
-                <Button
-                  variant="primary"
-                  onClick={() => setClickAddBtn((cur) => !cur)}
-                >
-                  +
-                </Button>
-              )}
-            </Col>
-          </Row>
-          <Row>
-            {clickAddBtn && (
+    <Card sx={{ marginBottom: "20px" }}>
+      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ fontSize: "20px" }}>프로젝트</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {projects.map((project) => (
+            <Project
+              key={project.id}
+              project={project}
+              setProjects={setProjects}
+              isEditable={isEditable}
+            />
+          ))}
+        </AccordionDetails>
+      </Accordion>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
+              color="primary"
+              aria-label="add-education"
+              onClick={() => setClickAddBtn((cur) => !cur)}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+            </IconButton>
+          </Box>
+          <Dialog
+            open={clickAddBtn}
+            onClose={() => setClickAddBtn((cur) => !cur)}
+          >
+            <DialogTitle>프로젝트 추가</DialogTitle>
+            <DialogContent>
               <ProjectAddForm
                 portfolioOwnerId={portfolioOwnerId}
                 setClickAddBtn={setClickAddBtn}
                 setProjects={setProjects}
               />
-            )}
-          </Row>
-        </Card.Body>
-      </Card>
-    </>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      )}
+    </Card>
   );
 }
 
