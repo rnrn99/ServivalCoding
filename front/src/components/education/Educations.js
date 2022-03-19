@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Button, Col } from "react-bootstrap";
 import EducationAddForm from "./EducationAddForm";
 import Education from "./Education";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as Api from "../../api";
 
 function Educations({ portfolioOwnerId, isEditable }) {
@@ -16,46 +30,54 @@ function Educations({ portfolioOwnerId, isEditable }) {
   }, [portfolioOwnerId]);
 
   return (
-    <>
-      <Card className="ml-3">
-        <Card.Body style={{ marginBottom: "15px" }}>
-          <Row>
-            <Card.Title>학력</Card.Title>
-          </Row>
-          <Row>
-            {educations.map((edu) => (
-              <Education
-                key={edu.id}
-                education={edu}
-                setEducations={setEducations}
-                isEditable={isEditable}
-              />
-            ))}
-          </Row>
-          <Row className="text-center">
-            <Col>
-              {isEditable && (
-                <Button
-                  variant="primary"
-                  onClick={() => setClickAddBtn((cur) => !cur)}
-                >
-                  +
-                </Button>
-              )}
-            </Col>
-          </Row>
-          {clickAddBtn && (
-            <Row>
+    <Card sx={{ marginBottom: "20px" }}>
+      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ fontSize: "20px" }}>학력</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {educations.map((edu) => (
+            <Education
+              key={edu.id}
+              education={edu}
+              setEducations={setEducations}
+              isEditable={isEditable}
+            />
+          ))}
+        </AccordionDetails>
+      </Accordion>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
+              color="primary"
+              aria-label="add-education"
+              onClick={() => setClickAddBtn((cur) => !cur)}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+            </IconButton>
+          </Box>
+
+          <Dialog
+            open={clickAddBtn}
+            onClose={() => setClickAddBtn((cur) => !cur)}
+          >
+            <DialogTitle>학력 추가</DialogTitle>
+            <DialogContent>
               <EducationAddForm
                 portfolioOwnerId={portfolioOwnerId}
                 setClickAddBtn={setClickAddBtn}
                 setEducations={setEducations}
               />
-            </Row>
-          )}
-        </Card.Body>
-      </Card>
-    </>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      )}
+    </Card>
   );
 }
 
