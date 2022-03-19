@@ -8,7 +8,7 @@ class Career {
   }
 
   static async find({ id }) {
-    const career = CareerModel.findOne({ id }).exec();
+    const career = CareerModel.findOne({ id })
     return career;
   }
 
@@ -20,7 +20,7 @@ class Career {
       filter,
       toUpdate,
       option
-    ).exec();
+    )
     return updateCareer;
   }
 
@@ -32,7 +32,7 @@ class Career {
   }
 
   static async deleteCareer({ id }) {
-    const career = CareerModel.findOneAndDelete({ id }).exec();
+    const career = CareerModel.findOneAndDelete({ id })
     return career;
   }
 }

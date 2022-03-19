@@ -3,9 +3,7 @@ import { EducationModel } from "../schemas/education.js";
 
 class Education {
   static async create(newEducation) {
-    const createdNewEducation = await EducationModel.create(
-      newEducation
-    ).exec();
+    const createdNewEducation = await EducationModel.create(newEducation);
     return createdNewEducation;
   }
 
@@ -31,12 +29,12 @@ class Education {
       filter,
       toUpdate,
       option
-    ).exec();
+    );
     return updateEdu;
   }
 
   static async delete({ id }) {
-    const education = await EducationModel.findOneAndDelete({ id }).exec();
+    const education = await EducationModel.findOneAndDelete({ id });
     return education;
   }
 }

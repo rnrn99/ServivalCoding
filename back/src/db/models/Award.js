@@ -19,7 +19,7 @@ class Award {
       filter,
       toUpdate,
       option
-    ).exec();
+    )
     return updateAward;
   }
 
@@ -40,7 +40,7 @@ class Award {
   }
 
   static async delete({ id }) {
-    const deleteAwards = await AwardModel.findOneAndDelete({ id }).exec();
+    const deleteAwards = await AwardModel.findOneAndDelete({ id })
     console.log(deleteAwards);
     return deleteAwards;
   }
