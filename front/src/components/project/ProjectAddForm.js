@@ -26,23 +26,23 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
     e.preventDefault();
 
     // Date type의 시작일, 마감일 상태를 YYYY-MM-DD의 문자열로 바꿉니다.
-    const from_date = dateToString(startDate);
-    const to_date = dateToString(dueDate);
+    const from = dateToString(startDate);
+    const to = dateToString(dueDate);
 
     // 프로젝트 추가를 위해 유저 id, 프로젝트 제목, 상세내역, 시작일, 마감일을 객체로 저장합니다.
     const dataToSubmit = {
-      user_id: portfolioOwnerId,
+      userId: portfolioOwnerId,
       title,
       description,
-      from_date,
-      to_date,
+      from,
+      to,
     };
 
-    // project/create로 POST 요청을 보냅니다.
-    await Api.post("project/create", dataToSubmit);
+    // projects로 POST 요청을 보냅니다.
+    await Api.post("projects", dataToSubmit);
 
-    // projectlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
-    const res = await Api.get("projectlist", portfolioOwnerId);
+    // project-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
+    const res = await Api.get("project-lists", portfolioOwnerId);
     setProjects(res.data);
 
     // 프로젝트 추가 후 ProjectAddForm을 닫습니다.

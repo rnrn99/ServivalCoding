@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Form, Button, Row, Col } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+
+import Datepicker from "../utils/Datepicker";
+
+//import DatePicker from "react-datepicker";
+//import "react-datepicker/dist/react-datepicker.css";
+//import { ko } from "date-fns/esm/locale";
 import * as Api from "../../api";
 
 function ProductEditForm({ project, setProjects, setClickEditBtn }) {
@@ -27,22 +30,22 @@ function ProductEditForm({ project, setProjects, setClickEditBtn }) {
     e.preventDefault();
 
     // Date type의 시작일, 마감일 상태를 YYYY-MM-DD의 문자열로 바꿉니다.
-    const from_date = dateToString(startDate);
-    const to_date = dateToString(dueDate);
+    const from = dateToString(startDate);
+    const to = dateToString(dueDate);
 
     // 프로젝트 수정을 위해 프로젝트 제목, 상세내역, 시작일, 마감일을 객체로 저장합니다.
     const dataToSubmit = {
       title,
       description,
-      from_date,
-      to_date,
+      from,
+      to,
     };
 
     // projects/프로젝트id 로 PUT 요청을 보내 해당 프로젝트의 내용을 수정합니다.
     await Api.put(`projects/${project.id}`, dataToSubmit);
 
-    // projectlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
-    const res = await Api.get("projectlist", project.user.id);
+    // project-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
+    const res = await Api.get("project-lists", project.user.id);
     setProjects(res.data);
 
     // 프로젝트 편집 후 EditForm을 닫아줍니다.
@@ -70,20 +73,10 @@ function ProductEditForm({ project, setProjects, setClickEditBtn }) {
         </Form.Group>
         <Row xs="auto">
           <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
+            <Datepicker selected={startDate} onChange={setStartDate} />
           </Col>
           <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={dueDate}
-              onChange={(date) => setDueDate(date)}
-            />
+            <Datepicker selected={dueDate} onChange={setDueDate} />
           </Col>
         </Row>
       </Row>

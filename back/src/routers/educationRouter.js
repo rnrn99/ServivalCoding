@@ -1,20 +1,20 @@
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required.js";
+import { loginRequired } from "../middlewares/loginRequired.js";
 import { EducationService } from "../services/educationService.js";
 
 const educationRouter = Router();
 
 educationRouter.post(
-  "/education/create",
-  login_required,
+  "/educations",
+  loginRequired,
   async function (req, res, next) {
     try {
-      const { user_id } = req.body;
+      const { userId } = req.body;
       const { school } = req.body;
       const { major } = req.body;
       const { position } = req.body;
       const newEducation = await EducationService.addEducation({
-        user_id,
+        userId,
         school,
         major,
         position,
@@ -30,7 +30,7 @@ educationRouter.post(
 
 educationRouter.get(
   "/educations/:id",
-  login_required,
+  loginRequired,
   async function (req, res, next) {
     try {
       const id = req.params.id;
@@ -43,12 +43,12 @@ educationRouter.get(
 );
 
 educationRouter.get(
-  "/educationlist/:user_id",
-  login_required,
+  "/education-lists/:userId",
+  loginRequired,
   async function (req, res, next) {
     try {
-      const { user_id } = req.params;
-      const education = await EducationService.getEducationsList({ user_id });
+      const { userId } = req.params;
+      const education = await EducationService.getEducationsList({ userId });
       res.status(201).json(education);
     } catch (error) {
       next(error);
@@ -56,31 +56,35 @@ educationRouter.get(
   }
 );
 
-educationRouter.put("/educations/:id", login_required, async (req, res) => {
-  try {
-    const id = req.params.id;
-    const school = req.body.school;
-    const major = req.body.major;
-    const position = req.body.position;
-    const toUpdate = {
-      school,
-      major,
-      position,
-    };
-    const education = await EducationService.updateEducation({
-      id,
-      toUpdate,
-    });
-    console.log(education);
-    res.status(201).json({ message: "수정 성공" });
-  } catch (error) {
-    next(error);
+educationRouter.put(
+  "/educations/:id",
+  loginRequired,
+  async function (req, res, next) {
+    try {
+      const id = req.params.id;
+      const school = req.body.school;
+      const major = req.body.major;
+      const position = req.body.position;
+      const toUpdate = {
+        school,
+        major,
+        position,
+      };
+      const education = await EducationService.updateEducation({
+        id,
+        toUpdate,
+      });
+      console.log(education);
+      res.status(201).json({ message: "수정 성공" });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 educationRouter.delete(
   "/educations/:id",
-  login_required,
+  loginRequired,
   async (req, res, next) => {
     try {
       const { id } = req.params;

@@ -2,11 +2,11 @@ import { Project } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 
 import { v4 as uuidv4 } from "uuid";
 
 class ProjectService {
-  static async addProject({ user, title, description, from_date, to_date }) {
+  static async addProject({ user, title, description, from, to }) {
     // 랜덤 id 부여
     const id = uuidv4();
 
-    const newProject = { id, user, title, description, from_date, to_date };
+    const newProject = { id, user, title, description, from, to };
 
     const createdNewProject = await Project.create({ newProject: newProject });
     createdNewProject.errorMessage = null;
@@ -62,22 +62,22 @@ class ProjectService {
       project = await Project.update({ id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.from_date) {
-      const fieldToUpdate = "from_date";
-      const newValue = toUpdate.from_date;
+    if (toUpdate.from) {
+      const fieldToUpdate = "from";
+      const newValue = toUpdate.from;
       project = await Project.update({ id, fieldToUpdate, newValue });
     }
 
-    if (toUpdate.to_date) {
-      const fieldToUpdate = "to_date";
-      const newValue = toUpdate.to_date;
+    if (toUpdate.to) {
+      const fieldToUpdate = "to";
+      const newValue = toUpdate.to;
       project = await Project.update({ id, fieldToUpdate, newValue });
     }
 
     return project;
   }
 
-  static async deleteCertificate({ id }) {
+  static async deleteProject({ id }) {
     // project id를 이용해 프로젝트를 가져옴
     let project = await Project.findById({ id });
 

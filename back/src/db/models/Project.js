@@ -17,7 +17,7 @@ class Project {
   }
 
   static async find(filter) {
-    const projects = await ProjectModel.find(filter);
+    const projects = await ProjectModel.find(filter).populate('user');
     return projects;
   }
 
@@ -34,8 +34,8 @@ class Project {
     return updatedProject;
   }
 
-  static async delete({ user_id }) {
-    await ProjectModel.deleteOne({ user_id });
+  static async delete({ id }) {
+    await ProjectModel.deleteOne({ id });
   }
 }
 
