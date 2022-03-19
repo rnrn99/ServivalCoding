@@ -1,12 +1,9 @@
-PUT http://localhost:5001/projects/0be67b83-d58a-4d42-ba26-79e312b8d1af
+PUT http://localhost:5001/certificates/f72eaa1d-55cd-4459-90ea-dee00a025a7e
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
 
 {
-  "title": "스위프트",
-  "description": "iOS 앱 만들기",
-  "from": "2020-03-03",
-  "to": "2021-03-03"
+  "description": "2종 자동"
 }
 
 ###
