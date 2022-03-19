@@ -25,7 +25,7 @@ educationRouter.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.get(
@@ -39,7 +39,7 @@ educationRouter.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.get(
@@ -53,7 +53,7 @@ educationRouter.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.put(
@@ -76,7 +76,7 @@ educationRouter.put(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.delete(
@@ -95,7 +95,7 @@ educationRouter.delete(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export { educationRouter };
