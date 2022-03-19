@@ -24,24 +24,24 @@ class AwardService {
   }
 
   static async updateAward({ id, toUpdate }) {
-    const award = await Award.findaward({ id });
+    const award = await Award.find({ id });
     if (!award) {
       const errorMessage = "수상 내역이 없습니다.";
       return { errorMessage };
     }
 
-    const updateData = await Award.putaward({ id, toUpdate });
+    const updateData = await Award.update({ id, toUpdate });
 
     return updateData;
   }
 
   static async listAward({ userId }) {
-    const awards = await Award.findAwards({ userId });
+    const awards = await Award.findAll({ userId });
     return awards;
   }
 
   static async removeAward({ id }) {
-    const deleteAward = await Award.deleteAwards({ id });
+    const deleteAward = await Award.delete({ id });
     if (!deleteAward) {
       return false;
     }

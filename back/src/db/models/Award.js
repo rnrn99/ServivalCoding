@@ -15,7 +15,7 @@ class Award {
     const filter = { id: id };
     const option = { returnOriginal: false };
 
-    const updateAward = await EducationModel.updateOne(
+    const updateAward = await EducationModel.findOneAndUpdate(
       filter,
       toUpdate,
       option

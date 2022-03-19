@@ -25,7 +25,11 @@ class Education {
     const filter = { id: id };
     const option = { returnOriginal: false };
 
-    const updateEdu = await EducationModel.updateOne(filter, toUpdate, option);
+    const updateEdu = await EducationModel.findOneAndUpdate(
+      filter,
+      toUpdate,
+      option
+    );
     return updateEdu;
   }
 
