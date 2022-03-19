@@ -24,6 +24,7 @@ function Education({ education, setEducations, isEditable }) {
         education={education}
         setClickEditBtn={setClickEditBtn}
         isEditable={isEditable}
+        setEducations={setEducations}
       />
     </>
   );
