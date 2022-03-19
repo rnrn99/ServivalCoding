@@ -25,7 +25,7 @@ educationRouter.post(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.get(
@@ -39,7 +39,7 @@ educationRouter.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.get(
@@ -53,12 +53,12 @@ educationRouter.get(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.put(
   "/educations/:id",
-  login_required,
+  loginRequired,
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -76,7 +76,7 @@ educationRouter.put(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 educationRouter.delete(
@@ -95,7 +95,7 @@ educationRouter.delete(
     } catch (error) {
       next(error);
     }
-  }
+  },
 );
 
 export { educationRouter };
