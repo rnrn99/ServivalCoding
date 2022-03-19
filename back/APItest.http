@@ -1,11 +1,12 @@
-PUT http://localhost:5001/certificates/f72eaa1d-55cd-4459-90ea-dee00a025a7e
+POST http://localhost:5001/users/register
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
 
 {
-  "description": "2종 자동"
+  "name": "엘리스",
+  "email": "elice@korea.com",
+  "password": "asdf1234"
 }
 
 ###
-DELETE http://localhost:5001/projects/0be67b83-d58a-4d42-ba26-79e312b8d1af
+GET http://localhost:5001/users/70203994-f4f6-42a4-bffe-396acd3c99d3
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
