@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
+import { Box, TextField, Stack, Button } from "@mui/material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
 
 function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
@@ -50,60 +50,54 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
   };
 
   return (
-    <Form className="mt-3" onSubmit={onSubmitHandler}>
-      <Row>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="프로젝트 제목"
-            onChange={(e) => setTitle(e.target.value)}
+    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+        <TextField
+          label="프로젝트 제목"
+          onChange={(e) => setTitle(e.target.value)}
+          sx={{ width: "60ch" }}
+        />
+        <TextField
+          label="상세내역"
+          onChange={(e) => setDescription(e.target.value)}
+          sx={{ width: "60ch" }}
+        />
+      </Stack>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <DesktopDatePicker
+            label="from"
+            inputFormat="MM/dd/yyyy"
+            value={startDate}
+            onChange={(date) => setStartDate(date)}
+            renderInput={(params) => <TextField {...params} />}
           />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="상세내역"
-            onChange={(e) => setDescription(e.target.value)}
+          <DesktopDatePicker
+            label="to"
+            inputFormat="MM/dd/yyyy"
+            value={dueDate}
+            onChange={(date) => setDueDate(date)}
+            renderInput={(params) => <TextField {...params} />}
           />
-        </Form.Group>
-        <Row xs="auto">
-          <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </Col>
-          <Col>
-            <DatePicker
-              locale={ko}
-              dateFormat="MM/dd/yyyy"
-              selected={dueDate}
-              onChange={(date) => setDueDate(date)}
-            />
-          </Col>
-        </Row>
-      </Row>
-      <Row className="text-center mt-3">
-        <Col>
-          <Button
-            variant="primary"
-            type="submit"
-            style={{ marginRight: "1rem" }}
-          >
-            확인
-          </Button>{" "}
-          <Button
-            variant="secondary"
-            type="reset"
-            onClick={() => setClickAddBtn(false)}
-          >
-            취소
-          </Button>{" "}
-        </Col>
-      </Row>
-    </Form>
+        </Stack>
+      </LocalizationProvider>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mt: 2, justifyContent: "center" }}
+      >
+        <Button variant="contained" type="submit">
+          확인
+        </Button>{" "}
+        <Button
+          type="reset"
+          onClick={() => setClickAddBtn(false)}
+          variant="outlined"
+        >
+          취소
+        </Button>{" "}
+      </Stack>
+    </Box>
   );
 }
 
