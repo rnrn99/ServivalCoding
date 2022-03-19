@@ -1,7 +1,12 @@
 import React, { useState, useContext } from "react";
-import { Form, Row, Col, Button } from "react-bootstrap";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import {
+  Box,
+  TextField,
+  Stack,
+  Button,
+} from "@mui/material";
 
 // 수상이력 수정 컴포넌트로, {해당 수상내역}, {수정 컴포넌트 활성화 state}, {수상이력리스트 업데이트 함수} 를 props로 받아옵니다.
 function AwardEditForm({ award, setIsEditing, setAwardLists }) {
@@ -30,44 +35,43 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
   };
 
   return (
-    <Form onSubmit={editSubmitHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control
-          type="text"
-          placeholder={award.title}
-          value={awardTitle}
-          onChange={(e) => setAwardTitle(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Control
-          type="text"
-          className="text-muted"
-          placeholder={award.description}
-          value={awardDetail}
-          onChange={(e) => setAwardDetail(e.target.value)}
-        />
-      </Form.Group>
-      <Row className="text-center" style={{ marginBottom: "20px" }}>
-        <Col>
+    <>
+    <Box component="form" onSubmit={editSubmitHandler} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+          <TextField
+            label="수상 내역"
+            onChange={(e) => setAwardTitle(e.target.value)}
+            sx={{ width: "60ch" }}
+            defaultValue={awardTitle}
+          />
+          <TextField
+            label="상세 내역"
+            onChange={(e) => setAwardDetail(e.target.value)}
+            sx={{ width: "60ch" }}
+            defaultValue={awardDetail}
+          />
+      </Stack>
+    </Box>  
+      <Stack
+          direction="row"
+          spacing={2}
+          sx={{ mt: 2, justifyContent: "center" }}
+        >
           <Button
-            variant="primary"
+            variant="contained"
             type="submit"
-            style={{ marginRight: "10px" }}
           >
             확인
           </Button>{" "}
           <Button
-            variant="secondary"
-            type="button"
+            variant="outlined"
+            type="reset"
             onClick={() => setIsEditing(false)}
           >
             취소
-          </Button>
-        </Col>
-      </Row>
-    </Form>
+          </Button>{" "}
+        </Stack>
+    </>
   );
 }
 
