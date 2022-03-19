@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Button } from "react-bootstrap";
+//import { Card, Row, Col, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
+
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails, // Accordion 적용 시 필요한 부분
+  Card,
+  CardContent, // Card 적용 시 필요한 부분
+  Typography, // Card 타이틀(ex. 수상이력, 자격증 정보)
+  IconButton,
+  Box, // Add 버튼 적용 시 필요한 부분
+  Dialog,
+  DialogTitle,
+  DialogContent, // AddForm Modal 적용
+} from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // 이제부터 리파인입니다.
 
@@ -46,11 +62,7 @@ import CertificateAddForm from "./CertificateAddForm";
 //<button>추가하기</button> << 활성화
 ////<CertificateAddForm /> <<버튼이 눌리면 활성화.
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
-  //서버에서 받아온 자격증 데이터
   const [certs, setCerts] = useState([]);
-  //isAdd는 자격증 항목을 추가하기 버튼을 눌렀을 때 활성화
-  //추가하기인 상황에서는 추가하기 버튼이 보여선 안됨
-  //때문에 isEditable && !isAdd 로 숨김
   const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => {
@@ -81,12 +93,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   //props에는 서버로 post할 자격증 정보가 담겨있음
   const checkAddComplete = async (props) => {
     console.log("Check Add Complete");
-    if (props) {
+    if (props !== null) {
       //데이터를 업데이트 합니다.
-      const newData = {
-        ...props,
-        //user_id: portfolioOwnerId,
-      };
+      const newData = { ...props }; //이제 그냥 프랍만 넘겨도 되려나
       console.log(newData);
       await Api.post("certificates", newData);
       const res = await Api.get("certificate-lists", portfolioOwnerId);
@@ -114,30 +123,44 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //type 이 delete인 경우 삭제 요청
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log("handleClick 추가하기 버튼이 눌렸습니다.");
-    setIsAdd(true);
-  };
+  // const handleClick = (e) => {
+  //   e.preventDefault();
+  //   console.log("handleClick 추가하기 버튼이 눌렸습니다.");
+  //   setIsAdd(true);
+  // };
 
   return (
-    <Card className="ml-3">
-      <Card.Body style={{ marginBottom: "15px" }}>
-        <Row>
-          <Card.Title>자격증 정보</Card.Title>
-        </Row>
-        <Row>{setCertificateList()}</Row>
-        <Row className="text-center">
-          <Col>
-            {isEditable && !isAdd && (
-              <Button onClick={handleClick}>자격증 추가하기</Button>
-            )}
-            {isAdd && (
+    <Card sx={{ marginTop: "20px" }}>
+      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ fontSize: "20px" }}>자격증</Typography>
+        </AccordionSummary>
+        <AccordionDetails>{setCertificateList()}</AccordionDetails>
+      </Accordion>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
+              color="primary"
+              aria-label="add-education"
+              onClick={() => setIsAdd((cur) => !cur)}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+            </IconButton>
+          </Box>
+
+          <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
+            <DialogTitle>자격증 추가</DialogTitle>
+            <DialogContent>
               <CertificateAddForm checkAddComplete={checkAddComplete} />
-            )}
-          </Col>
-        </Row>
-      </Card.Body>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      )}
     </Card>
   );
 };

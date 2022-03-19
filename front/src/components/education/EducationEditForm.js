@@ -22,8 +22,8 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
   const user_id = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
 
   // radio button 클릭에 따라 position을 저장합니다.
-  const RadioBtnClickHandler = (e) => {
-    setPosition(e.target.value);
+  const RadioBtnClickHandler = (e, value) => {
+    setPosition(value);
   };
 
   // submit event handler 입니다.
@@ -52,26 +52,32 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
     <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
+          required
           label="학교 이름"
           onChange={(e) => setSchool(e.target.value)}
           sx={{ width: "60ch" }}
           defaultValue={school}
         />
         <TextField
+          required
           label="전공"
           onChange={(e) => setMajor(e.target.value)}
           defaultValue={major}
         />
       </Stack>
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        <RadioGroup defaultValue={position} name="radio-buttons-group" row>
+        <RadioGroup
+          name="radio-buttons-group"
+          row
+          value={position}
+          onChange={RadioBtnClickHandler}
+        >
           {positionArr.map((item, i) => (
             <FormControlLabel
               key={"position" + i}
               control={<Radio />}
               label={item}
               value={item}
-              onClick={RadioBtnClickHandler}
             />
           ))}
         </RadioGroup>

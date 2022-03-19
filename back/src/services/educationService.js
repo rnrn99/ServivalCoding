@@ -20,27 +20,27 @@ class EducationService {
   }
 
   static async getEducationsList({ userId }) {
-    return await Education.findEducationsList({ userId });
+    return await Education.findAll({ userId });
   }
 
   static async getEducation({ id }) {
-    return await Education.findEducation({ id });
+    return await Education.find({ id });
   }
 
   static async updateEducation({ id, toUpdate }) {
-    const education = await Education.findEducation({ id });
+    const education = await Education.find({ id });
     if (!education) {
       const errorMessage = "학력 내역이 없습니다.";
       return { errorMessage };
     }
 
-    const updateData = await Education.putEducation({ id, toUpdate });
+    const updateData = await Education.update({ id, toUpdate });
 
     return updateData;
   }
 
   static async removeEducation({ id }) {
-    const deleteEducation = await Education.deleteEducation({ id });
+    const deleteEducation = await Education.delete({ id });
     if (!deleteEducation) {
       return false;
     }

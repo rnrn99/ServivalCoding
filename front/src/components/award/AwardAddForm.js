@@ -1,13 +1,18 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import {
+  Box,
+  TextField,
+  Stack,
+  Button,
+} from "@mui/material";
 
 // 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {수상이력리스트 업데이트 함수}를 props로 받아옵니다.
 function AwardAddForm({ setAddAward, setAwardLists }) {
   // 추가는 본인만 가능하므로, 현재 접속중인 userid를 사용합니다.
   const userState = useContext(UserStateContext);
-  const user_id = userState.user.id;
+  const userId = userState.user.id;
 
   // 수상내역, 상세내역을 state로 관리합니다.
   const [awardTitle, setAwardTitle] = useState("");
@@ -18,57 +23,58 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
     e.preventDefault();
 
     const uptAwardData = {
-      userId: user_id,
+      userId,
       title: awardTitle,
       description: awardDetail,
     };
 
     await Api.post("awards", uptAwardData);
 
-    const updateList = await Api.get("award-lists", user_id);
+    const updateList = await Api.get("award-lists", userId);
     setAwardLists(updateList.data);
 
     setAddAward(false);
   };
 
   return (
-    <Form onSubmit={addSubmitHandler}>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Control
-          type="text"
-          placeholder="수상내역"
-          value={awardTitle}
+    <Box component="form" onSubmit={addSubmitHandler} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+        <TextField
+          required
+          label="수상내역"
+          sx={{ width: "60ch" }}
+          defaultValue={awardTitle}
           onChange={(e) => setAwardTitle(e.target.value)}
         />
-      </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Control
-          type="text"
-          placeholder="상세내역"
-          value={awardDetail}
+        <TextField
+          required
+          label="상세내역"
+          sx={{ width: "60ch" }}
+          defaultValue={awardDetail}
           onChange={(e) => setAwardDetail(e.target.value)}
         />
-      </Form.Group>
-      <Row className="text-center">
-        <Col>
+      </Stack>  
+
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mt: 2, justifyContent: "center" }}
+      >
           <Button
-            variant="primary"
-            type="submit"
-            style={{ marginRight: "10px" }}
+            variant="contained" type="submit"
           >
             확인
           </Button>{" "}
           <Button
-            variant="secondary"
-            type="button"
+            variant="outlined"
+            type="reset"
             onClick={() => setAddAward(false)}
           >
             취소
           </Button>
-        </Col>
-      </Row>
-    </Form>
+      </Stack>
+    </Box>
   );
 }
 
