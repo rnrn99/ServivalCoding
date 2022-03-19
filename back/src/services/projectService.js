@@ -1,6 +1,16 @@
 import { Project } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
+
 class ProjectService {
   static async addProject({ user, title, description, from, to }) {
     // 랜덤 id 부여
@@ -49,30 +59,9 @@ class ProjectService {
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.from) {
-      const fieldToUpdate = "from";
-      const newValue = toUpdate.from;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.to) {
-      const fieldToUpdate = "to";
-      const newValue = toUpdate.to;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    project = await Project.update({ id, fieldToUpdate });
 
     return project;
   }
