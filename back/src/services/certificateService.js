@@ -13,16 +13,12 @@ function updateHandler(toUpdate) {
 
 class CertificateService {
   static async addCertificate({ user, title, description, date }) {
-    // 자격증 이름 중복 확인
-    const certificate = await Certificate.find({ title });
-
-    if (certificate.length !== 0) {
-      const errorMessage = user.id === certificate.user.id
-        ? "같은 이름의 자격증이 이미 존재합니다."
-        : null;
-      return { errorMessage };
-    }
-
+    // if (certificate.length !== 0) {
+    //   const errorMessage = user.id === certificate.user.id
+    //     ? "같은 이름의 자격증이 이미 존재합니다."
+    //     : null;
+    //   return { errorMessage };
+    // }
     const id = uuidv4();
     const newCertificate = { id, user, title, description, date };
 

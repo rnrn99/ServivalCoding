@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MTc2YmFjMS04ZmYzLTQ4MjItOTE2Yi1jNDIzMmU0MmU5NTQiLCJpYXQiOjE2NDc3MDE1ODd9.mlT6H_qbHs628DFEtvgXaWsI5ldy9gUyuRcXiLBpRX0
 
 {
-  "title": "aaa",
+  "title": "aaaaaab",
   "description": "222",
   "date": "2022-03-19"
 }
@@ -13,6 +13,6 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "aaasdf@asdf.com",
+  "email": "aaaㅓsdf@asdf.com",
   "password": "asdf1234"
 }
