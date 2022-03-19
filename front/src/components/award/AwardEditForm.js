@@ -7,7 +7,7 @@ import { UserStateContext } from "../../App";
 function AwardEditForm({ award, setIsEditing, setAwardLists }) {
   // 수정은 본인만 가능하므로, 현재 접속중인 userid를 사용합니다.
   const userState = useContext(UserStateContext);
-  const user_id = userState.user.id;
+  const userId = userState.user.id;
 
   // 수상내역, 상세내역을 state로 관리합니다.
   const [awardTitle, setAwardTitle] = useState(award.title);
@@ -24,7 +24,7 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
 
     await Api.put(`awards/${award.id}`, edtAwardData);
 
-    const editData = await Api.get("award-lists", user_id);
+    const editData = await Api.get("award-lists", userId);
     setAwardLists(editData.data);
     setIsEditing(false);
   };

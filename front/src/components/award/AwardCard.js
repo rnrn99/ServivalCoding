@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col, Button } from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import Award from "./Award";
 import * as Api from "../../api";
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Card,
+  CardContent,
+  Typography,
+  IconButton,
+  Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // 메인 컴포넌트라고 할 수 있습니다.
 // portfolioOwnerId는 해당하는 포트폴리오의 userID를 가리킵니다. (!== 현재 접속중인 userID)
@@ -20,13 +34,17 @@ function AwardCard({ portfolioOwnerId, isEditable }) {
   );
 
   return (
-    <>
-      <Card className="ml-3">
-        <Card.Body>
-          <Row>
-            <Card.Title>수상이력</Card.Title>
-          </Row>
-          <Row>
+
+      <Card sx={{ marginBottom: "20px" }}>
+        <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
+          >
+            <Typography sx={{ fontSize: "20px" }} >수상이력</Typography >
+          </AccordionSummary>
+          <AccordionDetails>
             {awardLists.map((award) => (
               <Award
                 key={award.id}
@@ -35,31 +53,37 @@ function AwardCard({ portfolioOwnerId, isEditable }) {
                 setAwardLists={setAwardLists}
               />
             ))}
-          </Row>
+            </AccordionDetails>
+           </Accordion> 
           {isEditable && (
-            <Row className="text-center">
-              <Col>
-                <Button variant="primary" onClick={() => setAddAward(true)}>
-                  +
-                </Button>
-                <br />
-                <br />
-              </Col>
-            </Row>
-          )}
+            <CardContent>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <IconButton
+              color="primary"
+              aria-label="add-education"
+              onClick={() => setAddAward((cur) => !cur)}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+             </IconButton>
+          </Box>
 
-          {addAward && (
-            <Row>
+          <Dialog
+          open={addAward}
+          onClose={() => setAddAward((cur) => !cur)}
+          >
+          <DialogTitle>수상이력 추가</DialogTitle>  
+          <DialogContent>
               <AwardAddForm
                 setAddAward={setAddAward}
                 setAwardLists={setAwardLists}
               />
-            </Row>
-          )}
-        </Card.Body>
-      </Card>
-    </>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      )}
+    </Card>
   );
 }
+
 
 export default AwardCard;
