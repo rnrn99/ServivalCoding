@@ -40,6 +40,7 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
     <Box component="form" onSubmit={addSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
+          required
           label="수상내역"
           sx={{ width: "60ch" }}
           defaultValue={awardTitle}
@@ -47,11 +48,12 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
         />
 
         <TextField
-            label="상세내역"
-            sx={{ width: "60ch" }}
-            defaultValue={awardDetail}
-            onChange={(e) => setAwardDetail(e.target.value)}
-          />
+          required
+          label="상세내역"
+          sx={{ width: "60ch" }}
+          defaultValue={awardDetail}
+          onChange={(e) => setAwardDetail(e.target.value)}
+        />
       </Stack>  
 
       <Stack

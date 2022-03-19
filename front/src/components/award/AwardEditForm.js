@@ -39,12 +39,14 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
     <Box component="form" onSubmit={editSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
           <TextField
+            required
             label="수상 내역"
             onChange={(e) => setAwardTitle(e.target.value)}
             sx={{ width: "60ch" }}
             defaultValue={awardTitle}
           />
           <TextField
+            required
             label="상세 내역"
             onChange={(e) => setAwardDetail(e.target.value)}
             sx={{ width: "60ch" }}
