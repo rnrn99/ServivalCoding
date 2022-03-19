@@ -1,9 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Button } from "react-bootstrap";
+//import { Card, Row, Col, Button } from "react-bootstrap";
 
 import * as Api from "../../api";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
+
+import {
+  Accordion,
+  AccordionSummary,
+  AccordionDetails, // Accordion 적용 시 필요한 부분
+  Card,
+  CardContent, // Card 적용 시 필요한 부분
+  Typography, // Card 타이틀(ex. 수상이력, 자격증 정보)
+  IconButton,
+  Box, // Add 버튼 적용 시 필요한 부분
+  Dialog,
+  DialogTitle,
+  DialogContent, // AddForm Modal 적용
+} from "@mui/material";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // 이제부터 리파인입니다.
 
@@ -121,25 +137,46 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   };
 
   return (
-    <Card className="ml-3">
-      <Card.Body style={{ marginBottom: "15px" }}>
-        <Row>
-          <Card.Title>자격증 정보</Card.Title>
-        </Row>
-        <Row>{setCertificateList()}</Row>
-        <Row className="text-center">
-          <Col>
-            {isEditable && !isAdd && (
-              <Button onClick={handleClick}>자격증 추가하기</Button>
-            )}
-            {isAdd && (
+    <Card sx={{ marginTop: "20px" }}>
+      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ fontSize: "20px" }}>자격증</Typography>
+        </AccordionSummary>
+        <AccordionDetails>{setCertificateList()}</AccordionDetails>
+      </Accordion>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
+              color="primary"
+              aria-label="add-education"
+              onClick={() => setIsAdd((cur) => !cur)}
+            >
+              <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
+            </IconButton>
+          </Box>
+
+          <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
+            <DialogTitle>자격증 추가</DialogTitle>
+            <DialogContent>
               <CertificateAddForm checkAddComplete={checkAddComplete} />
-            )}
-          </Col>
-        </Row>
-      </Card.Body>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      )}
     </Card>
   );
 };
 
 export default Certificates;
+
+// {isEditable && !isAdd && (
+//   <Button onClick={handleClick}>자격증 추가하기</Button>
+// )}
+// {isAdd && (
+//   <CertificateAddForm checkAddComplete={checkAddComplete} />
+// )}

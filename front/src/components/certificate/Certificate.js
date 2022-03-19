@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
-
+import { Grid } from "@mui/material";
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
 
@@ -50,7 +49,7 @@ const Certicate = ({
   };
 
   return (
-    <Row>
+    <Grid>
       {isEditing ? (
         <CertificateEditForm
           checkEdited={checkEdited}
@@ -68,7 +67,7 @@ const Certicate = ({
           date={date}
         />
       )}
-    </Row>
+    </Grid>
   );
 };
 
