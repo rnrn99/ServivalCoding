@@ -53,11 +53,13 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
     <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
+          required
           label="프로젝트 제목"
           onChange={(e) => setTitle(e.target.value)}
           sx={{ width: "60ch" }}
         />
         <TextField
+          required
           label="상세내역"
           onChange={(e) => setDescription(e.target.value)}
           sx={{ width: "60ch" }}

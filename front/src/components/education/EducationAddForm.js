@@ -50,11 +50,16 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
     <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
+          required
           label="학교 이름"
           onChange={(e) => setSchool(e.target.value)}
           sx={{ width: "60ch" }}
         />
-        <TextField label="전공" onChange={(e) => setMajor(e.target.value)} />
+        <TextField
+          required
+          label="전공"
+          onChange={(e) => setMajor(e.target.value)}
+        />
       </Stack>
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
         <RadioGroup defaultValue="재학중" name="radio-buttons-group" row>

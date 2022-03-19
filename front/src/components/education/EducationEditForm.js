@@ -52,12 +52,14 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
     <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
+          required
           label="학교 이름"
           onChange={(e) => setSchool(e.target.value)}
           sx={{ width: "60ch" }}
           defaultValue={school}
         />
         <TextField
+          required
           label="전공"
           onChange={(e) => setMajor(e.target.value)}
           defaultValue={major}
