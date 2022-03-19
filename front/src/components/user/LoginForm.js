@@ -19,7 +19,7 @@ function LoginForm() {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
 
@@ -35,8 +35,8 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      // "user/login" 엔드포인트로 post요청함.
-      const res = await Api.post("user/login", {
+      // "users/login" 엔드포인트로 post요청함.
+      const res = await Api.post("users/login", {
         email,
         password,
       });

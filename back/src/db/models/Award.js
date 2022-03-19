@@ -20,14 +20,19 @@ class Award {
     return award;
   }
 
-  static async findAwards({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
+  static async findAwards({ userId }) {
+    const user = await UserModel.findOne({ id: userId });
     const findAwards = await AwardModel.find({ author: user });
     return findAwards;
   }
 
   static async deleteAwards({ id }) {
+<<<<<<< HEAD
     const deleteAwards = await AwardModel.deleteOne({ id });
+=======
+    const deleteAwards = await AwardModel.findOneAndDelete({ id });
+    console.log(deleteAwards);
+>>>>>>> d34a64822e8cdf702138c5746d31f374e5cff697
     return deleteAwards;
   }
 }

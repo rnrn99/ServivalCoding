@@ -4,10 +4,11 @@ import { Row } from "react-bootstrap";
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
 
+//mvp 구현 1차 완료 이제부터 리파인이다.
 
 //Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
-const Certicate = ({ cert, checkModified, isEditable, title, description, when_date }) => {
+const Certicate = ({ cert, checkModified, isEditable, title, description, date }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     //isEditing 필요.
@@ -40,7 +41,7 @@ const Certicate = ({ cert, checkModified, isEditable, title, description, when_d
                     checkEdited={checkEdited}
                     title={title}
                     description={description}
-                    when_date={when_date}
+                    date={date}
                 />
             ) : (
                 <CertificateCard
@@ -48,7 +49,7 @@ const Certicate = ({ cert, checkModified, isEditable, title, description, when_d
                     checkEditing={checkEditing}
                     title={title}
                     description={description}
-                    when_date={when_date}
+                    date={date}
                 />
             )}
         </Row>

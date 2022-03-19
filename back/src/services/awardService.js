@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/models/User.js";
 
 class AwardService {
-  static async addAward({ user_id, title, description }) {
-    const user = await User.findById({ user_id });
+  static async addAward({ userId, title, description }) {
+    const user = await User.findById({ userId });
     const id = uuidv4();
 
     const newAward = {
@@ -52,14 +52,14 @@ class AwardService {
     return award;
   }
 
-  static async listAward({ user_id }) {
-    const awards = await Award.findAwards({ user_id });
+  static async listAward({ userId }) {
+    const awards = await Award.findAwards({ userId });
     return awards;
   }
 
   static async removeAward({ id }) {
     const deleteAward = await Award.deleteAwards({ id });
-    if (deleteAward.deletedCount === 0) {
+    if (!deleteAward) {
       return false;
     }
     return deleteAward;

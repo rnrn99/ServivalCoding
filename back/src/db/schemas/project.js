@@ -21,11 +21,11 @@ const ProjectSchema = new Schema(
         required: true,
         default: "설명이 아직 없습니다. 추가해 주세요.",
       },
-      from_date: { // 프로젝트 시작일 // YYYY-MM-DD
+      from: { // 프로젝트 시작일 // YYYY-MM-DD
         type: String,
         required: true,
       },
-      to_date: { // 프로젝트 종료일 // YYYY-MM-DD
+      to: { // 프로젝트 종료일 // YYYY-MM-DD
       type: String,
       required: true,
       }

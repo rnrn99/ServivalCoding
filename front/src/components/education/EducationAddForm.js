@@ -21,17 +21,17 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
 
     // 학력 추가를 위해 유저 아이디, 학교, 전공, 재학/졸업 여부를 객체로 저장합니다.
     const dataToSubmit = {
-      user_id: portfolioOwnerId,
+      userId: portfolioOwnerId,
       school,
       major,
       position,
     };
 
-    // education/create로 POST 요청을 보냅니다.
-    await Api.post("education/create", dataToSubmit);
+    // educations로 POST 요청을 보냅니다.
+    await Api.post("educations", dataToSubmit);
 
-    // educationlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
-    const res = await Api.get("educationlist", portfolioOwnerId);
+    // education-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
+    const res = await Api.get("education-lists", portfolioOwnerId);
     setEducations(res.data);
 
     // 학력 추가 후 EducationAddForm을 닫습니다.
