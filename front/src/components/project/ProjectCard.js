@@ -3,6 +3,7 @@ import { Button, Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import * as Api from "../../api";
 
 function ProjectCard({ project, setClickEditBtn, isEditable, setProjects }) {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -17,7 +18,12 @@ function ProjectCard({ project, setClickEditBtn, isEditable, setProjects }) {
   };
 
   const DelBtnClickHandler = async () => {
-    // 삭제 버튼 구현 예정
+    // projects로 DELETE 요청을 보내 프로젝트를 삭제합니다.
+    await Api.delete("projects", project.id);
+
+    // project-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
+    const res = await Api.get("project-lists", project.user.id);
+    setProjects(res.data);
   };
 
   return (
