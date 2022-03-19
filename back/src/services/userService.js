@@ -3,6 +3,16 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
+
 class UserAuthService {
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
@@ -84,38 +94,19 @@ class UserAuthService {
       return { errorMessage };
     }
 
-    // 업데이트 대상에 name이 있다면, 즉 name 값이 null 이 아니라면 업데이트 진행
-    if (toUpdate.name) {
-      const fieldToUpdate = "name";
-      const newValue = toUpdate.name;
-      user = await User.update({ userId, fieldToUpdate, newValue });
-    }
+    console.log(toUpdate);
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
 
-    if (toUpdate.email) {
-      const fieldToUpdate = "email";
-      const newValue = toUpdate.email;
-      user = await User.update({ userId, fieldToUpdate, newValue });
-    }
+    console.log(fieldToUpdate);
 
-    if (toUpdate.password) {
-      const fieldToUpdate = "password";
-      const newValue = toUpdate.password;
-      user = await User.update({ userId, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      user = await User.update({ userId, fieldToUpdate, newValue });
-    }
+    user = await User.update({ userId, fieldToUpdate });
 
     return user;
   }
 
   static async getUserInfo({ userId }) {
     const user = await User.findById({ userId });
-
-    console.log(user);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {

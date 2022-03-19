@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { EducationSchema } from "./education.js";
 const Schema = mongoose.Schema;
 const model = mongoose.model;
 
@@ -25,6 +24,10 @@ const UserSchema = new Schema(
       type: String,
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
+    },
+    meta: {
+      likes: { type: Number, required: false, default: 0 },
+      required: false
     },
   },
   {
