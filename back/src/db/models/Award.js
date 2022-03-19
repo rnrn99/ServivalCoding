@@ -12,25 +12,35 @@ class Award {
   }
 
   static async update({ id, toUpdate }) {
-    const filter = { id: id };
+    const filter = { id };
     const option = { returnOriginal: false };
 
     const updateAward = await EducationModel.findOneAndUpdate(
       filter,
       toUpdate,
       option
-    );
+    ).exec();
     return updateAward;
   }
 
   static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
     const findAwards = await AwardModel.find({ author: user });
+    // const findAwards = await AwardModel.find({})
+    //   .populate("author")
+    //   .exec((err, awards) => {
+    //     if (err) return res.status(400).send(err);
+    //     awards.map((award) => {
+    //       if (award.author.id === userId) {
+    //         console.log(award);
+    //       }
+    //     });
+    //   });
     return findAwards;
   }
 
   static async delete({ id }) {
-    const deleteAwards = await AwardModel.findOneAndDelete({ id });
+    const deleteAwards = await AwardModel.findOneAndDelete({ id }).exec();
     console.log(deleteAwards);
     return deleteAwards;
   }

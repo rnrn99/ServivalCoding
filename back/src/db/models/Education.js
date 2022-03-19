@@ -3,7 +3,9 @@ import { EducationModel } from "../schemas/education.js";
 
 class Education {
   static async create(newEducation) {
-    const createdNewEducation = await EducationModel.create(newEducation);
+    const createdNewEducation = await EducationModel.create(
+      newEducation
+    ).exec();
     return createdNewEducation;
   }
 
@@ -18,23 +20,23 @@ class Education {
   }
 
   static async find({ id }) {
-    return await EducationModel.findOne({ id: id });
+    return await EducationModel.findOne({ id });
   }
 
   static async update({ id, toUpdate }) {
-    const filter = { id: id };
+    const filter = { id };
     const option = { returnOriginal: false };
 
     const updateEdu = await EducationModel.findOneAndUpdate(
       filter,
       toUpdate,
       option
-    );
+    ).exec();
     return updateEdu;
   }
 
   static async delete({ id }) {
-    const education = await EducationModel.findOneAndDelete({ id });
+    const education = await EducationModel.findOneAndDelete({ id }).exec();
     return education;
   }
 }
