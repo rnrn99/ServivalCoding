@@ -4,11 +4,14 @@ import {
   Box,
   TextField,
   Stack,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
+  // FormControlLabel,
+  // Radio,
+  // RadioGroup,
   Button,
 } from "@mui/material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 //날짜 선택용 커스텀 모듈 가운데 p 자가 소문자다!
 import Datepicker from "../utils/Datepicker";
@@ -51,34 +54,45 @@ const CertificateAddForm = ({ checkAddComplete }) => {
       <Stack spacing={2}>
         <TextField
           label="자격증명"
+          required
           onChange={(e) => setTitle(e.target.value)}
           sx={{ width: "60ch" }}
         />
         <TextField
           label="발급처"
+          required
           onChange={(e) => setDescription(e.target.value)}
         />
-        <TextField
-          label="발급일"
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Stack>
-      <Stack
-        direction="row"
-        spacing={2}
-        sx={{ mt: 2, justifyContent: "center" }}
-      >
-        <Button name="accept" variant="contained" type="submit">
-          확인
-        </Button>{" "}
-        <Button
-          name="cancel"
-          type="reset"
-          onClick={() => handleClick(false)}
-          variant="outlined"
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+            <DesktopDatePicker
+              label="발급일"
+              required
+              inputFormat={"yyyy-MM-dd"}
+              mask={"____-__-__"}
+              value={date}
+              onChange={(date) => setDate(date)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </Stack>
+        </LocalizationProvider>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ mt: 2, justifyContent: "center" }}
         >
-          취소
-        </Button>{" "}
+          <Button name="accept" variant="contained" type="submit">
+            확인
+          </Button>{" "}
+          <Button
+            name="cancel"
+            type="reset"
+            onClick={() => handleClick(false)}
+            variant="outlined"
+          >
+            취소
+          </Button>{" "}
+        </Stack>
       </Stack>
     </Box>
   );
