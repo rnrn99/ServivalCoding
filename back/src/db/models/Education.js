@@ -11,17 +11,17 @@ class Education {
     return await EducationModel.findOne(id);
   }
 
-  static async findEducationsList({ userId }) {
+  static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
     const educations = await EducationModel.find({ author: user });
     return educations;
   }
 
-  static async findEducation({ id }) {
+  static async find({ id }) {
     return await EducationModel.findOne({ id: id });
   }
 
-  static async putEducation({ id, toUpdate }) {
+  static async update({ id, toUpdate }) {
     const filter = { id: id };
     const option = { returnOriginal: false };
 
@@ -29,7 +29,7 @@ class Education {
     return updateEdu;
   }
 
-  static async deleteEducation({ id }) {
+  static async update({ id }) {
     const education = await EducationModel.findOneAndDelete({ id });
     return education;
   }

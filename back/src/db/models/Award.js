@@ -23,13 +23,13 @@ class Award {
     return updateAward;
   }
 
-  static async findAwards({ userId }) {
+  static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
     const findAwards = await AwardModel.find({ author: user });
     return findAwards;
   }
 
-  static async deleteAwards({ id }) {
+  static async delete({ id }) {
     const deleteAwards = await AwardModel.findOneAndDelete({ id });
     console.log(deleteAwards);
     return deleteAwards;
