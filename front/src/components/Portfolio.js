@@ -57,15 +57,15 @@ function Portfolio() {
   }
 
   return (
-    <Container maxWidth={`${window.innerWidth}`}>
+    <Container>
       <Grid container spacing={2}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={9}>
           <Educations
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
