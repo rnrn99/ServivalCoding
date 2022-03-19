@@ -27,12 +27,8 @@ class Award {
   }
 
   static async deleteAwards({ id }) {
-<<<<<<< HEAD
-    const deleteAwards = await AwardModel.deleteOne({ id });
-=======
     const deleteAwards = await AwardModel.findOneAndDelete({ id });
     console.log(deleteAwards);
->>>>>>> d34a64822e8cdf702138c5746d31f374e5cff697
     return deleteAwards;
   }
 }

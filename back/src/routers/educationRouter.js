@@ -58,21 +58,11 @@ educationRouter.get(
 
 educationRouter.put(
   "/educations/:id",
-<<<<<<< HEAD
   login_required,
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const { school, major, position } = req.body;
-=======
-  loginRequired,
-  async function (req, res, next) {
-    try {
-      const id = req.params.id;
-      const school = req.body.school;
-      const major = req.body.major;
-      const position = req.body.position;
->>>>>>> d34a64822e8cdf702138c5746d31f374e5cff697
       const toUpdate = {
         school,
         major,
@@ -82,12 +72,7 @@ educationRouter.put(
         id,
         toUpdate,
       });
-<<<<<<< HEAD
       res.status(201).json({ message: "수정 성공", education });
-=======
-      console.log(education);
-      res.status(201).json({ message: "수정 성공" });
->>>>>>> d34a64822e8cdf702138c5746d31f374e5cff697
     } catch (error) {
       next(error);
     }
