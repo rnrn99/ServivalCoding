@@ -10,7 +10,7 @@ import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
 import Certificates from "./certificate/Certificates";
-import TimeLines from "./timeline/TimeLines";
+import Careers from "./career/Careers";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ function Portfolio() {
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
-          <TimeLines
+          <Careers
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
