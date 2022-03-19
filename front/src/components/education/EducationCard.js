@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Grid, IconButton, Menu, MenuItem } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -27,7 +27,7 @@ function EducationCard({ education, setClickEditBtn, isEditable }) {
         {isEditable && (
           <>
             <IconButton onClick={handleClick} sx={{ float: "right", mb: 2 }}>
-              <MoreVertIcon />
+              <MoreHorizIcon />
             </IconButton>
             <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
               <MenuItem onClick={handleClose}>
