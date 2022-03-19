@@ -21,7 +21,7 @@ function RegisterForm() {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
 
@@ -42,8 +42,8 @@ function RegisterForm() {
     e.preventDefault();
 
     try {
-      // "user/register" 엔드포인트로 post요청함.
-      await Api.post("user/register", {
+      // "users/register" 엔드포인트로 post요청함.
+      await Api.post("users/register", {
         email,
         password,
         name,
