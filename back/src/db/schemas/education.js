@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 const model = mongoose.model;
 
+const position = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
+
 const EducationSchema = new Schema({
   id: {
     type: String,
@@ -13,7 +15,7 @@ const EducationSchema = new Schema({
   major: String,
   position: {
     type: String,
-    enum: ["재학중", "학사졸업", "석사졸업", "박사졸업"],
+    enum: [position[0], position[1], position[2], position[3]],
   },
   author: {
     type: Schema.Types.ObjectId,
