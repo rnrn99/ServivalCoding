@@ -39,8 +39,8 @@ class Certificate {
     return updatedCertificate;
   }
 
-  static async delete({ user_id }) {
-    await CertificateModel.deleteOne({ user_id });
+  static async delete({ id }) {
+    await CertificateModel.deleteOne({ id });
   }
 }
 
