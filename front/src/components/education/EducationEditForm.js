@@ -1,5 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import {
+  Box,
+  TextField,
+  Stack,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Button,
+} from "@mui/material";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
 
@@ -41,58 +49,50 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
   };
 
   return (
-    <Form className="mt-3 mb-3" onSubmit={onSubmitHandler}>
-      <Row>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="학교 이름"
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="전공"
-            value={major}
-            onChange={(e) => setMajor(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group>
+    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+        <TextField
+          label="학교 이름"
+          onChange={(e) => setSchool(e.target.value)}
+          sx={{ width: "60ch" }}
+          defaultValue={school}
+        />
+        <TextField
+          label="전공"
+          onChange={(e) => setMajor(e.target.value)}
+          defaultValue={major}
+        />
+      </Stack>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <RadioGroup defaultValue={position} name="radio-buttons-group" row>
           {positionArr.map((item, i) => (
-            <Form.Check
+            <FormControlLabel
               key={"position" + i}
-              inline
-              defaultChecked={position === item}
-              type="radio"
+              control={<Radio />}
               label={item}
               value={item}
-              name="group1"
               onClick={RadioBtnClickHandler}
             />
           ))}
-        </Form.Group>
-      </Row>
-      <Row className="text-center mt-3">
-        <Col>
-          <Button
-            variant="primary"
-            type="submit"
-            style={{ marginRight: "1rem" }}
-          >
-            확인
-          </Button>{" "}
-          <Button
-            variant="secondary"
-            type="reset"
-            onClick={() => setClickEditBtn(false)}
-          >
-            취소
-          </Button>{" "}
-        </Col>
-      </Row>
-    </Form>
+        </RadioGroup>
+      </Stack>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mt: 2, justifyContent: "center" }}
+      >
+        <Button variant="contained" type="submit">
+          확인
+        </Button>{" "}
+        <Button
+          type="reset"
+          onClick={() => setClickEditBtn(false)}
+          variant="outlined"
+        >
+          취소
+        </Button>{" "}
+      </Stack>
+    </Box>
   );
 }
 
