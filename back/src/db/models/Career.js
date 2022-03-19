@@ -13,7 +13,7 @@ class Career {
   }
 
   static async update({ id, toUpdate }) {
-    const filter = { id: id };
+    const filter = { id };
     const option = { returnOriginal: false };
 
     const updateCareer = await CareerModel.findOneAndUpdate(
