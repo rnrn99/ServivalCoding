@@ -10,6 +10,9 @@ import {
   Typography,
   IconButton,
   Box,
+  Dialog,
+  DialogTitle,
+  DialogContent,
 } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -58,13 +61,20 @@ function Educations({ portfolioOwnerId, isEditable }) {
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
             </IconButton>
           </Box>
-          {clickAddBtn && (
-            <EducationAddForm
-              portfolioOwnerId={portfolioOwnerId}
-              setClickAddBtn={setClickAddBtn}
-              setEducations={setEducations}
-            />
-          )}
+
+          <Dialog
+            open={clickAddBtn}
+            onClose={() => setClickAddBtn((cur) => !cur)}
+          >
+            <DialogTitle>학력 추가</DialogTitle>
+            <DialogContent>
+              <EducationAddForm
+                portfolioOwnerId={portfolioOwnerId}
+                setClickAddBtn={setClickAddBtn}
+                setEducations={setEducations}
+              />
+            </DialogContent>
+          </Dialog>
         </CardContent>
       )}
     </Card>
