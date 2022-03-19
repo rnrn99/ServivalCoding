@@ -1,8 +1,6 @@
-import { useNavigate } from "react-router-dom";
 import { Card, Row, Button, Col } from "react-bootstrap";
 
-function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
-  const navigate = useNavigate();
+function UserCard({ user, setIsEditing, isEditable }) {
   return (
     <Card className="mb-2 ms-3 mr-5">
       <Card.Body>
@@ -32,16 +30,6 @@ function UserCard({ user, setIsEditing, isEditable, isNetwork }) {
               </Col>
             </Row>
           </Col>
-        )}
-
-        {isNetwork && (
-          <Card.Link
-            className="mt-3"
-            href="#"
-            onClick={() => navigate(`/users/${user.id}`)}
-          >
-            포트폴리오
-          </Card.Link>
         )}
       </Card.Body>
     </Card>
