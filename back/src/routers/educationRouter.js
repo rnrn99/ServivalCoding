@@ -58,7 +58,7 @@ educationRouter.get(
 
 educationRouter.put(
   "/educations/:id",
-  login_required,
+  loginRequired,
   async (req, res, next) => {
     try {
       const { id } = req.params;

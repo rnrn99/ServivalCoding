@@ -1,33 +1,38 @@
-import { CareerModel } from "../schemas/career";
-import { UserModel } from "../schemas/user";
+import { CareerModel } from "../schemas/career.js";
+import { UserModel } from "../schemas/user.js";
 
 class Career {
   static async create({ newCareer }) {
-    const createdNewCareer = CareerModel.create({ newCareer });
+    const createdNewCareer = CareerModel.create(newCareer);
     return createdNewCareer;
   }
 
-  static async findCareer({ id }) {
-    const career = CareerModel.findOne({ id });
+  static async find({ id }) {
+    const career = CareerModel.findOne({ id }).exec();
     return career;
   }
 
-  static async putCareer({ id, toUpdate }) {
+  static async update({ id, toUpdate }) {
     const filter = { id: id };
     const option = { returnOriginal: false };
 
-    const updateCareer = await CareerModel.updateOne(filter, toUpdate, option);
+    const updateCareer = await CareerModel.findOneAndUpdate(
+      filter,
+      toUpdate,
+      option
+    ).exec();
     return updateCareer;
   }
 
-  static async findCareerList({ userId }) {
-    const user = UserModel.findOne({ userId });
-    const careers = CareerModel.find({ author: user });
+  static async findAll({ userId }) {
+    const user = await UserModel.findOne({ id: userId });
+    const careers = await CareerModel.find({ author: user });
+    console.log(user);
     return careers;
   }
 
   static async deleteCareer({ id }) {
-    const career = CareerModel.findOneAndDelete({ id });
+    const career = CareerModel.findOneAndDelete({ id }).exec();
     return career;
   }
 }
