@@ -16,8 +16,10 @@ class CertificateService {
     // 자격증 이름 중복 확인
     const certificate = await Certificate.find({ title });
 
-    if (user.id === certificate.user.id && certificate.length !== 0) {
-      const errorMessage = "같은 이름의 자격증이 이미 존재합니다.";
+    if (certificate.length !== 0) {
+      const errorMessage = user.id === certificate.user.id
+        ? "같은 이름의 자격증이 이미 존재합니다."
+        : null;
       return { errorMessage };
     }
 

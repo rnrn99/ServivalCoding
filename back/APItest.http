@@ -1,12 +1,18 @@
-POST http://localhost:5001/users/register
+POST http://localhost:5001/certificates
 Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MTc2YmFjMS04ZmYzLTQ4MjItOTE2Yi1jNDIzMmU0MmU5NTQiLCJpYXQiOjE2NDc3MDE1ODd9.mlT6H_qbHs628DFEtvgXaWsI5ldy9gUyuRcXiLBpRX0
 
 {
-  "name": "엘리스",
-  "email": "elice@korea.com",
-  "password": "asdf1234"
+  "title": "aaa",
+  "description": "222",
+  "date": "2022-03-19"
 }
 
 ###
-GET http://localhost:5001/users/70203994-f4f6-42a4-bffe-396acd3c99d3
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlOGYyMzc0ZC04MTRmLTQyZDItODc0YS04ZTMxMzkyOWRmNzciLCJpYXQiOjE2NDc1Nzk1ODF9.dWgGwcXtx4p9z6ABuQioYrF7BAH9lqra7t4FPGQ8IME
+POST http://localhost:5001/users/login
+Content-Type: application/json
+
+{
+  "email": "aaasdf@asdf.com",
+  "password": "asdf1234"
+}

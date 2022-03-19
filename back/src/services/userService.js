@@ -94,12 +94,8 @@ class UserAuthService {
       return { errorMessage };
     }
 
-    console.log(toUpdate);
     // null인 field는 제외하고, 남은 field만 객체에 담음
     const fieldToUpdate = updateHandler(toUpdate);
-
-    console.log(fieldToUpdate);
-
     user = await User.update({ userId, fieldToUpdate });
 
     return user;
