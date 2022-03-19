@@ -22,7 +22,6 @@ certificateRouter.post(
       // req (request) 에서 데이터 가져오기
       const userId = req.currentUserId;
       const { title, description, date } = req.body; //로그인한 user의 id
-
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId });
 

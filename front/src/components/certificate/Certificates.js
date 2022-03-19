@@ -62,11 +62,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 //<button>추가하기</button> << 활성화
 ////<CertificateAddForm /> <<버튼이 눌리면 활성화.
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
-  //서버에서 받아온 자격증 데이터
   const [certs, setCerts] = useState([]);
-  //isAdd는 자격증 항목을 추가하기 버튼을 눌렀을 때 활성화
-  //추가하기인 상황에서는 추가하기 버튼이 보여선 안됨
-  //때문에 isEditable && !isAdd 로 숨김
   const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => {
@@ -97,12 +93,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   //props에는 서버로 post할 자격증 정보가 담겨있음
   const checkAddComplete = async (props) => {
     console.log("Check Add Complete");
-    if (props) {
+    if (props !== null) {
       //데이터를 업데이트 합니다.
-      const newData = {
-        ...props,
-        //user_id: portfolioOwnerId,
-      };
+      const newData = { ...props }; //이제 그냥 프랍만 넘겨도 되려나
       console.log(newData);
       await Api.post("certificates", newData);
       const res = await Api.get("certificate-lists", portfolioOwnerId);
@@ -130,11 +123,11 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     //type 이 delete인 경우 삭제 요청
   };
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    console.log("handleClick 추가하기 버튼이 눌렸습니다.");
-    setIsAdd(true);
-  };
+  // const handleClick = (e) => {
+  //   e.preventDefault();
+  //   console.log("handleClick 추가하기 버튼이 눌렸습니다.");
+  //   setIsAdd(true);
+  // };
 
   return (
     <Card sx={{ marginTop: "20px" }}>
@@ -173,10 +166,3 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
 };
 
 export default Certificates;
-
-// {isEditable && !isAdd && (
-//   <Button onClick={handleClick}>자격증 추가하기</Button>
-// )}
-// {isAdd && (
-//   <CertificateAddForm checkAddComplete={checkAddComplete} />
-// )}

@@ -1,20 +1,9 @@
 import React, { useState } from "react";
-//import { Button, Form, Row, Col } from "react-bootstrap";
-import {
-  Box,
-  TextField,
-  Stack,
-  // FormControlLabel,
-  // Radio,
-  // RadioGroup,
-  Button,
-} from "@mui/material";
+import { Box, TextField, Stack, Button } from "@mui/material";
+
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-
-//날짜 선택용 커스텀 모듈 가운데 p 자가 소문자다!
-import Datepicker from "../utils/Datepicker";
 
 const CertificateAddForm = ({ checkAddComplete }) => {
   console.log("CertificateAddForm 불러왔습니다.");
@@ -32,25 +21,25 @@ const CertificateAddForm = ({ checkAddComplete }) => {
       date.getDate().toString().padStart(2, "0")
     );
   };
-
-  const handleClick = (accept) => {
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
     // Date type의 시작일, 마감일 상태를 YYYY-MM-DD의 문자열로 바꿉니다.
     const strDate = dateToString(date);
 
     //서버에 post 요청을 하고 갱신.
-    const isAccepted = accept;
+    // const isAccepted = accept;
 
-    if (isAccepted) {
-      console.log("추가하기 완료 버튼이 눌렸습니다.");
-      checkAddComplete({ title, description, date: strDate });
-    } else {
+    if (e.target.name === "cancel") {
       console.log("추가하기 취소 버튼이 눌렸습니다.");
       checkAddComplete(null);
+    } else {
+      console.log("추가하기 완료 버튼이 눌렸습니다.");
+      checkAddComplete({ title, description, date: strDate });
     }
   };
 
   return (
-    <Box component="form" onSubmit={handleClick} sx={{ mt: 1 }}>
+    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
           label="자격증명"
@@ -87,7 +76,7 @@ const CertificateAddForm = ({ checkAddComplete }) => {
           <Button
             name="cancel"
             type="reset"
-            onClick={() => handleClick(false)}
+            onClick={onSubmitHandler}
             variant="outlined"
           >
             취소
@@ -99,46 +88,3 @@ const CertificateAddForm = ({ checkAddComplete }) => {
 };
 
 export default CertificateAddForm;
-
-/*
-   
-    <Form>
-      <Form.Group as={Row} className="mb-3">
-        <Form.Control
-          type="text"
-          value={title}
-          placeholder="자격증을 입력하세요."
-          onChange={(e) => {
-            setTitle(e.target.value);
-          }}
-        />
-      </Form.Group>
-      <Form.Group as={Row} className="mb-3">
-        <Form.Control
-          type="text"
-          value={description}
-          placeholder="자격증 설명, 발급기관을 입력해주세요."
-          onChange={(e) => {
-            setDescription(e.target.value);
-          }}
-        />
-      </Form.Group>
-      <Datepicker selected={date} onChange={setDate} />
-      <Row>
-        <Col />
-        <Col>
-          <Button name="accept" onClick={handleClick}>
-            완료
-          </Button>
-        </Col>
-        <Col>
-          <Button name="cancel" onClick={handleClick}>
-            취소
-          </Button>
-        </Col>
-        <Col />
-      </Row>
-    </Form>
-
-
-*/
