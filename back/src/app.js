@@ -6,7 +6,7 @@ import { awardRouter } from "./routers/awardRouter.js";
 import { certificateRouter } from "./routers/certificateRouter.js";
 import { projectRouter } from "./routers/projectRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-
+import { careerRouter } from "./routers/careerRouter.js";
 const app = express();
 
 // CORS 에러 방지
@@ -29,7 +29,7 @@ app.use(certificateRouter);
 app.use(educationRouter);
 app.use(awardRouter);
 app.use(projectRouter);
-
+app.use(careerRouter);
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
 
