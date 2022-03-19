@@ -21,16 +21,16 @@ class Project {
     return projects;
   }
 
-  static async update({ id, fieldToUpdate, newValue }) {
+  static async update({ id, fieldToUpdate }) {
     const filter = { id: id };
-    const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
     const updatedProject = await ProjectModel.findOneAndUpdate(
       filter,
-      update,
+      { "$set": fieldToUpdate },
       option
     );
+
     return updatedProject;
   }
 

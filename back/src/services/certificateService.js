@@ -1,6 +1,16 @@
 import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
+
 class CertificateService {
   static async addCertificate({ user, title, description, date }) {
     // 자격증 이름 중복 확인
@@ -52,23 +62,9 @@ class CertificateService {
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.date) {
-      const fieldToUpdate = "date";
-      const newValue = toUpdate.date;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    certificate = await Certificate.update({ id, fieldToUpdate });
 
     return certificate;
   }
