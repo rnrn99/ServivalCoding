@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row } from "react-bootstrap";
+// import { Container, Row } from "react-bootstrap";
+import { Container, Grid } from "@mui/material";
 
 import * as Api from "../../api";
-import UserCard from "./UserCard";
+import UserNetworkCard from "./UserNetworkCard";
 import { UserStateContext } from "../../App";
 
 function Network() {
@@ -23,12 +24,12 @@ function Network() {
   }, [userState, navigate]);
 
   return (
-    <Container fluid>
-      <Row xs="auto" className="jusify-content-center">
+    <Container sx={{ py: 8 }} maxWidth="md">
+      <Grid container spacing={4}>
         {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
+          <UserNetworkCard key={user.id} user={user} />
         ))}
-      </Row>
+      </Grid>
     </Container>
   );
 }
