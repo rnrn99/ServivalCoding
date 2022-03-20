@@ -1,0 +1,42 @@
+import { ProjectModel } from "../schemas/project.js";
+
+class Project {
+  static async create({ newProject }) {
+    const createdNewProject = await ProjectModel.create(newProject);
+    return createdNewProject;
+  }
+
+  static async findById({ id }) {
+    const project = await ProjectModel.findOne({ id }).populate('user');
+    return project;
+  }
+
+  static async findByUser({ user }) {
+    const projects = await ProjectModel.find({ user }).populate('user');
+    return projects;
+  }
+
+  static async find(filter) {
+    const projects = await ProjectModel.find(filter).populate('user');
+    return projects;
+  }
+
+  static async update({ id, fieldToUpdate }) {
+    const filter = { id: id };
+    const option = { returnOriginal: false };
+
+    const updatedProject = await ProjectModel.findOneAndUpdate(
+      filter,
+      { "$set": fieldToUpdate },
+      option
+    );
+
+    return updatedProject;
+  }
+
+  static async delete({ id }) {
+    await ProjectModel.deleteOne({ id });
+  }
+}
+
+export { Project };
