@@ -1,14 +1,18 @@
-PUT http://localhost:5001/projects/4a4d6df2-775a-455c-905f-67bc5fb833fe
+POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MTc2YmFjMS04ZmYzLTQ4MjItOTE2Yi1jNDIzMmU0MmU5NTQiLCJpYXQiOjE2NDc3MDE1ODd9.mlT6H_qbHs628DFEtvgXaWsI5ldy9gUyuRcXiLBpRX0
 
 {
-  "title": "방사선",
-  "description": "자격",
-  "when_date": "2021-04-03"
+  "title": "aaaaaab",
+  "description": "222",
+  "date": "2022-03-19"
 }
 
-
 ###
-GET http://localhost:5001/projectlist/2575121f-cad1-4f1f-a3e8-00293ec4a34b
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiOWZhNjZmMjMtZjA3NS00NWQ1LTgxNmEtNDhjMjgzYTM4OGU3IiwiaWF0IjoxNjQ3NDgzODQxfQ.jLwZiDOHMGKD82S1WNK4hllpaNhLliXbZy_hk9rdtqU
+POST http://localhost:5001/users/login
+Content-Type: application/json
+
+{
+  "email": "aaaㅓsdf@asdf.com",
+  "password": "asdf1234"
+}

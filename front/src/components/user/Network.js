@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row } from "react-bootstrap";
+// import { Container, Row } from "react-bootstrap";
+import { Container, Grid } from "@mui/material";
 
 import * as Api from "../../api";
-import UserCard from "./UserCard";
+import UserNetworkCard from "./UserNetworkCard";
 import { UserStateContext } from "../../App";
 
 function Network() {
@@ -18,17 +19,17 @@ function Network() {
       navigate("/login");
       return;
     }
-    // "userlist" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
-    Api.get("userlist").then((res) => setUsers(res.data));
+    // "users" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
+    Api.get("users").then((res) => setUsers(res.data));
   }, [userState, navigate]);
 
   return (
-    <Container fluid>
-      <Row xs="auto" className="jusify-content-center">
+    <Container sx={{ py: 8 }} maxWidth="md">
+      <Grid container spacing={4}>
         {users.map((user) => (
-          <UserCard key={user.id} user={user} isNetwork />
+          <UserNetworkCard key={user.id} user={user} />
         ))}
-      </Row>
+      </Grid>
     </Container>
   );
 }

@@ -1,12 +1,22 @@
 import { Project } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
+
 class ProjectService {
-  static async addProject({ user, title, description, from_date, to_date }) {
+  static async addProject({ user, title, description, from, to }) {
     // 랜덤 id 부여
     const id = uuidv4();
 
-    const newProject = { id, user, title, description, from_date, to_date };
+    const newProject = { id, user, title, description, from, to };
 
     const createdNewProject = await Project.create({ newProject: newProject });
     createdNewProject.errorMessage = null;
@@ -49,35 +59,14 @@ class ProjectService {
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.from_date) {
-      const fieldToUpdate = "from_date";
-      const newValue = toUpdate.from_date;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.to_date) {
-      const fieldToUpdate = "to_date";
-      const newValue = toUpdate.to_date;
-      project = await Project.update({ id, fieldToUpdate, newValue });
-    }
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    project = await Project.update({ id, fieldToUpdate });
 
     return project;
   }
 
-  static async deleteCertificate({ id }) {
+  static async deleteProject({ id }) {
     // project id를 이용해 프로젝트를 가져옴
     let project = await Project.findById({ id });
 

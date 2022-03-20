@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/models/User.js";
 
 class AwardService {
-  static async addAward({ user_id, title, description }) {
-    const user = await User.findById({ user_id });
+  static async addAward({ userId, title, description }) {
+    const user = await User.findById({ userId });
     const id = uuidv4();
 
     const newAward = {
@@ -19,47 +19,30 @@ class AwardService {
   }
 
   static async getAward({ id }) {
-    const award = await Award.findAward({ id });
+    const award = await Award.find({ id });
     return award;
   }
 
-  static async putAward({ id, toUpdate }) {
-    let award = await Award.findAward({ id });
+  static async updateAward({ id, toUpdate }) {
+    const award = await Award.find({ id });
     if (!award) {
       const errorMessage = "수상 내역이 없습니다.";
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      award = await Award.putAward({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      award = await Award.putAward({
-        id,
-        fieldToUpdate,
-        newValue,
-      });
-    }
+    const updateData = await Award.update({ id, toUpdate });
 
-    return award;
+    return updateData;
   }
 
-  static async listAward({ user_id }) {
-    const awards = await Award.findAwards({ user_id });
+  static async listAward({ userId }) {
+    const awards = await Award.findAll({ userId });
     return awards;
   }
 
   static async removeAward({ id }) {
-    const deleteAward = await Award.deleteAwards({ id });
-    if (deleteAward.deletedCount === 0) {
+    const deleteAward = await Award.delete({ id });
+    if (!deleteAward) {
       return false;
     }
     return deleteAward;

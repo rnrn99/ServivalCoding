@@ -1,14 +1,14 @@
 import is from "@sindresorhus/is";
 import { Router } from "express";
-import { login_required } from "../middlewares/login_required.js";
+import { loginRequired } from "../middlewares/loginRequired.js";
 import { CertificateService } from "../services/certificateService.js";
 import { UserAuthService } from "../services/userService.js";
 
 const certificateRouter = Router();
 
 certificateRouter.post(
-  "/certificate/create",
-  login_required,
+  "/certificates",
+  loginRequired,
   async function (req, res, next) {
     // 새로운 자격증을 등록
     // 로그인 필요
@@ -20,11 +20,10 @@ certificateRouter.post(
       }
 
       // req (request) 에서 데이터 가져오기
-      const user_id = req.currentUserId;
-      const { title, description, when_date } = req.body; //로그인한 user의 id
-
+      const userId = req.currentUserId;
+      const { title, description, date } = req.body; //로그인한 user의 id
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id });
+      const user = await UserAuthService.getUserInfo({ userId });
 
       // 에러가 났다면
       if (user.errorMessage) {
@@ -37,7 +36,7 @@ certificateRouter.post(
         user,
         title,
         description,
-        when_date,
+        date,
       });
 
       // 만약 추가하는 과정에서 에러가 났다면
@@ -55,7 +54,7 @@ certificateRouter.post(
 
 certificateRouter.get(
   "/certificates/:id",
-  login_required,
+  loginRequired,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -72,10 +71,10 @@ certificateRouter.get(
       // // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
       // //
       // // 현재 로그인한 유저의 id와
-      // const user_id = req.currentUserId;
+      // const userId = req.currentUserId;
       //
       // // certificate 소유자의 id가 다르다면
-      // if (user_id !== certificate.user.id) {
+      // if (userId !== certificate.user.id) {
       //   // 에러를 throw
       //   throw new Error('잘못된 접근입니다.');
       // }
@@ -90,7 +89,7 @@ certificateRouter.get(
 
 certificateRouter.put(
   "/certificates/:id",
-  login_required,
+  loginRequired,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -107,20 +106,20 @@ certificateRouter.put(
       // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
       //
       // 현재 로그인한 유저의 id와
-      const user_id = req.currentUserId;
+      const userId = req.currentUserId;
 
       // certificate 소유자의 id가 다르다면
-      if (user_id !== certificate.user.id) {
+      if (userId !== certificate.user.id) {
         // 에러를 throw
         throw new Error("잘못된 접근입니다.");
       }
 
       const title = req.body.title ?? null;
       const description = req.body.description ?? null;
-      const when_date = req.body.when_date ?? null;
+      const date = req.body.date ?? null;
 
       // 업데이트할 정보를 묶어서
-      const toUpdate = { title, description, when_date };
+      const toUpdate = { title, description, date };
 
       // 자격증 정보를 업데이트
       const updatedCertificate = await CertificateService.setCertificate({
@@ -142,21 +141,21 @@ certificateRouter.put(
 );
 
 certificateRouter.get(
-  "/certificatelist/:user_id",
-  login_required,
+  "/certificate-lists/:userId",
+  loginRequired,
   async function (req, res, next) {
-    //user_id의 자격증 목록을 가져옴
-    const { user_id } = req.params;
+    //userId의 자격증 목록을 가져옴
+    const { userId } = req.params;
 
     try {
       // // 만약 로그인한 유저와 요청한 유저의 id가 다르다면
-      // if ( user_id !== req.currentUserId) {
+      // if ( userId !== req.currentUserId) {
       //   // 에러를 throw
       //   throw new Error('잘못된 접근입니다.');
       // }
 
       // user 정보를 db에서 가져오기
-      const user = await UserAuthService.getUserInfo({ user_id });
+      const user = await UserAuthService.getUserInfo({ userId });
 
       // 에러가 났다면
       if (user.errorMessage) {
@@ -174,6 +173,39 @@ certificateRouter.get(
       }
 
       res.status(200).send(certificates);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+certificateRouter.delete(
+  "/certificates/:id",
+  loginRequired,
+  async function (req, res, next) {
+    const { id } = req.params;
+    const userId = req.currentUserId;
+
+    try {
+      // certificate id를 이용해 certificate를 가져옴
+      const certificate = await CertificateService.getCertificate({ id });
+
+      // 에러가 발생했다면
+      if (certificate.errorMessage) {
+        // 에러를 throw
+        throw new Error(certificate.errorMessage);
+      }
+
+      // certificate 소유자의 id가 다르다면
+      if (userId !== certificate.user.id) {
+        // 에러를 throw
+        throw new Error("잘못된 접근입니다.");
+      }
+
+      // 에러가 발생하지 않았다면 certificate를 삭제
+      await CertificateService.deleteCertificate({ id });
+
+      res.status(201).json({ status: "succ", message: "삭제 성공" });
     } catch (error) {
       next(error);
     }

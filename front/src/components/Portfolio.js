@@ -58,7 +58,7 @@ function Portfolio() {
   }
 
   return (
-    <Container maxWidth={`${window.innerWidth}`}>
+    <Container>
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <User

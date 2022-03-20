@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
-import { Form, Button, Row, Col } from "react-bootstrap";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { ko } from "date-fns/esm/locale";
 import { UserStateContext } from "../../App";
+import { Box, TextField, Stack, Button } from "@mui/material";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
 
 function CareerAddForm ({portfolioOwnerId, setCareerList, setClickAddBtn}) {
@@ -41,10 +41,10 @@ function CareerAddForm ({portfolioOwnerId, setCareerList, setClickAddBtn}) {
         };
     
         // career/create로 POST 요청을 보냅니다.
-        await Api.post("career/create", uptCareerData);
+        await Api.post("careers", uptCareerData);
     
         // careerlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
-        const res = await Api.get("careerlist", portfolioOwnerId);
+        const res = await Api.get("career-lists", portfolioOwnerId);
             setCareerList(res.data);
     
         // 프로젝트 추가 후 ProjectAddForm을 닫습니다.
@@ -53,53 +53,53 @@ function CareerAddForm ({portfolioOwnerId, setCareerList, setClickAddBtn}) {
     
 
     return (
-        <Form className="mt-3" onSubmit={onSubmitHandler}>
-            <Row>
-                <Row xs="auto">
-                    <p>시작 :</p>
-                    <DatePicker
-                    locale={ko}
-                    dateFormat="MM/dd/yyyy"
-                    selected={startDate}
+        <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Stack direction="row" spacing={2} >
+                <DesktopDatePicker
+                    label="시작일"
+                    inputFormat="MM/dd/yyyy"
+                    value={startDate}
                     onChange={(date) => setStartDate(date)}
-                    />
-                    <br />
-                    <p>종료 :</p> 
-                    <DatePicker
-                    locale={ko}
-                    dateFormat="MM/dd/yyyy"
-                    selected={dueDate}
-                    onChange={(date) => setDueDate(date)}
-                    className="mt-1"
-                    />
-                </Row>
-                <Form.Group className="mt-3">
-                <Form.Control
-                    type="text"
-                    placeholder="경력 사항"
-                    onChange={(e) => setTitle(e.target.value)}
+                    renderInput={(params) => <TextField {...params} />}
                 />
-                </Form.Group>
-            </Row>
-            <Row className="text-center mt-3">
-                <Col>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    style={{ marginRight: "1rem" }}
-                >
-                    확인
-                </Button>{" "}
-                <Button
-                    variant="secondary"
-                    type="reset"
-                    onClick={() => setClickAddBtn(false)}
-                >
-                    취소
-                </Button>{" "}
-                </Col>
-            </Row>
-        </Form>
+                <DesktopDatePicker
+                    label="종료일"
+                    inputFormat="MM/dd/yyyy"
+                    value={dueDate}
+                    onChange={(date) => setDueDate(date)}
+                    renderInput={(params) => <TextField {...params} />}
+                />
+            </Stack>
+        </LocalizationProvider>
+        <Stack sx={{ mt: 2 }}>
+            <TextField
+                required
+                label="경력 사항"
+                sx={{ width: "60ch" }}
+                defaultValue={title}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+            />
+
+        </Stack>
+        <Stack
+            direction="row"
+            spacing={2}
+            sx={{ mt: 2, justifyContent: "center" }}
+        >
+            <Button variant="contained" type="submit">
+                확인
+            </Button>{" "}
+            <Button
+                type="reset"
+                onClick={() => setClickAddBtn(false)}
+                variant="outlined"
+            >
+                취소
+            </Button>{" "}
+        </Stack>
+    </Box>
     )
 }
 

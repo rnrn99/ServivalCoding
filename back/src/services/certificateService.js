@@ -1,18 +1,26 @@
 import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
 
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
+
 class CertificateService {
-  static async addCertificate({ user, title, description, when_date }) {
-    // 자격증 이름 중복 확인
-    const certificate = await Certificate.find({ title });
-
-    if (certificate.length !== 0) {
-      const errorMessage = "같은 이름의 자격증이 이미 존재합니다.";
-      return { errorMessage };
-    }
-
+  static async addCertificate({ user, title, description, date }) {
+    // if (certificate.length !== 0) {
+    //   const errorMessage = user.id === certificate.user.id
+    //     ? "같은 이름의 자격증이 이미 존재합니다."
+    //     : null;
+    //   return { errorMessage };
+    // }
     const id = uuidv4();
-    const newCertificate = { id, user, title, description, when_date };
+    const newCertificate = { id, user, title, description, date };
 
     const createdNewCertificate = await Certificate.create({ newCertificate });
     createdNewCertificate.errorMessage = null;
@@ -35,7 +43,7 @@ class CertificateService {
   static async getCertificates({ user }) {
     const certificates = await Certificate.findByUser({ user });
 
-    if (!certificates) {
+    if (certificates.length === 0) {
       const errorMessage = "자격증 목록이 존재하지 않습니다.";
       return { errorMessage };
     }
@@ -52,23 +60,9 @@ class CertificateService {
       return { errorMessage };
     }
 
-    if (toUpdate.title) {
-      const fieldToUpdate = "title";
-      const newValue = toUpdate.title;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.description) {
-      const fieldToUpdate = "description";
-      const newValue = toUpdate.description;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
-
-    if (toUpdate.when_date) {
-      const fieldToUpdate = "when_date";
-      const newValue = toUpdate.when_date;
-      certificate = await Certificate.update({ id, fieldToUpdate, newValue });
-    }
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    certificate = await Certificate.update({ id, fieldToUpdate });
 
     return certificate;
   }
@@ -77,7 +71,7 @@ class CertificateService {
     // certificate id를 이용해 자격증을 가져옴
     let certificate = await Certificate.findById({ id });
 
-    if (!certificate) {
+    if (certificate.length === 0) {
       const errorMessage = "존재하지 않는 자격증입니다.";
       return { errorMessage };
     }

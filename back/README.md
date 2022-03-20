@@ -69,5 +69,5 @@ yarn start
 2. 이외 폴더는 아래와 같습니다.
 
 - src/middlewares:
-  - jwt토큰을 다루는 미들웨어인 login_required.js
+  - jwt토큰을 다루는 미들웨어인 loginRequired.js
   - 학습 편의를 위해 일괄 http 400 코드로 에러를 변환하는 에러핸들러인 errorMiddleware.js

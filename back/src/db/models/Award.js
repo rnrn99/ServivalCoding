@@ -6,28 +6,41 @@ class Award {
     return createdNewAward;
   }
 
-  static async findAward({ id }) {
+  static async find({ id }) {
     const findAward = await AwardModel.findOne({ id });
     return findAward;
   }
 
-  static async putAward({ id, fieldToUpdate, newValue }) {
-    const filter = { id: id };
-    const update = { [fieldToUpdate]: newValue };
+  static async update({ id, toUpdate }) {
+    const filter = { id };
     const option = { returnOriginal: false };
 
-    const award = await AwardModel.updateOne(filter, update, option);
-    return award;
+    const updateAward = await AwardModel.findOneAndUpdate(
+      filter,
+      toUpdate,
+      option
+    );
+    return updateAward;
   }
 
-  static async findAwards({ user_id }) {
-    const user = await UserModel.findOne({ id: user_id });
+  static async findAll({ userId }) {
+    const user = await UserModel.findOne({ id: userId });
     const findAwards = await AwardModel.find({ author: user });
+    // const findAwards = await AwardModel.find({})
+    //   .populate("author")
+    //   .exec((err, awards) => {
+    //     if (err) return res.status(400).send(err);
+    //     awards.map((award) => {
+    //       if (award.author.id === userId) {
+    //         console.log(award);
+    //       }
+    //     });
+    //   });
     return findAwards;
   }
 
-  static async deleteAwards({ id }) {
-    const deleteAwards = await AwardModel.deleteOne({ id });
+  static async delete({ id }) {
+    const deleteAwards = await AwardModel.findOneAndDelete({ id });
     console.log(deleteAwards);
     return deleteAwards;
   }

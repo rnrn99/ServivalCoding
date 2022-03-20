@@ -17,25 +17,25 @@ class Project {
   }
 
   static async find(filter) {
-    const projects = await ProjectModel.find(filter);
+    const projects = await ProjectModel.find(filter).populate('user');
     return projects;
   }
 
-  static async update({ id, fieldToUpdate, newValue }) {
+  static async update({ id, fieldToUpdate }) {
     const filter = { id: id };
-    const update = { [fieldToUpdate]: newValue };
     const option = { returnOriginal: false };
 
     const updatedProject = await ProjectModel.findOneAndUpdate(
       filter,
-      update,
+      { "$set": fieldToUpdate },
       option
     );
+
     return updatedProject;
   }
 
-  static async delete({ user_id }) {
-    await ProjectModel.deleteOne({ user_id });
+  static async delete({ id }) {
+    await ProjectModel.deleteOne({ id });
   }
 }
 

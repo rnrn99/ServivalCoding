@@ -1,5 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import {
+  Box,
+  TextField,
+  Stack,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Button,
+} from "@mui/material";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
 
@@ -14,8 +22,8 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
   const user_id = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
 
   // radio button 클릭에 따라 position을 저장합니다.
-  const RadioBtnClickHandler = (e) => {
-    setPosition(e.target.value);
+  const RadioBtnClickHandler = (e, value) => {
+    setPosition(value);
   };
 
   // submit event handler 입니다.
@@ -30,68 +38,67 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
       position,
     };
 
+    // educations로 PUT 요청을 보내 학력을 수정합니다.
     await Api.put(`educations/${education.id}`, dataToSubmit);
 
-    // educationlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
-    const res = await Api.get("educationlist", user_id);
+    // education-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
+    const res = await Api.get("education-lists", user_id);
     setEducations(res.data);
 
     setClickEditBtn(false);
   };
 
   return (
-    <Form className="mt-3 mb-3" onSubmit={onSubmitHandler}>
-      <Row>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="학교 이름"
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            placeholder="전공"
-            value={major}
-            onChange={(e) => setMajor(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group>
+    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+        <TextField
+          required
+          label="학교 이름"
+          onChange={(e) => setSchool(e.target.value)}
+          sx={{ width: "60ch" }}
+          defaultValue={school}
+        />
+        <TextField
+          required
+          label="전공"
+          onChange={(e) => setMajor(e.target.value)}
+          defaultValue={major}
+        />
+      </Stack>
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <RadioGroup
+          name="radio-buttons-group"
+          row
+          value={position}
+          onChange={RadioBtnClickHandler}
+        >
           {positionArr.map((item, i) => (
-            <Form.Check
+            <FormControlLabel
               key={"position" + i}
-              inline
-              defaultChecked={position === item}
-              type="radio"
+              control={<Radio />}
               label={item}
               value={item}
-              name="group1"
-              onClick={RadioBtnClickHandler}
             />
           ))}
-        </Form.Group>
-      </Row>
-      <Row className="text-center mt-3">
-        <Col>
-          <Button
-            variant="primary"
-            type="submit"
-            style={{ marginRight: "1rem" }}
-          >
-            확인
-          </Button>{" "}
-          <Button
-            variant="secondary"
-            type="reset"
-            onClick={() => setClickEditBtn(false)}
-          >
-            취소
-          </Button>{" "}
-        </Col>
-      </Row>
-    </Form>
+        </RadioGroup>
+      </Stack>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mt: 2, justifyContent: "center" }}
+      >
+        <Button variant="contained" type="submit">
+          확인
+        </Button>{" "}
+        <Button
+          type="reset"
+          onClick={() => setClickEditBtn(false)}
+          variant="outlined"
+        >
+          취소
+        </Button>{" "}
+      </Stack>
+    </Box>
   );
 }
 
