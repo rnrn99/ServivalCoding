@@ -166,12 +166,6 @@ certificateRouter.get(
       // 해당 user의 자격증 목록 가져오기
       const certificates = await CertificateService.getCertificates({ user });
 
-      // 에러가 났다면
-      if (certificates.errorMessage) {
-        // 에러를 throw
-        throw new Error(certificates.errorMessage);
-      }
-
       res.status(200).send(certificates);
     } catch (error) {
       next(error);
