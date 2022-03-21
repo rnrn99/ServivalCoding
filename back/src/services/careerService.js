@@ -15,7 +15,15 @@ class careerService {
       author: user,
     };
     const createdCareer = await Career.create({ newCareer });
-    return createdCareer;
+
+    const sendData = {
+      id: createdCareer.id,
+      title: createdCareer.title,
+      fromDate: createdCareer.fromDate,
+      toDate: createdCareer.toDate,
+    };
+
+    return sendData;
   }
 
   static async getCareer({ id }) {

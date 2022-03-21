@@ -3,14 +3,14 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
-function updateHandler(toUpdate) {
-  return Object.entries(toUpdate)
-    .filter(([key, value]) => !!value)
-    .reduce((result, [key, value]) => {
-      result[key] = value;
-      return result;
-    }, {});
-}
+// function updateHandler(toUpdate) {
+//   return Object.entries(toUpdate)
+//     .filter(([key, value]) => !!value)
+//     .reduce((result, [key, value]) => {
+//       result[key] = value;
+//       return result;
+//     }, {});
+// }
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -92,8 +92,7 @@ class UserAuthService {
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
-    const fieldToUpdate = updateHandler(toUpdate);
-    user = await User.update({ userId, fieldToUpdate });
+    user = await User.update({ userId, toUpdate });
 
     return user;
   }

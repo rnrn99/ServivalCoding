@@ -42,7 +42,9 @@
     "@babel/preset-env": "^7.16.4",
     "concurrently": "^7.0.0",
     "dotenv": "^16.0.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0"
   },
   "jest": {
     "testEnvironment": "node",

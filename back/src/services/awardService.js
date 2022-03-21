@@ -15,7 +15,14 @@ class AwardService {
     };
 
     const createdAward = await Award.create(newAward);
-    return createdAward;
+
+    const sendData = {
+      id: createdAward.id,
+      title: createdAward.title,
+      description: createdAward.description,
+    };
+
+    return sendData;
   }
 
   static async getAward({ id }) {
