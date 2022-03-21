@@ -2,16 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-
-function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
-    .filter(([key, value]) => !!value)
-    .reduce((result, [key, value]) => {
-      result[key] = value;
-      return result;
-    }, {});
-}
+import { updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
