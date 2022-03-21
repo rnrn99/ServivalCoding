@@ -7,6 +7,7 @@ import { certificateRouter } from "./routers/certificateRouter.js";
 import { projectRouter } from "./routers/projectRouter.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { careerRouter } from "./routers/careerRouter.js";
+
 const app = express();
 
 // CORS 에러 방지

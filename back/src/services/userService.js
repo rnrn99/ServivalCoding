@@ -54,9 +54,7 @@ class UserAuthService {
     const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
-    const id = user.id;
-    const name = user.name;
-    const description = user.description;
+    const { id, name, description } = user;
 
     const loginUser = {
       token,
@@ -86,8 +84,7 @@ class UserAuthService {
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
-    const fieldToUpdate = updateHandler(toUpdate);
-    user = await User.update({ userId, fieldToUpdate });
+    user = await User.update({ userId, toUpdate });
 
     return user;
   }

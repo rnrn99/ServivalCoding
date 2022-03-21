@@ -24,7 +24,7 @@ class CertificateService {
     return certificates;
   }
 
-  static async setCertificate({ id, toUpdate }) {
+  static async updateCertificate({ id, toUpdate }) {
     // certificate id를 이용해 자격증을 가져옴
     let certificate = await Certificate.findById({ id });
 
