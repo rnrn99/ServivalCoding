@@ -4,8 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
 
 function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
+  return Object.entries(toUpdate)
     .filter(([key, value]) => !!value)
     .reduce((result, [key, value]) => {
       result[key] = value;
@@ -63,9 +62,7 @@ class UserAuthService {
     const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
-    const id = user.id;
-    const name = user.name;
-    const description = user.description;
+    const { id, name, description } = user;
 
     const loginUser = {
       token,

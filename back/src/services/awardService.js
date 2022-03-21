@@ -27,7 +27,7 @@ class AwardService {
     const award = await Award.find({ id });
     if (!award) {
       const errorMessage = "수상 내역이 없습니다.";
-      return { errorMessage };
+      return { code: 400, errorMessage };
     }
 
     const updateData = await Award.update({ id, toUpdate });
@@ -40,11 +40,8 @@ class AwardService {
     return awards;
   }
 
-  static async removeAward({ id }) {
+  static async deleteAward({ id }) {
     const deleteAward = await Award.delete({ id });
-    if (!deleteAward) {
-      return false;
-    }
     return deleteAward;
   }
 }

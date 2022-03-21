@@ -2,8 +2,7 @@ import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 �
 import { v4 as uuidv4 } from "uuid";
 
 function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
+  return Object.entries(toUpdate)
     .filter(([key, value]) => !!value)
     .reduce((result, [key, value]) => {
       result[key] = value;
@@ -50,7 +49,7 @@ class CertificateService {
     return certificates;
   }
 
-  static async setCertificate({ id, toUpdate }) {
+  static async updateCertificate({ id, toUpdate }) {
     // certificate id를 이용해 자격증을 가져옴
     let certificate = await Certificate.findById({ id });
 

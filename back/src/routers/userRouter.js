@@ -30,8 +30,11 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
     }
+    newUser.password = undefined;
 
-    res.status(201).json(newUser);
+    res
+      .status(201)
+      .json({ data: newUser, code: 201, message: "유저 생성 성공" });
   } catch (error) {
     next(error);
   }
@@ -49,26 +52,26 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-
-    res.status(200).send(user);
+    console.log(user);
+    res
+      .status(200)
+      .json({ data: user, code: 200, message: "유저 로그인 성공" });
   } catch (error) {
     next(error);
   }
 });
 
-userAuthRouter.get(
-  "/users",
-  loginRequired,
-  async function (req, res, next) {
-    try {
-      // 전체 사용자 목록을 얻음
-      const users = await UserAuthService.getUsers();
-      res.status(200).send(users);
-    } catch (error) {
-      next(error);
-    }
+userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
+  try {
+    // 전체 사용자 목록을 얻음
+    const users = await UserAuthService.getUsers();
+    res
+      .status(200)
+      .json({ data: users, code: 200, message: "유저 리스트 조회 성공" });
+  } catch (error) {
+    next(error);
   }
-);
+});
 
 userAuthRouter.get(
   "/users/current",
@@ -85,7 +88,11 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      res.status(200).json({
+        data: currentUserInfo,
+        code: 200,
+        message: "사용자 조회 성공",
+      });
     } catch (error) {
       next(error);
     }
@@ -114,7 +121,9 @@ userAuthRouter.put(
         throw new Error(updatedUser.errorMessage);
       }
 
-      res.status(200).json(updatedUser);
+      res
+        .status(201)
+        .json({ data: updatedUser, code: 201, message: "유저 수정 성공" });
     } catch (error) {
       next(error);
     }
@@ -133,7 +142,9 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
-      res.status(200).send(currentUserInfo);
+      res
+        .status(200)
+        .json({ data: currentUserInfo, code: 200, message: "유저 조회 성공" });
     } catch (error) {
       next(error);
     }

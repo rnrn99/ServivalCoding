@@ -26,7 +26,7 @@ class careerService {
     return career;
   }
 
-  static async setCareer({ id, toUpdate }) {
+  static async updateCareer({ id, toUpdate }) {
     const career = await Career.find({ id });
 
     if (!career) {
@@ -46,7 +46,7 @@ class careerService {
     return careers;
   }
   static async deleteCareer({ id }) {
-    const deleteCareer = await Career.deleteCareer({ id });
+    const deleteCareer = await Career.delete({ id });
     if (!deleteCareer) {
       return false;
     }
