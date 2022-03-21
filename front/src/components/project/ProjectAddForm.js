@@ -56,13 +56,11 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
           required
           label="프로젝트 제목"
           onChange={(e) => setTitle(e.target.value)}
-          sx={{ width: "60ch" }}
         />
         <TextField
           required
           label="상세내역"
           onChange={(e) => setDescription(e.target.value)}
-          sx={{ width: "60ch" }}
         />
       </Stack>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

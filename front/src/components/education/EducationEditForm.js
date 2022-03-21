@@ -55,7 +55,6 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
           required
           label="학교 이름"
           onChange={(e) => setSchool(e.target.value)}
-          sx={{ width: "60ch" }}
           defaultValue={school}
         />
         <TextField

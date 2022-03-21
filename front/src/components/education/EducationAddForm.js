@@ -53,7 +53,6 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
           required
           label="학교 이름"
           onChange={(e) => setSchool(e.target.value)}
-          sx={{ width: "60ch" }}
         />
         <TextField
           required
