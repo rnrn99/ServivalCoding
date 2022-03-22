@@ -16,9 +16,7 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
     }
 
     // req (request) 에서 데이터 가져오기
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password;
+    const { name, email, password } = req.body;
 
     // 위 데이터를 유저 db에 추가하기
     const newUser = await UserAuthService.addUser({
@@ -43,8 +41,7 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
 userAuthRouter.post("/users/login", async function (req, res, next) {
   try {
     // req (request) 에서 데이터 가져오기
-    const email = req.body.email;
-    const password = req.body.password;
+    const { email, password } = req.body;
 
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await UserAuthService.getUser({ email, password });
@@ -101,7 +98,7 @@ userAuthRouter.get(
 
 userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
   try {
-    // URI로부터 사용자 id를 추출함.
+    // 토큰에서 사용자 id를 추출함.
     const userId = req.currentUserId;
     // body data 로부터 업데이트할 사용자 정보를 추출함.
     const toUpdate = { ...req.body };
@@ -132,6 +129,10 @@ userAuthRouter.get(
         throw new Error(currentUserInfo.errorMessage);
       }
 
+      //
+      // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
+      //
+
       res
         .status(200)
         .json({ data: currentUserInfo, code: 200, message: "유저 조회 성공" });
@@ -141,42 +142,57 @@ userAuthRouter.get(
   }
 );
 
-// userAuthRouter.put(
-//   "/likes/:userId",
-//   loginRequired,
-//   async function (req, res, next) {
-//     try {
-//       const { userId } = req.params;
-//
-//       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
-//       if (userId === req.currentUserId) {
-//         // 에러 발생
-//         throw new Error("잘못된 접근입니다.");
-//       }
-//
-//       // user 정보를 불러와서
-//       const user = await UserAuthService.getUserInfo({ userId });
-//
-//       const { name, email, password, description, meta } = user;
-//       const toUpdate = { name, email, password, description, meta };
-//
-//       // 좋아요 +1
-//       toUpdate.meta.likes++;
-//       toUpdate.meta.by.push(req.currentUserId);
-//       // 업데이트된 정보로 세팅
-//       const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-//
-//       // 실패했다면 에러
-//       if (updatedUser.errorMessage) {
-//         throw new Error(updatedUser.errorMessage);
-//       }
-//
-//       res.status(200).json(updatedUser);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
+userAuthRouter.post(
+  "/users/:id/likes",
+  loginRequired,
+  async function (req, res, next) {
+    try {
+      const current = req.currentUserId;
+      const liked = req.params.id;
+
+      // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
+      if (liked === req.currentUserId) {
+        // 에러 발생
+        throw new Error("잘못된 접근입니다.");
+      }
+
+      // user 정보를 불러와서
+      const user = await UserAuthService.getUserInfo({ userId: liked });
+
+      const { name, email, password, description, like } = user;
+      const toUpdate = { name, email, password, description, like };
+
+      // 이미 좋아요를 눌렀다면
+      if (toUpdate.like.by.includes(current)) {
+        // 좋아요 -1
+        toUpdate.like.count--;
+        // 좋아요 누른 사람 목록에서 현재 유저의 userId 삭제
+        toUpdate.like.by.pop(current);
+      }
+      // 좋아요를 누르지 않았다면
+      else {
+        // 좋아요 +1
+        toUpdate.like.count++;
+        // 좋아요 누른 사람 목록에 현재 유저의 userId 추가
+        toUpdate.like.by.push(current);
+      }
+
+      // 업데이트된 정보로 세팅
+      const updatedUser = await UserAuthService.setUser({ userId: liked, toUpdate });
+
+      // 실패했다면 에러
+      if (updatedUser.errorMessage) {
+        throw new Error(updatedUser.errorMessage);
+      }
+
+      res
+        .status(200)
+        .json({ data: updatedUser, code: 200, message: "좋아요 반영 완료" });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", loginRequired, function (req, res, next) {

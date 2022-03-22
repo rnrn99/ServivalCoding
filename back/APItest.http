@@ -1,18 +1,35 @@
-POST http://localhost:5001/certificates
+POST http://localhost:5001/users/register
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MTc2YmFjMS04ZmYzLTQ4MjItOTE2Yi1jNDIzMmU0MmU5NTQiLCJpYXQiOjE2NDc3MDE1ODd9.mlT6H_qbHs628DFEtvgXaWsI5ldy9gUyuRcXiLBpRX0
 
 {
-  "title": "aaaaaab",
-  "description": "222",
-  "date": "2022-03-19"
+  "email": "ccc@ccc.com",
+  "name": "체셔캣",
+  "password": "asdf1234"
 }
+
+###
+POST http://localhost:5001/users/707b96ef-04ff-43b4-bffe-3f91c73fd28e/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmNDQwNjMwNC0zYzU4LTRjZDItODgzMS0xZGYxMTE1MGIxZjciLCJpYXQiOjE2NDc4NzgxNTN9.B0FpcNF8GNlu0nrkOXeTl9EJhty9obQuuu7lEo7lsdk
+
+
+###
+POST http://localhost:5001/users/707b96ef-04ff-43b4-bffe-3f91c73fd28e/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxZGFkYmFiNC05NmFlLTQ0YjgtODg0Yi05YTJkMDg3OTZlZGMiLCJpYXQiOjE2NDc4NzgyMDh9.d28qxzHqAM4_CGHvO3OoRl71I47JoT1Wqq31ZQq96cY
+
+
+###
+POST http://localhost:5001/users/707b96ef-04ff-43b4-bffe-3f91c73fd28e/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MDdiOTZlZi0wNGZmLTQzYjQtYmZmZS0zZjkxYzczZmQyOGUiLCJpYXQiOjE2NDc4NzgyNzZ9.KC0QN1mVUdNi7wqNxEAHbwroNSezOp7HXOHS0UJq3a0
+
 
 ###
 POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "aaaㅓsdf@asdf.com",
+  "email": "ccc@ccc.com",
   "password": "asdf1234"
 }
