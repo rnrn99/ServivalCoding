@@ -32,8 +32,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   }, [portfolioOwnerId]);
 
   const setCertificateList = () => {
-    if (!certs) return;
-    console.log("Certificates>>>>>", certs);
     return certs.map((cert) => {
       return (
         <Certificate
@@ -54,11 +52,9 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   //AddForm에서는 완료 버튼이 눌렸을 때 결과 값들을 보내줌
   //props에는 서버로 post할 자격증 정보가 담겨있음
   const checkAddComplete = async (props) => {
-    console.log("Check Add Complete");
     if (props !== null) {
       //데이터를 업데이트 합니다.
       const newData = { ...props }; //이제 그냥 프랍만 넘겨도 되려나
-      console.log(newData);
       await Api.post("certificates", newData);
       const res = await Api.get("certificate-lists", portfolioOwnerId);
       setCerts(res.data);
@@ -84,12 +80,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     setCerts(res.data);
     //type 이 delete인 경우 삭제 요청
   };
-
-  // const handleClick = (e) => {
-  //   e.preventDefault();
-  //   console.log("handleClick 추가하기 버튼이 눌렸습니다.");
-  //   setIsAdd(true);
-  // };
 
   return (
     <Card sx={{ marginTop: "20px" }}>

@@ -24,7 +24,6 @@ const Certicate = ({
   //isEditing은 수정하기 버튼이 눌렸을때 작동됨.
 
   const checkEditing = (editing) => {
-    console.log(">>>>>>checkEditing", editing);
     setIsEditing(editing);
   };
   const checkDeleting = () => {
@@ -36,13 +35,8 @@ const Certicate = ({
   };
 
   const checkEdited = (isEdited, props) => {
-    //editForm에서 값이 리턴됨.
-    console.log("checkEdited");
-    //console.log(...props);
-    //setIsEdited(edited);
     if (isEdited) {
       //데이터 수정에관련된 로직
-      console.log("데이터 수정작업이 이루어집니다.");
       const type = "edit";
       checkModified(cert.id, type, props);
     }
@@ -77,21 +71,3 @@ const Certicate = ({
 };
 
 export default Certicate;
-
-/*
-      {isEditing ? (
-                  <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
-                  <DialogTitle>자격증 추가</DialogTitle>
-                  <DialogContent>
-                    <CertificateAddForm checkAddComplete={checkAddComplete} />
-                  </DialogContent>
-                </Dialog>
-
-        <CertificateEditForm
-          checkEdited={checkEdited}
-          title={title}
-          description={description}
-          date={date}
-        />
-      ) : (
-*/

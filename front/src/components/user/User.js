@@ -15,8 +15,7 @@ function User({ portfolioOwnerId, isEditable }) {
       //  .then((res) => res.filter((data) => data.id === portfolioOwnerId))
       .then((res) => setUser(res.data.data));
   }, [portfolioOwnerId]);
-  console.log("user.js>>>>>", user);
-  console.log("portfolioOwnerId>>>>>", portfolioOwnerId);
+
   //현재 users/:id 요청시 16명분 데이터가 오고 있음.
   return (
     <>

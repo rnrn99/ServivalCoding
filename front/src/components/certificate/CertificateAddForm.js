@@ -6,7 +6,6 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const CertificateAddForm = ({ checkAddComplete }) => {
-  console.log("CertificateAddForm 불러왔습니다.");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -30,10 +29,8 @@ const CertificateAddForm = ({ checkAddComplete }) => {
     // const isAccepted = accept;
 
     if (e.target.name === "cancel") {
-      console.log("추가하기 취소 버튼이 눌렸습니다.");
       checkAddComplete(null);
     } else {
-      console.log("추가하기 완료 버튼이 눌렸습니다.");
       checkAddComplete({ title, description, date: strDate });
     }
   };
