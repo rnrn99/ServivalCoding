@@ -24,4 +24,14 @@ function fieldChecking(body, ...args) {
     }, {});
 }
 
-export { updateHandler, isTruthy, fieldChecking }
+function removeFields(document, ...args) {
+  return Object
+    .entries(document)
+    .filter(([key, value]) => !args.includes(key))
+    .reduce((res, [key, value]) => {
+      res[key] = value;
+      return res;
+    }, {});
+}
+
+export { updateHandler, isTruthy, fieldChecking, removeFields }

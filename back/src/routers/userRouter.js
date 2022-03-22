@@ -2,7 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
-import { fieldChecking } from "../utils/utils.js";
+import { fieldChecking, removeFields } from "../utils/utils.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -101,7 +101,7 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
     // 토큰에서 사용자 id를 추출함.
     const userId = req.currentUserId;
 
-    const toUpdate = fieldChecking(req.body, 'name', 'email', 'password', 'description');
+    const toUpdate = fieldChecking(req.body, 'name', 'email', 'password', 'description', 'permission');
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
@@ -110,9 +110,11 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
       throw new Error(updatedUser.errorMessage);
     }
 
+    const result = removeFields(updatedUser['_doc'], 'password');
+
     res
       .status(201)
-      .json({ data: updatedUser, code: 201, message: "유저 수정 성공" });
+      .json({ data: result, code: 201, message: "유저 수정 성공" });
   } catch (error) {
     next(error);
   }
@@ -136,7 +138,12 @@ userAuthRouter.get(
 
       // 필요없는 필드 제거
       const { password, ...rest } = document;
-      const updatedUserInfo = { ...rest, isLikedByThisUser };
+
+      // permission 필드 확인 후 비공개 처리된 필드 제거
+      const filteredInfo = filteredByPermissionList(rest);
+
+      // 좋아요 눌렀는지 체크하는 필드 추가
+      const updatedUserInfo = { ...filteredInfo, isLikedByThisUser };
 
       res
         .status(200)
@@ -226,5 +233,18 @@ userAuthRouter.get("/afterlogin", loginRequired, function (req, res, next) {
       `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
     );
 });
+
+function filteredByPermissionList(document) {
+  const { permission, ...fields } = document;
+
+  return Object
+    .entries(fields)
+    .reduce((res, [key, value]) => {
+      if (permission[key] || permission[key] === undefined) {
+        res[key] = value;
+      }
+      return res;
+    }, {});
+}
 
 export { userAuthRouter };

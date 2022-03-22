@@ -36,6 +36,23 @@ const UserSchema = new Schema(
         default: 0,
       },
     },
+    permission: {
+      email: {
+        type: Boolean,
+        required: true,
+        default: true,
+      },
+      name: {
+        type: Boolean,
+        required: true,
+        default: true,
+      },
+      description: {
+        type: Boolean,
+        required: true,
+        default: true,
+      }
+    },
   },
   {
     timestamps: true,

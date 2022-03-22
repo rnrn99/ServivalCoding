@@ -148,12 +148,6 @@ certificateRouter.get(
     const { userId } = req.params;
 
     try {
-      // // 만약 로그인한 유저와 요청한 유저의 id가 다르다면
-      // if ( userId !== req.currentUserId) {
-      //   // 에러를 throw
-      //   throw new Error('잘못된 접근입니다.');
-      // }
-
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId });
 
