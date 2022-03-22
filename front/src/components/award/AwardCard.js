@@ -28,9 +28,9 @@ function AwardCard({ portfolioOwnerId, isEditable }) {
   useEffect(
     () =>
       Api.get("award-lists", portfolioOwnerId).then((res) =>
-        setAwardLists(res.data.data)
+        setAwardLists(res.data.data),
       ),
-    [portfolioOwnerId]
+    [portfolioOwnerId],
   );
 
   return (
