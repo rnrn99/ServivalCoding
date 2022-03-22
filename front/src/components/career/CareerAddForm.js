@@ -5,6 +5,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
+import { dateToString } from "../../utils";
 
 function CareerAddForm({ portfolioOwnerId, setCareerList, setClickAddBtn }) {
   const [title, setTitle] = useState(""); // 경력 사항을 저장할 상태입니다.
@@ -15,15 +16,6 @@ function CareerAddForm({ portfolioOwnerId, setCareerList, setClickAddBtn }) {
   const userId = userState.user.id;
 
   // Date를 YYYY-MM-DD의 문자열로 바꾸는 함수입니다.
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -75,9 +67,7 @@ function CareerAddForm({ portfolioOwnerId, setCareerList, setClickAddBtn }) {
         <TextField
           required
           label="경력 사항"
-          sx={{ width: "60ch" }}
           defaultValue={title}
-          value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </Stack>
