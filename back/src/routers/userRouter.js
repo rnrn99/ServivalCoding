@@ -50,7 +50,7 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-    console.log(user);
+
     res
       .status(200)
       .json({ data: user, code: 200, message: "유저 로그인 성공" });
@@ -186,9 +186,7 @@ userAuthRouter.post(
 
       // user 정보를 불러와서
       const user = await UserAuthService.getUserInfo({ userId: liked });
-
-      const { name, email, password, description, like } = user;
-      const toUpdate = { name, email, password, description, like };
+      const toUpdate = fieldChecking(user, 'like');
 
       // 이미 좋아요를 눌렀다면
       if (toUpdate.like.by.includes(current)) {
