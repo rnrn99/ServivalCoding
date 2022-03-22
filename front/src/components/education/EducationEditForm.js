@@ -16,14 +16,14 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
 
   const [school, setSchool] = useState(education.school); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(education.major); // 전공을 저장할 상태입니다.
-  const [position, setPosition] = useState(education.position); // 재학/졸업 여부를 저장할 상태입니다.
+  const [educationStatus, setEducationStatus] = useState(education.position); // 재학/졸업 여부를 저장할 상태입니다.
 
-  const positionArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"]; // postion을 저장하는 배열입니다.
+  const statusArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"]; // postion을 저장하는 배열입니다.
   const userId = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
 
   // radio button 클릭에 따라 position을 저장합니다.
   const RadioBtnClickHandler = (e, value) => {
-    setPosition(value);
+    setEducationStatus(value);
   };
 
   // submit event handler 입니다.
@@ -34,7 +34,7 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
     const dataToSubmit = {
       school,
       major,
-      position,
+      position: educationStatus,
     };
 
     // educations로 PUT 요청을 보내 학력을 수정합니다.
@@ -67,10 +67,10 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
         <RadioGroup
           name="radio-buttons-group"
           row
-          value={position}
+          value={educationStatus}
           onChange={RadioBtnClickHandler}
         >
-          {positionArr.map((item, i) => (
+          {statusArr.map((item, i) => (
             <FormControlLabel
               key={"position" + i}
               control={<Radio />}
