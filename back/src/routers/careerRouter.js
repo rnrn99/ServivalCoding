@@ -79,7 +79,7 @@ careerRouter.delete("/careers/:id", loginRequired, async (req, res, next) => {
   try {
     const { id } = req.params;
     const career = await careerService.deleteCareer({ id });
-    if (award === null || award === undefined) {
+    if (career === null || career === undefined) {
       return res
         .status(400)
         .json({ code: 400, message: "삭제할 자료가 없습니다." });
