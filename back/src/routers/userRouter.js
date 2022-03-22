@@ -84,7 +84,6 @@ userAuthRouter.get(
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
-
       res.status(200).json({
         data: currentUserInfo,
         code: 200,

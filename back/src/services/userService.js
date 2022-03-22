@@ -70,6 +70,8 @@ class UserAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
+    users.map((user) => (user.password = undefined));
+    console.log(users);
     return users;
   }
 
@@ -98,19 +100,20 @@ class UserAuthService {
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-
+    user.password = undefined;
     return user;
   }
 
   static async searchUser({ name }) {
-    const user = await User.findByName({ name });
-    if (user === null || user === undefined) {
+    const users = await User.findByName({ name });
+    if (users === null || users === undefined) {
       return {
         code: "400",
         message: "존재하지 않는 유저 입니다",
       };
     }
-    return user;
+    users.map((user) => (user.password = undefined));
+    return users;
   }
 }
 
