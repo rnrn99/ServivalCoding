@@ -32,6 +32,11 @@ class User {
     );
     return updatedUser;
   }
+
+  static async findByName({ name }) {
+    const user = await UserModel.find({ name: { $regex: name } });
+    return user;
+  }
 }
 
 export { User };

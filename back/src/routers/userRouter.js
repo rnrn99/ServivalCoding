@@ -141,6 +141,22 @@ userAuthRouter.get(
   }
 );
 
+userAuthRouter.get(
+  "/users/search/:name",
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const { name } = req.params;
+      const user = await UserAuthService.searchUser({ name });
+      res
+        .status(200)
+        .json({ data: user, code: 200, message: "유저 검색 성공" });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 // userAuthRouter.put(
 //   "/likes/:userId",
 //   loginRequired,
