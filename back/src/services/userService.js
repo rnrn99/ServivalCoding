@@ -2,16 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-
-function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
-    .filter(([key, value]) => !!value)
-    .reduce((result, [key, value]) => {
-      result[key] = value;
-      return result;
-    }, {});
-}
+import { updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -63,9 +54,7 @@ class UserAuthService {
     const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
-    const id = user.id;
-    const name = user.name;
-    const description = user.description;
+    const { id, name, description } = user;
 
     const loginUser = {
       token,
@@ -81,6 +70,8 @@ class UserAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
+    users.map((user) => (user.password = undefined));
+    console.log(users);
     return users;
   }
 
@@ -110,8 +101,20 @@ class UserAuthService {
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-
+    user.password = undefined;
     return user;
+  }
+
+  static async searchUser({ name }) {
+    const users = await User.findByName({ name });
+    if (users === null || users === undefined) {
+      return {
+        code: "400",
+        message: "존재하지 않는 유저 입니다",
+      };
+    }
+    users.map((user) => (user.password = undefined));
+    return users;
   }
 }
 

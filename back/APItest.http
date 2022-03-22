@@ -1,11 +1,10 @@
-POST http://localhost:5001/certificates
+POST http://localhost:5001/users/register
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MTc2YmFjMS04ZmYzLTQ4MjItOTE2Yi1jNDIzMmU0MmU5NTQiLCJpYXQiOjE2NDc3MDE1ODd9.mlT6H_qbHs628DFEtvgXaWsI5ldy9gUyuRcXiLBpRX0
 
 {
-  "title": "aaaaaab",
-  "description": "222",
-  "date": "2022-03-19"
+  "email": "ddd@ddd.com",
+  "name": "까치",
+  "password": "asdf1234"
 }
 
 ###
@@ -13,6 +12,42 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "aaaㅓsdf@asdf.com",
+  "email": "ddd@ddd.com",
+  "password": "asdf1234"
+}
+
+###
+POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlYzUwZC1mYWVhLTRkZmQtOTc5OC1mOTU3MTFmYmZjNTIiLCJpYXQiOjE2NDc5MTY4MTN9.iRY3-qVPbDTI07rSiElStNmuia1gw5xUW8gEHcW2ZNQ
+
+
+###
+POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNWQ0ZTA0MC1mYjI5LTQ4YzQtOTI2MS0xOTRjMDZmNDA2MTkiLCJpYXQiOjE2NDc5MTY4Njl9.uodjM5x8Rv92lTa5Mvf8sge6lQMJ6Pb7O7pZnsz2bbc
+
+
+###
+POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
+
+
+
+###
+GET http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
+
+
+###
+PUT http://localhost:5001/users
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
+
+{
+  "email": "zzz@zzz.com",
+  "name": "이름",
   "password": "asdf1234"
 }

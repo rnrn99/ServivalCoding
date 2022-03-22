@@ -22,7 +22,7 @@ class User {
   }
 
   static async update({ userId, fieldToUpdate }) {
-    const filter = { id: userId };
+    const filter = { userId };
     const option = { returnOriginal: false };
 
     const updatedUser = await UserModel.findOneAndUpdate(
@@ -31,6 +31,11 @@ class User {
       option
     );
     return updatedUser;
+  }
+
+  static async findByName({ name }) {
+    const user = await UserModel.find({ name: { $regex: name } });
+    return user;
   }
 }
 

@@ -164,12 +164,6 @@ projectRouter.get(
       // 해당 user의 프로젝트 목록 가져오기
       const projects = await ProjectService.getProjects({ user });
 
-      // 에러가 났다면
-      if (projects.errorMessage) {
-        // 에러를 throw
-        throw new Error(projects.errorMessage);
-      }
-
       res.status(200).send(projects);
     } catch (error) {
       next(error);
