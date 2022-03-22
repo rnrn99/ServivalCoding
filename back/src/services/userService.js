@@ -71,7 +71,6 @@ class UserAuthService {
   static async getUsers() {
     const users = await User.findAll();
     users.map((user) => (user.password = undefined));
-    console.log(users);
     return users;
   }
 
@@ -86,7 +85,8 @@ class UserAuthService {
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
-    user = await User.update({ userId, toUpdate });
+    const fieldToUpdate = updateHandler(toUpdate);
+    user = await User.update({ userId, fieldToUpdate });
 
     return user;
   }

@@ -10,6 +10,7 @@ import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
 import Certificates from "./certificate/Certificates";
+import Careers from "./career/Careers";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -62,6 +63,10 @@ function Portfolio() {
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <User
+            portfolioOwnerId={portfolioOwner.id}
+            isEditable={portfolioOwner.id === userState.user?.id}
+          />
+          <Careers
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
