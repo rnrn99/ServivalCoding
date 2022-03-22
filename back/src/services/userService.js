@@ -71,7 +71,6 @@ class UserAuthService {
   static async getUsers() {
     const users = await User.findAll();
     users.map((user) => (user.password = undefined));
-    console.log(users);
     return users;
   }
 

@@ -25,7 +25,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "project-lists/유저id" 엔드포인트로 GET 요청을 하고, projects를 response의 data로 세팅함.
     Api.get("project-lists", portfolioOwnerId).then((res) =>
-      setProjects(res.data),
+      setProjects(res.data)
     );
   }, [portfolioOwnerId]);
 

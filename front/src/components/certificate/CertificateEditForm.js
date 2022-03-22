@@ -26,10 +26,8 @@ const CertificateEditForm = (props) => {
 
     const strDate = dateToString(date);
     if (e.target.name !== "cancel") {
-      console.log("완료 버튼이 눌렸습니다.");
       props.checkEdited(true, { title, description, date: strDate });
     } else {
-      console.log("취소 버튼이 눌렸습니다.");
       props.checkEdited(false, {});
     }
   };

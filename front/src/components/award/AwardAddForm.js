@@ -1,12 +1,7 @@
 import React, { useState, useContext } from "react";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
-import {
-  Box,
-  TextField,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Box, TextField, Stack, Button } from "@mui/material";
 
 // 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {수상이력리스트 업데이트 함수}를 props로 받아옵니다.
 function AwardAddForm({ setAddAward, setAwardLists }) {
@@ -31,7 +26,7 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
     await Api.post("awards", uptAwardData);
 
     const updateList = await Api.get("award-lists", userId);
-    setAwardLists(updateList.data);
+    setAwardLists(updateList.data.data);
 
     setAddAward(false);
   };
@@ -54,25 +49,23 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
           defaultValue={awardDetail}
           onChange={(e) => setAwardDetail(e.target.value)}
         />
-      </Stack>  
+      </Stack>
 
       <Stack
         direction="row"
         spacing={2}
         sx={{ mt: 2, justifyContent: "center" }}
       >
-          <Button
-            variant="contained" type="submit"
-          >
-            확인
-          </Button>{" "}
-          <Button
-            variant="outlined"
-            type="reset"
-            onClick={() => setAddAward(false)}
-          >
-            취소
-          </Button>
+        <Button variant="contained" type="submit">
+          확인
+        </Button>{" "}
+        <Button
+          variant="outlined"
+          type="reset"
+          onClick={() => setAddAward(false)}
+        >
+          취소
+        </Button>
       </Stack>
     </Box>
   );
