@@ -101,6 +101,17 @@ class UserAuthService {
 
     return user;
   }
+
+  static async searchUser({ name }) {
+    const user = await User.findByName({ name });
+    if (user === null || user === undefined) {
+      return {
+        code: "400",
+        message: "존재하지 않는 유저 입니다",
+      };
+    }
+    return user;
+  }
 }
 
 export { UserAuthService };
