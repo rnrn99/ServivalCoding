@@ -25,6 +25,11 @@ awardRouter.get("/awards/:id", loginRequired, async (req, res, next) => {
   try {
     const { id } = req.params;
     const award = await AwardService.getAward({ id });
+    if (!award) {
+      return res
+        .status(404)
+        .json({ code: 404, message: "올바르지 않은 id 입니다." });
+    }
     return res
       .status(201)
       .json({ data: award, code: 200, message: "수상내역 조회 성공" });
@@ -66,16 +71,14 @@ awardRouter.get(
       if (userId === null || userId === undefined) {
         return res
           .status(404)
-          .json({ code: 404, message: "올바르지 않은 userId 입니다." });
+          .json({ code: 404, message: "userId 값을 넣어주세요." });
       }
       const awards = await AwardService.listAward({ userId });
-      res
-        .status(201)
-        .json({
-          data: awards,
-          code: 200,
-          message: "수상내역 리스트 조회 성공",
-        });
+      res.status(201).json({
+        data: awards,
+        code: 200,
+        message: "수상내역 리스트 조회 성공",
+      });
     } catch (error) {
       next(error);
     }
