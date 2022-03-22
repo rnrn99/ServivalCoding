@@ -24,12 +24,11 @@ function App() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
 
   const fetchCurrentUser = async () => {
-    console.log("hi");
     try {
       // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
-      const res = await Api.get("users", "current");
-      console.log(res);
-      const currentUser = res.data;
+      const res = await Api.get("users/current");
+      console.log("App.js>>>>", res.data.data);
+      const currentUser = res.data.data;
 
       // dispatch 함수를 통해 로그인 성공 상태로 만듦.
       dispatch({

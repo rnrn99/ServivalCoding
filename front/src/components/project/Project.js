@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ProjectCard from "./ProjectCard";
-import ProjectEditForm from "./ProductEditForm";
+import ProjectEditForm from "./ProjectEditForm";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 function Project({ project, setProjects, isEditable }) {

@@ -32,7 +32,7 @@ function EducationCard({
 
     // education-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
     const res = await Api.get("education-lists", user_id);
-    setEducations(res.data);
+    setEducations(res.data.data);
   };
 
   return (
