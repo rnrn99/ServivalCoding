@@ -22,37 +22,54 @@ class AwardService {
       description: createdAward.description,
     };
 
-    return sendData;
+    const result = {
+      data: sendData,
+      code: 201,
+      meesage: "수상내역 생성 성공",
+    };
+
+    return result;
   }
 
   static async getAward({ id }) {
     const award = await Award.find({ id });
     if (award === null || award === undefined) {
-      return false;
+      return { code: 400, errorMessage: "올바르지 않은 id 입니다." };
     }
-    return award;
+    return { data: award, code: 200, message: "수상내역 조회 성공" };
   }
 
   static async updateAward({ id, toUpdate }) {
     const award = await Award.find({ id });
-    if (!award) {
-      const errorMessage = "수상 내역이 없습니다.";
-      return { code: 400, errorMessage };
+    if (award === null || award === undefined) {
+      return { code: 400, errorMessage: "올바르지 않는 id 입니다." };
     }
-
+    if (toUpdate === null || toUpdate === undefined) {
+      return { code: 400, errorMessage: "수정할 값을 넣어주지 않았습니다." };
+    }
     const updateData = await Award.update({ id, toUpdate });
 
-    return updateData;
+    return { data: updateData, code: 201, message: "수상내역 수정 성공" };
   }
 
   static async listAward({ userId }) {
     const awards = await Award.findAll({ userId });
-    return awards;
+    if (userId === null || userId === undefined) {
+      return { code: 400, errorMessage: "userId 값이 없습니다." };
+    }
+    return {
+      data: awards,
+      code: 200,
+      message: "수상내역 리스트 조회 성공",
+    };
   }
 
   static async deleteAward({ id }) {
-    const deleteAward = await Award.delete({ id });
-    return deleteAward;
+    const award = await Award.delete({ id });
+    if (award === null || award === undefined) {
+      return { code: 400, errorMessage: "삭제할 자료가 없습니다." };
+    }
+    return { data: award, code: 201, message: "수상내역 삭제 성공" };
   }
 }
 
