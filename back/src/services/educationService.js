@@ -6,6 +6,11 @@ class EducationService {
     const id = uuidv4();
 
     const user = await User.findById({ userId });
+
+    if (user === null || user === undefined) {
+      return { code: 404, message: "존재하지 않는 유저 ID 입니다." };
+    }
+
     const newEducation = {
       id,
       school,
@@ -15,8 +20,13 @@ class EducationService {
     };
 
     const createNewEducation = await Education.create(newEducation);
-    console.log(createNewEducation);
-    return createNewEducation;
+    const sendData = {
+      id: createNewEducation.id,
+      school: createNewEducation.school,
+      major: createNewEducation.major,
+      position: createNewEducation.position,
+    };
+    return sendData;
   }
 
   static async getEducationsList({ userId }) {
@@ -39,7 +49,7 @@ class EducationService {
     return updateData;
   }
 
-  static async removeEducation({ id }) {
+  static async deleteEducation({ id }) {
     const deleteEducation = await Education.delete({ id });
     if (!deleteEducation) {
       return false;

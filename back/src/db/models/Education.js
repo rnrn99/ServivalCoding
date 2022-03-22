@@ -4,6 +4,7 @@ import { EducationModel } from "../schemas/education.js";
 class Education {
   static async create(newEducation) {
     const createdNewEducation = await EducationModel.create(newEducation);
+    console.log(createdNewEducation);
     return createdNewEducation;
   }
 
