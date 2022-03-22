@@ -21,13 +21,13 @@ class User {
     return users;
   }
 
-  static async update({ userId, toUpdate }) {
+  static async update({ userId, fieldToUpdate }) {
     const filter = { userId };
     const option = { returnOriginal: false };
 
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,
-      toUpdate,
+      { "$set": fieldToUpdate },
       option
     );
     return updatedUser;

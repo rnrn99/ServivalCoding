@@ -16,4 +16,12 @@ function isTruthy(data) {
     || data === 0);
 }
 
-export { updateHandler, isTruthy }
+function fieldChecking(body, ...args) {
+  return args
+    .reduce((res, acc) => {
+      res[acc] = isTruthy(body[acc]) ? body[acc] : null;
+      return res;
+    }, {});
+}
+
+export { updateHandler, isTruthy, fieldChecking }
