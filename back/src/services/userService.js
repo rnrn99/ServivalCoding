@@ -2,7 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import { updateHandler } from "../utils/utils.js";
+import {removeFields, updateHandler} from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -70,7 +70,6 @@ class UserAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
-    users.map((user) => (user.password = undefined));
     return users;
   }
 
@@ -106,7 +105,7 @@ class UserAuthService {
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    user.password = undefined;
+
     return user;
   }
 
