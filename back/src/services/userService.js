@@ -86,6 +86,12 @@ class UserAuthService {
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
     const fieldToUpdate = updateHandler(toUpdate);
+
+    // password 필드가 존재한다면
+    if (fieldToUpdate['password'] !== undefined) {
+      // 암호화
+      fieldToUpdate['password'] = await bcrypt.hash(fieldToUpdate['password'], 10);
+    }
     user = await User.update({ userId, fieldToUpdate });
 
     return user;
@@ -112,7 +118,6 @@ class UserAuthService {
         message: "존재하지 않는 유저 입니다",
       };
     }
-    users.map((user) => (user.password = undefined));
     return users;
   }
 }

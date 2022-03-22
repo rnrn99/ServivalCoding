@@ -40,10 +40,18 @@ Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "password": "qwer1234",
+  "name": "변경",
+  "password": "asdf1234",
+  "description": "상태",
   "permission": {
     "name": false,
     "email": true,
     "description": false
   }
 }
+
+
+###
+GET http://localhost:5001/users/search/체셔캣
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
