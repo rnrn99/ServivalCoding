@@ -25,7 +25,7 @@ function Educations({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "education-lists/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
     Api.get("education-lists", portfolioOwnerId).then((res) =>
-      setEducations(res.data),
+      setEducations(res.data.data)
     );
   }, [portfolioOwnerId]);
 

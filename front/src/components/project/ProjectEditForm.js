@@ -5,7 +5,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
 
-function ProductEditForm({ project, setProjects, setClickEditBtn }) {
+function ProjectEditForm({ project, setProjects, setClickEditBtn }) {
   const [title, setTitle] = useState(project.title); // 프로젝트 제목을 저장할 상태입니다.
   const [description, setDescription] = useState(project.description); // 프로젝트 상세내역을 저장할 상태입니다.
   const [startDate, setStartDate] = useState(new Date(project.from)); // 프로젝트 시작일(Date type)을 저장할 상태입니다.
@@ -105,4 +105,4 @@ function ProductEditForm({ project, setProjects, setClickEditBtn }) {
   );
 }
 
-export default ProductEditForm;
+export default ProjectEditForm;
