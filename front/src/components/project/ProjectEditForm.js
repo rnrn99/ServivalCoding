@@ -4,23 +4,13 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
+import { dateToString } from "../../utils";
 
 function ProjectEditForm({ project, setProjects, setClickEditBtn }) {
   const [title, setTitle] = useState(project.title); // 프로젝트 제목을 저장할 상태입니다.
   const [description, setDescription] = useState(project.description); // 프로젝트 상세내역을 저장할 상태입니다.
   const [startDate, setStartDate] = useState(new Date(project.from)); // 프로젝트 시작일(Date type)을 저장할 상태입니다.
   const [dueDate, setDueDate] = useState(new Date(project.to)); // 프로젝트 마감일(Date type)을 저장할 상태입니다.
-
-  // Date를 YYYY-MM-DD의 문자열로 바꾸는 함수입니다.
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
 
   // submit event handler 입니다.
   const onSubmitHandler = async (e) => {
