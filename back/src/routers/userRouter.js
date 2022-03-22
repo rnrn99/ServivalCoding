@@ -161,9 +161,15 @@ userAuthRouter.get(
     try {
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
+
+      const result =
+        Object
+          .values(user)
+          .map((one) => removeFields(one['_doc'], 'password'));
+
       res
         .status(200)
-        .json({ data: user, code: 200, message: "유저 검색 성공" });
+        .json({ data: result, code: 200, message: "유저 검색 성공" });
     } catch (error) {
       next(error);
     }
