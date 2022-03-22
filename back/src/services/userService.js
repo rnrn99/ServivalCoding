@@ -2,16 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-
-function updateHandler(toUpdate) {
-  return Object
-    .entries(toUpdate)
-    .filter(([key, value]) => !!value)
-    .reduce((result, [key, value]) => {
-      result[key] = value;
-      return result;
-    }, {});
-}
+import { updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -63,9 +54,7 @@ class UserAuthService {
     const token = jwt.sign({ userId: user.id }, secretKey);
 
     // 반환할 loginuser 객체를 위한 변수 설정
-    const id = user.id;
-    const name = user.name;
-    const description = user.description;
+    const { id, name, description } = user;
 
     const loginUser = {
       token,
@@ -95,8 +84,7 @@ class UserAuthService {
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
-    const fieldToUpdate = updateHandler(toUpdate);
-    user = await User.update({ userId, fieldToUpdate });
+    user = await User.update({ userId, toUpdate });
 
     return user;
   }
