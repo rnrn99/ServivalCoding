@@ -28,51 +28,47 @@ function AwardCard({ portfolioOwnerId, isEditable }) {
   useEffect(
     () =>
       Api.get("award-lists", portfolioOwnerId).then((res) =>
-        setAwardLists(res.data),
+        setAwardLists(res.data.data)
       ),
-    [portfolioOwnerId],
+    [portfolioOwnerId]
   );
 
   return (
-
-      <Card sx={{ marginBottom: "20px" }}>
-        <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-          >
-            <Typography sx={{ fontSize: "20px" }} >수상이력</Typography >
-          </AccordionSummary>
-          <AccordionDetails>
-            {awardLists.map((award) => (
-              <Award
-                key={award.id}
-                award={award}
-                isEditable={isEditable}
-                setAwardLists={setAwardLists}
-              />
-            ))}
-            </AccordionDetails>
-           </Accordion> 
-          {isEditable && (
-            <CardContent>
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <IconButton
+    <Card sx={{ marginBottom: "20px" }}>
+      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography sx={{ fontSize: "20px" }}>수상이력</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          {awardLists.map((award) => (
+            <Award
+              key={award.id}
+              award={award}
+              isEditable={isEditable}
+              setAwardLists={setAwardLists}
+            />
+          ))}
+        </AccordionDetails>
+      </Accordion>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <IconButton
               color="primary"
               aria-label="add-education"
               onClick={() => setAddAward((cur) => !cur)}
             >
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
-             </IconButton>
+            </IconButton>
           </Box>
 
-          <Dialog
-          open={addAward}
-          onClose={() => setAddAward((cur) => !cur)}
-          >
-          <DialogTitle>수상이력 추가</DialogTitle>  
-          <DialogContent>
+          <Dialog open={addAward} onClose={() => setAddAward((cur) => !cur)}>
+            <DialogTitle>수상이력 추가</DialogTitle>
+            <DialogContent>
               <AwardAddForm
                 setAddAward={setAddAward}
                 setAwardLists={setAwardLists}
@@ -84,6 +80,5 @@ function AwardCard({ portfolioOwnerId, isEditable }) {
     </Card>
   );
 }
-
 
 export default AwardCard;

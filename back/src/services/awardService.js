@@ -27,6 +27,9 @@ class AwardService {
 
   static async getAward({ id }) {
     const award = await Award.find({ id });
+    if (award === null || award === undefined) {
+      return false;
+    }
     return award;
   }
 

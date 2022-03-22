@@ -50,7 +50,6 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     if (user.errorMessage) {
       throw new Error(user.errorMessage);
     }
-    console.log(user);
     res
       .status(200)
       .json({ data: user, code: 200, message: "유저 로그인 성공" });
