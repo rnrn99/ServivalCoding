@@ -2,6 +2,7 @@ import is from "@sindresorhus/is";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
+import { fieldChecking } from "../utils/utils.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -99,8 +100,9 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
   try {
     // 토큰에서 사용자 id를 추출함.
     const userId = req.currentUserId;
-    // body data 로부터 업데이트할 사용자 정보를 추출함.
-    const toUpdate = { ...req.body };
+
+    const toUpdate = fieldChecking(req.body, 'name', 'email', 'password', 'description');
+
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
 
@@ -122,19 +124,23 @@ userAuthRouter.get(
   async function (req, res, next) {
     try {
       const userId = req.params.id;
-      const currentUserInfo = await UserAuthService.getUserInfo({ userId });
+      const userInfo = await UserAuthService.getUserInfo({ userId });
 
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
+      if (userInfo.errorMessage) {
+        throw new Error(userInfo.errorMessage);
       }
 
-      //
       // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
-      //
+      const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
+      const document = { ...userInfo['_doc'] };
+
+      // 필요없는 필드 제거
+      const { password, ...rest } = document;
+      const updatedUserInfo = { ...rest, isLikedByThisUser };
 
       res
         .status(200)
-        .json({ data: currentUserInfo, code: 200, message: "유저 조회 성공" });
+        .json({ data: updatedUserInfo, code: 200, message: "유저 조회 성공" });
     } catch (error) {
       next(error);
     }
@@ -211,43 +217,6 @@ userAuthRouter.post(
     }
   }
 );
-
-// userAuthRouter.put(
-//   "/likes/:userId",
-//   loginRequired,
-//   async function (req, res, next) {
-//     try {
-//       const { userId } = req.params;
-//
-//       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
-//       if (userId === req.currentUserId) {
-//         // 에러 발생
-//         throw new Error("잘못된 접근입니다.");
-//       }
-//
-//       // user 정보를 불러와서
-//       const user = await UserAuthService.getUserInfo({ userId });
-//
-//       const { name, email, password, description, meta } = user;
-//       const toUpdate = { name, email, password, description, meta };
-//
-//       // 좋아요 +1
-//       toUpdate.meta.likes++;
-//       toUpdate.meta.by.push(req.currentUserId);
-//       // 업데이트된 정보로 세팅
-//       const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-//
-//       // 실패했다면 에러
-//       if (updatedUser.errorMessage) {
-//         throw new Error(updatedUser.errorMessage);
-//       }
-//
-//       res.status(200).json(updatedUser);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
 
 // jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
 userAuthRouter.get("/afterlogin", loginRequired, function (req, res, next) {
