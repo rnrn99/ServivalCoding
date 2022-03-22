@@ -13,14 +13,14 @@ import * as Api from "../../api";
 function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
-  const [position, setPosition] = useState("재학중"); // 재학/졸업 여부를 저장할 상태입니다.
+  const [educationStatus, setEducationStatus] = useState("재학중"); // 재학/졸업 여부를 저장할 상태입니다.
 
   // postion을 저장하는 배열입니다.
-  const positionArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
+  const statusArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
 
   // radio button 클릭에 따라 position을 저장합니다.
   const RadioBtnClickHandler = (e, value) => {
-    setPosition(value);
+    setEducationStatus(value);
   };
 
   // submit event handler 입니다.
@@ -31,7 +31,7 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
     const dataToSubmit = {
       school,
       major,
-      position,
+      position: educationStatus,
     };
 
     // educations로 POST 요청을 보냅니다.
@@ -66,9 +66,9 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
           row
           onChange={RadioBtnClickHandler}
         >
-          {positionArr.map((item, i) => (
+          {statusArr.map((item, i) => (
             <FormControlLabel
-              key={"position" + i}
+              key={"educationStatus" + i}
               control={<Radio />}
               label={item}
               value={item}
