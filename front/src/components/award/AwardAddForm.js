@@ -37,7 +37,6 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
         <TextField
           required
           label="수상내역"
-          sx={{ width: "60ch" }}
           defaultValue={awardTitle}
           onChange={(e) => setAwardTitle(e.target.value)}
         />
@@ -45,7 +44,6 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
         <TextField
           required
           label="상세내역"
-          sx={{ width: "60ch" }}
           defaultValue={awardDetail}
           onChange={(e) => setAwardDetail(e.target.value)}
         />
@@ -72,3 +70,4 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
 }
 
 export default AwardAddForm;
+

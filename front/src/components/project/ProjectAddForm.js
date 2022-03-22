@@ -4,23 +4,13 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import * as Api from "../../api";
+import { dateToString } from "../../utils";
 
 function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
   const [title, setTitle] = useState(""); // 프로젝트 제목을 저장할 상태입니다.
   const [description, setDescription] = useState(""); // 프로젝트 상세내역을 저장할 상태입니다.
   const [startDate, setStartDate] = useState(new Date()); // 프로젝트 시작일(Date type)을 저장할 상태입니다.
   const [dueDate, setDueDate] = useState(new Date()); // 프로젝트 마감일(Date type)을 저장할 상태입니다.
-
-  // Date를 YYYY-MM-DD의 문자열로 바꾸는 함수입니다.
-  const dateToString = (date) => {
-    return (
-      date.getFullYear() +
-      "-" +
-      (date.getMonth() + 1).toString().padStart(2, "0") +
-      "-" +
-      date.getDate().toString().padStart(2, "0")
-    );
-  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -31,7 +21,6 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
 
     // 프로젝트 추가를 위해 유저 id, 프로젝트 제목, 상세내역, 시작일, 마감일을 객체로 저장합니다.
     const dataToSubmit = {
-      userId: portfolioOwnerId,
       title,
       description,
       from,
@@ -56,13 +45,11 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
           required
           label="프로젝트 제목"
           onChange={(e) => setTitle(e.target.value)}
-          sx={{ width: "60ch" }}
         />
         <TextField
           required
           label="상세내역"
           onChange={(e) => setDescription(e.target.value)}
-          sx={{ width: "60ch" }}
         />
       </Stack>
       <LocalizationProvider dateAdapter={AdapterDateFns}>

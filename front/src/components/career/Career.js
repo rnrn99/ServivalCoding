@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from "react";
 import CareerCard from "./CareerCard";
 import CareerEditForm from "./CareerEditForm";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
@@ -23,10 +23,10 @@ function Career({ career, setCareerList, isEditable }) {
       </Dialog>
 
       <CareerCard
-          career={career}
-          setClickEditBtn={setClickEditBtn}
-          isEditable={isEditable}
-          setCareerList={setCareerList}
+        career={career}
+        setClickEditBtn={setClickEditBtn}
+        isEditable={isEditable}
+        setCareerList={setCareerList}
       />
     </>
   );

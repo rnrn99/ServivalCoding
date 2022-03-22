@@ -2,8 +2,8 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "ddd@ddd.com",
-  "name": "까치",
+  "email": "ccc@ccc.com",
+  "name": "체셔캣",
   "password": "asdf1234"
 }
 
@@ -12,42 +12,38 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "ddd@ddd.com",
+  "email": "aaa@aaa.com",
   "password": "asdf1234"
 }
 
 ###
-POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmFlYzUwZC1mYWVhLTRkZmQtOTc5OC1mOTU3MTFmYmZjNTIiLCJpYXQiOjE2NDc5MTY4MTN9.iRY3-qVPbDTI07rSiElStNmuia1gw5xUW8gEHcW2ZNQ
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYzNiNy04MTFkLTQ1ZDMtYTVlNy0wYmU4ZDI0N2QxNjIiLCJpYXQiOjE2NDc5MzE1MzV9.gRwtuON5EHgqQ-ISTlmian1KZ4vwIC-iTLCHH7LipY0
 
 
 ###
-POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNWQ0ZTA0MC1mYjI5LTQ4YzQtOTI2MS0xOTRjMDZmNDA2MTkiLCJpYXQiOjE2NDc5MTY4Njl9.uodjM5x8Rv92lTa5Mvf8sge6lQMJ6Pb7O7pZnsz2bbc
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYTkxNDkxMC1hOTc4LTQ5YzAtYTJkNy0zYjA0NTQ0MTJlOWIiLCJpYXQiOjE2NDc5MzE1NTF9.LJM42E_cmsiM9LAWSK_-yTRrKnLfOI_eeQ-mUwqXdmw
 
 
 ###
-POST http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2/likes
+POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
-
-
-
-###
-GET http://localhost:5001/users/22a350ef-c250-4857-b505-e7ee724f40f2
-Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 
 ###
 PUT http://localhost:5001/users
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyMmEzNTBlZi1jMjUwLTQ4NTctYjUwNS1lN2VlNzI0ZjQwZjIiLCJpYXQiOjE2NDc5MTY5MDZ9.8A742_4G8bmsA5X4Y_ue_YV7L3tEEpVEylVvGni6RjI
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "email": "zzz@zzz.com",
-  "name": "이름",
-  "password": "asdf1234"
+  "password": "qwer1234",
+  "permission": {
+    "name": false,
+    "email": true,
+    "description": false
+  }
 }

@@ -6,15 +6,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import * as Api from "../../api";
 
 function ProjectCard({ project, setClickEditBtn, isEditable, setProjects }) {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = useState(null); // Menu Element를 가리킵니다.
+  const [isOpen, setIsOpen] = useState(null); // Menu Element의 Open 상태를 저장합니다.
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setIsOpen(Boolean(event.currentTarget));
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsOpen(false);
   };
 
   const DelBtnClickHandler = async () => {
@@ -41,25 +42,27 @@ function ProjectCard({ project, setClickEditBtn, isEditable, setProjects }) {
             <IconButton onClick={handleClick} sx={{ float: "right", mb: 2 }}>
               <MoreHorizIcon />
             </IconButton>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>
-                <Button
-                  onClick={() => setClickEditBtn((cur) => !cur)}
-                  startIcon={<EditIcon />}
-                >
-                  편집
-                </Button>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Button
-                  color="error"
-                  startIcon={<DeleteIcon />}
-                  onClick={DelBtnClickHandler}
-                >
-                  삭제
-                </Button>
-              </MenuItem>
-            </Menu>
+            {isOpen && (
+              <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
+                <MenuItem onClick={handleClose}>
+                  <Button
+                    onClick={() => setClickEditBtn((cur) => !cur)}
+                    startIcon={<EditIcon />}
+                  >
+                    편집
+                  </Button>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Button
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={DelBtnClickHandler}
+                  >
+                    삭제
+                  </Button>
+                </MenuItem>
+              </Menu>
+            )}
           </>
         )}
       </Grid>

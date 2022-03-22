@@ -25,7 +25,7 @@ function Educations({ portfolioOwnerId, isEditable }) {
   useEffect(() => {
     // "education-lists/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
     Api.get("education-lists", portfolioOwnerId).then((res) =>
-      setEducations(res.data.data)
+      setEducations(res.data.data),
     );
   }, [portfolioOwnerId]);
 
@@ -61,20 +61,21 @@ function Educations({ portfolioOwnerId, isEditable }) {
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
             </IconButton>
           </Box>
-
-          <Dialog
-            open={clickAddBtn}
-            onClose={() => setClickAddBtn((cur) => !cur)}
-          >
-            <DialogTitle>학력 추가</DialogTitle>
-            <DialogContent>
-              <EducationAddForm
-                portfolioOwnerId={portfolioOwnerId}
-                setClickAddBtn={setClickAddBtn}
-                setEducations={setEducations}
-              />
-            </DialogContent>
-          </Dialog>
+          {clickAddBtn && (
+            <Dialog
+              open={clickAddBtn}
+              onClose={() => setClickAddBtn((cur) => !cur)}
+            >
+              <DialogTitle>학력 추가</DialogTitle>
+              <DialogContent>
+                <EducationAddForm
+                  portfolioOwnerId={portfolioOwnerId}
+                  setClickAddBtn={setClickAddBtn}
+                  setEducations={setEducations}
+                />
+              </DialogContent>
+            </Dialog>
+          )}
         </CardContent>
       )}
     </Card>

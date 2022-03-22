@@ -36,14 +36,12 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
           required
           label="수상 내역"
           onChange={(e) => setAwardTitle(e.target.value)}
-          sx={{ width: "60ch" }}
           defaultValue={awardTitle}
         />
         <TextField
           required
           label="상세 내역"
           onChange={(e) => setAwardDetail(e.target.value)}
-          sx={{ width: "60ch" }}
           defaultValue={awardDetail}
         />
       </Stack>
@@ -68,3 +66,4 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
 }
 
 export default AwardEditForm;
+
