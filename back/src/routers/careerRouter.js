@@ -54,22 +54,26 @@ careerRouter.put("/careers/:id", loginRequired, async (req, res, next) => {
   }
 });
 
-careerRouter.get("/career-lists", loginRequired, async (req, res, next) => {
-  try {
-    const userId = req.currentUserId;
-    if (userId === null || userId === undefined) {
-      return res
-        .status(404)
-        .json({ code: 404, message: "올바르지 않은 userId 입니다." });
+careerRouter.get(
+  "/career-lists/:userId",
+  loginRequired,
+  async (req, res, next) => {
+    try {
+      const userId = req.params;
+      if (userId === null || userId === undefined) {
+        return res
+          .status(404)
+          .json({ code: 404, message: "올바르지 않은 userId 입니다." });
+      }
+      const careers = await careerService.getCareers({ userId });
+      res
+        .status(200)
+        .json({ data: careers, code: 200, message: "경력 리스트 조회 성공" });
+    } catch (error) {
+      next(error);
     }
-    const careers = await careerService.getCareers({ userId });
-    res
-      .status(200)
-      .json({ data: careers, code: 200, message: "경력 리스트 조회 성공" });
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 careerRouter.delete("/careers/:id", loginRequired, async (req, res, next) => {
   try {
