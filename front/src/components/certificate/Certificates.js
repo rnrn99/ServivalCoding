@@ -47,10 +47,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     });
   };
 
-  //추가하기가 완료되었는지 체크를 위해
-  //isAddComplete 스테이트를 건들수 있는 함수를 AddForm에 전달함
-  //AddForm에서는 완료 버튼이 눌렸을 때 결과 값들을 보내줌
-  //props에는 서버로 post할 자격증 정보가 담겨있음
   const checkAddComplete = async (props) => {
     if (props !== null) {
       //데이터를 업데이트 합니다.
@@ -59,17 +55,11 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
       const res = await Api.get("certificate-lists", portfolioOwnerId);
       setCerts(res.data);
     }
-
-    //추가하기가 완료되어 AddForm은 닫아줍니다.
     setIsAdd(false);
   };
 
-  //변경사항(edit, delete)를 체크하는 함수 checkModified
-  //단위 항목에서 변경사항을 전달받아 서버로 보내는 역할
+  //checkModified 단위 항목에서 변경사항을 전달받아 서버로 보내는 역할
   const checkModified = async (id, type, props) => {
-    //type 이 edit인 경우
-    //certificate 에서 수정이 이뤄진경우 데이터 처리.
-    //id는 param으로 전달된 상태이기때문에 프랍만.
     if (type === "edit") {
       await Api.put(`certificates/${id}`, props);
     } else if (type === "delete") {
@@ -93,6 +83,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         </AccordionSummary>
         <AccordionDetails>{setCertificateList()}</AccordionDetails>
       </Accordion>
+
       {isEditable && (
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
