@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import _ from "lodash";
 import {
   Box,
   TextField,
@@ -7,13 +8,19 @@ import {
   Radio,
   RadioGroup,
   Button,
+  Chip,
 } from "@mui/material";
+import SchoolIcon from "@mui/icons-material/School";
 import * as Api from "../../api";
+import axios from "axios";
 
 function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
+  const inputRef = useRef();
+
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [educationStatus, setEducationStatus] = useState("재학중"); // 재학/졸업 여부를 저장할 상태입니다.
+  const [schoolOpt, setSchoolOpt] = useState(null); // 학교 이름 검색에 따른 옵션들을 저장합니다.
 
   // postion을 저장하는 배열입니다.
   const statusArr = ["재학중", "학사졸업", "석사졸업", "박사졸업"];
@@ -45,14 +52,61 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
     setClickAddBtn(false);
   };
 
+  const sendQuery = async (word) => {
+    const apiKey = process.env.REACT_APP_API_KEY;
+    const target = process.env.REACT_APP_TARGET;
+    const api = axios.create({
+      baseURL: "http://www.career.go.kr/cnet/openapi/getOpenApi",
+      params: {
+        apiKey,
+        svcType: "api",
+        svcCode: "SCHOOL",
+        contentType: "json",
+        gubun: target,
+        perPage: "3",
+        searchSchulNm: word,
+      },
+    });
+    const res = await api.get();
+    const data = res.data.dataSearch.content;
+    const opt = data.map((v) => v.schoolName);
+    setSchoolOpt(opt);
+  };
+
+  const delayedSearchWord = useRef(
+    _.debounce((q) => sendQuery(q), 200),
+  ).current;
+
+  const schoolChangeHandler = (e) => {
+    setSchool(e.target.value);
+    delayedSearchWord(e.target.value);
+  };
+
   return (
     <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
       <Stack spacing={2}>
         <TextField
           required
           label="학교 이름"
-          onChange={(e) => setSchool(e.target.value)}
+          value={school}
+          ref={inputRef}
+          onChange={(e) => schoolChangeHandler(e)}
         />
+        {schoolOpt && (
+          <Stack direction="row" spacing={1}>
+            {schoolOpt.map((name, i) => (
+              <Chip
+                key={"schoolOpt" + i}
+                icon={<SchoolIcon />}
+                label={name}
+                color="primary"
+                variant="outlined"
+                size="small"
+                onClick={(e) => setSchool(e.target.innerText)}
+              />
+            ))}
+          </Stack>
+        )}
         <TextField
           required
           label="전공"
