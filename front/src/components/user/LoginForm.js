@@ -1,11 +1,24 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
-
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 
-function LoginForm() {
+import {
+  Avatar,
+  Button,
+  TextField,
+  Card,
+  Container,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+} from "@mui/material";
+
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+
+const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
@@ -61,60 +74,85 @@ function LoginForm() {
   };
 
   return (
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="loginEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="on"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+    <Container component="main" maxWidth="xs">
+      <Card
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          backgroundColor: "white",
+          padding: 2,
+          borderRadius: 2,
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          로그인
+        </Typography>
 
-            <Form.Group controlId="loginPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="on"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상입니다.
-                </Form.Text>
-              )}
-            </Form.Group>
+        <TextField
+          margin="normal"
+          name="email"
+          label="이메일 주소"
+          required
+          fullWidth
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
-                  로그인
-                </Button>
-              </Col>
-            </Form.Group>
+        <TextField
+          margin="normal"
+          name="password"
+          label="비밀번호"
+          type="password"
+          required
+          fullWidth
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="light" onClick={() => navigate("/register")}>
-                  회원가입하기
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="로그인 기억하기"
+        />
+
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={handleSubmit}
+        >
+          로그인
+        </Button>
+        <Grid container>
+          <Grid item xs>
+            <Link>비밀번호 찾기</Link>
+          </Grid>
+          <Grid item>
+            <Link onClick={() => navigate("/register")}>회원가입</Link>
+          </Grid>
+        </Grid>
+      </Card>
     </Container>
   );
-}
+};
 
 export default LoginForm;
+
+// {!isEmailValid && (
+//     <Typography className="text-success" component="h5" variant="h5">
+//       이메일 형식이 올바르지 않습니다.
+//     </Typography>
+//   )}
+
+//   {!isPasswordValid && (
+//     <Typography className="text-success" component="p" variant="p">
+//       비밀번호는 4글자 이상입니다.
+//     </Typography>
+//   )}
