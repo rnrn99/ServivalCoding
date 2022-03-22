@@ -59,7 +59,7 @@ careerRouter.get(
   loginRequired,
   async (req, res, next) => {
     try {
-      const userId = req.params;
+      const { userId } = req.params;
       if (userId === null || userId === undefined) {
         return res
           .status(404)

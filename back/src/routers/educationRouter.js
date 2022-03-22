@@ -49,7 +49,7 @@ educationRouter.get(
   loginRequired,
   async function (req, res, next) {
     try {
-      const userId = req.params;
+      const { userId } = req.params;
       const education = await EducationService.getEducationsList({ userId });
       res
         .status(200)
