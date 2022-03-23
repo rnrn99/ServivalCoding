@@ -51,7 +51,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         <label htmlFor="icon-button-file">
         <Input accept="image/*" id="icon-button-file" type="file" />
           <IconButton color="primary" aria-label="upload picture" component="span" >
-            <Badge color="primary" overlap="circular" badgeContent="+">
+            <Badge  overlap="circular" badgeContent="+" style={{ bgColor: '#C7A27C'}}>
               {avatar}
             </Badge>
         </IconButton>

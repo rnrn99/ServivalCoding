@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
+import * as Api from "../../api";
+
+//mui
 import { Button, Container } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
-import * as Api from "../../api";
 import {
   Card,
   CardContent,
   Typography, 
-  Box,
 } from "@mui/material";
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
@@ -17,16 +18,16 @@ import WysiwygIcon from '@mui/icons-material/Wysiwyg'; // 정녕 블로그 아�
 // import Link from '@material-ui/core/Link'; // 추가 설치 드 가야합니다.. > 아이콘에 링크 두려면(깃헙, 블로그, 인스타 등)
 
 function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId }) {
-  const [clickHeart, setClickHeart] = useState(false);
-  const [heartCount, setHeartCount] = useState(0);
+  const [clickHeart, setClickHeart] = useState(false); // 좋아요 boolean 값을 서버로 부터 받아와 저장합니다
+  const [heartCount, setHeartCount] = useState(0); //좋아요 count를 서버로 부터 받아와 저장합니다
 
+  // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(()=>{
     Api.get("users", portfolioOwnerId).then((res)=> {
-      setUser(res.data.data)
       setHeartCount(res.data.data.like.count)
       setClickHeart(res.data.data.isLikedByThisUser)
     })
-  }, [portfolioOwnerId]);
+  }, [portfolioOwnerId]); 
 
   const onHeartHandler = async () => {
 
@@ -37,7 +38,6 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
         setHeartCount(res.data.data.like.count)
         setClickHeart(res.data.data.isLikedByThisUser)
   }
-
 
   return (
   <>
@@ -66,11 +66,12 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
             <InstagramIcon sx={{ marginRight: "3px"}}/>
             <WysiwygIcon/>
     </Container> 
-      <Container sx={{paddingBottom: "0"}}>
+      <Container sx={{paddingBottom: "0" }}>
         {isEditable && (
             <Button
               onClick={() => setIsEditing(true)}
               startIcon={<EditIcon />}
+              style={{ color: '#C7A27C'}}
             > 편집
             </Button>
         )}
