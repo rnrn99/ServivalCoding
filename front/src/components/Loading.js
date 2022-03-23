@@ -2,6 +2,21 @@ import React from "react";
 import { Container, Grid, Card, Skeleton } from "@mui/material";
 
 function Loading() {
+  const setSkeletonComponent = (compNum) => {
+    const skeletonArr = [];
+    for (let i = 0; i < compNum; i++) {
+      skeletonArr.push(
+        <Card sx={{ marginBottom: "20px" }}>
+          <Skeleton
+            sx={{ height: 230 }}
+            animation="wave"
+            variant="rectangular"
+          />
+        </Card>,
+      );
+    }
+    return skeletonArr;
+  };
   return (
     <Container>
       <Grid container spacing={2}>
@@ -22,34 +37,7 @@ function Loading() {
           </Card>
         </Grid>
         <Grid item xs={9}>
-          <Card sx={{ marginBottom: "20px" }}>
-            <Skeleton
-              sx={{ height: 190 }}
-              animation="wave"
-              variant="rectangular"
-            />
-          </Card>
-          <Card sx={{ marginBottom: "20px" }}>
-            <Skeleton
-              sx={{ height: 190 }}
-              animation="wave"
-              variant="rectangular"
-            />
-          </Card>
-          <Card sx={{ marginBottom: "20px" }}>
-            <Skeleton
-              sx={{ height: 190 }}
-              animation="wave"
-              variant="rectangular"
-            />
-          </Card>
-          <Card sx={{ marginBottom: "20px" }}>
-            <Skeleton
-              sx={{ height: 190 }}
-              animation="wave"
-              variant="rectangular"
-            />
-          </Card>
+          {setSkeletonComponent(4)}
         </Grid>
       </Grid>
     </Container>

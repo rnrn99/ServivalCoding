@@ -55,7 +55,7 @@ function Portfolio() {
   }, [params, userState, navigate]);
 
   if (!isFetchCompleted) {
-    return <CircularProgress disableShrink />;
+    return <Loading />;
   }
 
   return (
