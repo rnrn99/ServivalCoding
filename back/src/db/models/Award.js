@@ -28,21 +28,10 @@ class Award {
 
   static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId }, { password: false });
-    console.log(user);
     const findAwards = await AwardModel.find(
       { author: user },
       { _id: false, __v: false }
     );
-    // const findAwards = await AwardModel.find({})
-    //   .populate("author")
-    //   .exec((err, awards) => {
-    //     if (err) return res.status(400).send(err);
-    //     awards.map((award) => {
-    //       if (award.author.id === userId) {
-    //         console.log(award);
-    //       }
-    //     });
-    //   });
     return findAwards;
   }
 
