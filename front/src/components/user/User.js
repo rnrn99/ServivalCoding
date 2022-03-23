@@ -20,7 +20,7 @@ function User({ portfolioOwnerId, isEditable }) {
   //현재 users/:id 요청시 16명분 데이터가 오고 있음.
   return (
     <>
-      {isEditing&& (   
+      {isEditing && (   
       <Dialog
         open={isEditing}
         onClose={() => setIsEditing((cur) => !cur)}
