@@ -4,7 +4,6 @@ import { EducationModel } from "../schemas/education.js";
 class Education {
   static async create(newEducation) {
     const createdNewEducation = await EducationModel.create(newEducation);
-    console.log(createdNewEducation);
     return createdNewEducation;
   }
 
@@ -14,7 +13,10 @@ class Education {
 
   static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
-    const educations = await EducationModel.find({ author: user });
+    const educations = await EducationModel.find(
+      { author: user },
+      { _id: false }
+    );
     return educations;
   }
 

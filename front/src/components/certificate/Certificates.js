@@ -72,7 +72,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   };
 
   return (
-    <Card sx={{ marginTop: "20px" }}>
+    <Card sx={{ marginBottom: "20px" }}>
       <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}

@@ -1,7 +1,15 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, useRef } from "react";
+import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-// import { Container, Row } from "react-bootstrap";
-import { Container, Grid } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Input,
+  Box,
+  InputAdornment,
+  Typography,
+} from "@mui/material";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 
 import * as Api from "../../api";
 import UserNetworkCard from "./UserNetworkCard";
@@ -10,8 +18,10 @@ import { UserStateContext } from "../../App";
 function Network() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  // useState 훅을 통해 users 상태를 생성함.
-  const [users, setUsers] = useState([]);
+
+  const [users, setUsers] = useState([]); // 유저의 정보를 저장합니다.
+  const [searchWord, setSearchWord] = useState(""); // 검색어를 저장합니다.
+  const [isFound, setIsFound] = useState(true); // 검색 결과의 유무를 저장합니다.
 
   useEffect(() => {
     // 만약 전역 상태의 user가 null이라면, 로그인 페이지로 이동함.
@@ -23,12 +33,62 @@ function Network() {
     Api.get("users").then((res) => setUsers(res.data.data));
   }, [userState, navigate]);
 
+  const sendQuery = async (word) => {
+    try {
+      if (word.length === 0) {
+        const { data } = await Api.get("users");
+        setUsers(data.data);
+        setIsFound(true);
+      } else {
+        const { data } = await Api.get("users/search", word);
+        if (data.data.length > 0) {
+          setUsers(data.data);
+          setIsFound(true);
+        } else {
+          setIsFound(false);
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  // 200ms마다 사용자의 입력을 가져와 쿼리를 보냅니다.
+  const delayedSearchWord = useRef(
+    _.debounce((q) => sendQuery(q), 200),
+  ).current;
+
+  const inputChangeHandler = (e) => {
+    setSearchWord(e.target.value);
+    delayedSearchWord(e.target.value);
+  };
+
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mb: 3,
+        }}
+      >
+        <Input
+          variant="outlined"
+          startAdornment={
+            <InputAdornment position="start">
+              <PersonSearchIcon />
+            </InputAdornment>
+          }
+          value={searchWord}
+          onChange={(e) => inputChangeHandler(e)}
+        />
+      </Box>
       <Grid container spacing={4}>
-        {users.map((user) => (
-          <UserNetworkCard key={user.id} user={user} />
-        ))}
+        {isFound ? (
+          users.map((user) => <UserNetworkCard key={user.id} user={user} />)
+        ) : (
+          <Typography> 검색 결과 없음</Typography>
+        )}
       </Grid>
     </Container>
   );
