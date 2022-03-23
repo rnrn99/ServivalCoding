@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserEditForm from "./UserEditForm";
 import UserCard from "./UserCard";
 import * as Api from "../../api";
+import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 function User({ portfolioOwnerId, isEditable }) {
   // useState 훅을 통해 isEditing 상태를 생성함.
@@ -19,13 +20,21 @@ function User({ portfolioOwnerId, isEditable }) {
   //현재 users/:id 요청시 16명분 데이터가 오고 있음.
   return (
     <>
-      {isEditing ? (
-        <UserEditForm
-          user={user}
-          setIsEditing={setIsEditing}
-          setUser={setUser}
-        />
-      ) : (
+      {isEditing&& (   
+      <Dialog
+        open={isEditing}
+        onClose={() => setIsEditing((cur) => !cur)}
+      >
+        <DialogTitle>프로필 편집</DialogTitle>
+        <DialogContent>
+          <UserEditForm
+            user={user}
+            setIsEditing={setIsEditing}
+            setUser={setUser}
+          />
+        </DialogContent>
+      </Dialog> 
+      )}
         <UserCard
           user={user}
           setUser={setUser}
@@ -33,7 +42,6 @@ function User({ portfolioOwnerId, isEditable }) {
           setIsEditing={setIsEditing}
           isEditable={isEditable}
         />
-      )}
     </>
   );
 }

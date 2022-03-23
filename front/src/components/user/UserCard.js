@@ -13,18 +13,24 @@ import Favorite from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 
 function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId }) {
-  const [clickHeart, setClickHeart] = useState(false)
+  const [clickHeart, setClickHeart] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
+  const [imgUrl, setImgUrl]= useState('http://placekitten.com/200/200')
 
 
- const plusHeartHandler = async () => {
+ const onHeartHandler = async () => {
     setClickHeart((cur)=> !cur)
-    const res = await Api.post(`users/${portfolioOwnerId}/likes`);
+
+    const res = await Api.post(`users/${user.id}/likes`);
+    console.log(user.id)
     console.log(res.data.data)
 
     const res1 = await Api.get("users", portfolioOwnerId);
     console.log(res1.data.data)
     setUser(res1.data.data)
+
+    setHeartCount(res1.data.data.like.count)
+    console.log(clickHeart)
   }
 
   return (
@@ -34,24 +40,25 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
     <Container style={{ marginBottom: "25px" }}>
         <Avatar
           alt="Remy Sharp"
-          src="http://placekitten.com/200/200"
-          sx={{ width: 180, height: 180, marginTop: '15px', marginBottom: '15px'}}
+          src={imgUrl}
+          sx={{ width: 180, height: 180, marginTop: '15px', marginBottom: '15px', border: '3px double #b0bec5' }}
         /> 
         <Typography style={{ fontWeight: "bold", fontSize: "20px" }} >{user?.name}</Typography>
         <Typography className="text-muted" style={{fontSize: "9px", marginBottom: "7px"}}>({user?.email})</Typography>
         <Typography >"{user?.description}"</Typography>
         <Container className="text-muted" style={{fontSize: "12px"}} >
-        {clickHeart 
+        {clickHeart
         ? <Button
             startIcon={<Favorite />}
-            onClick={plusHeartHandler}
+            onClick={onHeartHandler}
             style={{color: "red", minWidth: "0", paddingRight: '0'}}
-          />
-        : <Button
-          startIcon={<FavoriteBorder />}
-          onClick={plusHeartHandler}
-          style={{color: "grey", minWidth: "0", paddingRight: '0'}}
-        />
+          /> 
+        : 
+          <Button
+            startIcon={<FavoriteBorder />}
+            onClick={onHeartHandler}
+            style={{color: "grey", minWidth: "0", paddingRight: '0'}}
+            />
         }<Typography style={{display: 'inline', fontSize: "13px", margin: "0" }}>{heartCount}명이 좋아합니다</Typography>
         </Container>
     </Container>  
