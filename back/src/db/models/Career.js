@@ -8,7 +8,7 @@ class Career {
   }
 
   static async find({ id }) {
-    const career = CareerModel.findOne({ id });
+    const career = CareerModel.findOne({ id }, { _id: false });
     return career;
   }
 
@@ -26,8 +26,10 @@ class Career {
 
   static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
-    const careers = await CareerModel.find({ author: user });
-    console.log(user);
+    const careers = await CareerModel.find(
+      { author: user },
+      { _id: false, __v: false }
+    ).sort({ fromDate: 1, toDate: 1 });
     return careers;
   }
 

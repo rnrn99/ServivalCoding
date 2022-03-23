@@ -7,7 +7,10 @@ class Award {
   }
 
   static async find({ id }) {
-    const findAward = await AwardModel.findOne({ id });
+    const findAward = await AwardModel.findOne(
+      { id },
+      { _id: false, __v: false }
+    );
     return findAward;
   }
 
@@ -24,8 +27,12 @@ class Award {
   }
 
   static async findAll({ userId }) {
-    const user = await UserModel.findOne({ id: userId });
-    const findAwards = await AwardModel.find({ author: user });
+    const user = await UserModel.findOne({ id: userId }, { password: false });
+    console.log(user);
+    const findAwards = await AwardModel.find(
+      { author: user },
+      { _id: false, __v: false }
+    );
     // const findAwards = await AwardModel.find({})
     //   .populate("author")
     //   .exec((err, awards) => {
@@ -41,7 +48,6 @@ class Award {
 
   static async delete({ id }) {
     const deleteAwards = await AwardModel.findOneAndDelete({ id });
-    console.log(deleteAwards);
     return deleteAwards;
   }
 }
