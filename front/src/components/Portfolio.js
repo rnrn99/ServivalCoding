@@ -6,6 +6,7 @@ import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
 
+import Loading from "./Loading";
 import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
@@ -54,7 +55,7 @@ function Portfolio() {
   }, [params, userState, navigate]);
 
   if (!isFetchCompleted) {
-    return "loading...";
+    return <Loading />;
   }
 
   return (
