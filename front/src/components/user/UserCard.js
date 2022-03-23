@@ -40,18 +40,20 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
         <Typography style={{ fontWeight: "bold", fontSize: "20px" }} >{user?.name}</Typography>
         <Typography className="text-muted" style={{fontSize: "9px", marginBottom: "7px"}}>({user?.email})</Typography>
         <Typography >"{user?.description}"</Typography>
+        <Container className="text-muted" style={{fontSize: "12px"}} >
         {clickHeart 
         ? <Button
             startIcon={<Favorite />}
             onClick={plusHeartHandler}
-            style={{color: "red"}}
+            style={{color: "red", minWidth: "0", paddingRight: '0'}}
           />
         : <Button
           startIcon={<FavoriteBorder />}
           onClick={plusHeartHandler}
-          style={{color: "grey"}}
+          style={{color: "grey", minWidth: "0", paddingRight: '0'}}
         />
-        }{heartCount}
+        }<Typography style={{display: 'inline', fontSize: "13px", margin: "0" }}>{heartCount}명이 좋아합니다</Typography>
+        </Container>
     </Container>  
       <Container sx={{paddingBottom: "0"}}>
         {isEditable && (
