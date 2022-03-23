@@ -6,6 +6,7 @@ import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
 
+import Techs from "./tech/Techs";
 import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
@@ -71,7 +72,11 @@ function Portfolio() {
           />
         </Grid>
         <Grid item xs={9}>
-          <Educations
+          <Techs
+            portfolioOwnerId={portfolioOwner.id}
+            isEditable={portfolioOwner.id === userState.user?.id}
+          />
+          <Projects
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
@@ -79,7 +84,7 @@ function Portfolio() {
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
-          <Projects
+          <Educations
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
