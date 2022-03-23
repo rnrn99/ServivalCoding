@@ -31,7 +31,6 @@ function User({ portfolioOwnerId, isEditable }) {
             user={user}
             setIsEditing={setIsEditing}
             setUser={setUser}
-            portfolioOwnerId={portfolioOwnerId}
           />
         </DialogContent>
       </Dialog> 

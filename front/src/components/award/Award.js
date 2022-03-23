@@ -1,24 +1,25 @@
 import React, {useState,useContext} from 'react';
 import AwardEditForm from './AwardEditForm';
 import { UserStateContext } from "../../App";
+import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그 
 import * as Api from "../../api";
+
 import { Button, Grid, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz"; // 가로 점 세개
 import EditIcon from "@mui/icons-material/Edit"; // 편집 버튼 아이콘
 import DeleteIcon from "@mui/icons-material/Delete"; // 삭제 버튼 아이콘
 import { Dialog, DialogTitle, DialogContent } from "@mui/material";
 
-
 // 뿌려지는 수상이력 개별이 갖는 구조 컨퍼넌트 입니다.
 function Award({ award, isEditable, setAwardLists }) {
-  // 편집 버튼 클릭 시, AwardEditForm이 활성화 되도록 하는 state 입니다.
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // 편집 버튼 클릭 시, AwardEditForm이 활성화 되도록 하는 state 입니다.
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const [isDeleting, setIsDeleting] = useState(false); // 삭제 여부를 저장합니다.
 
   const userState = useContext(UserStateContext);
   const userId = userState.user.id;
-
+  
+  const open = Boolean(anchorEl); // * 수정 필요 (state로 관리하기)*
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,11 +27,13 @@ function Award({ award, isEditable, setAwardLists }) {
     setAnchorEl(null);
   };
 
-  const deleteHandler = async () => {
-    await Api.delete("awards", award.id);
+  const deleteHandler = async (isDeleting) => {
+    if(isDeleting) {
+      await Api.delete("awards", award.id);
 
     const deleteData = await Api.get("award-lists", userId);
     setAwardLists(deleteData.data.data);
+    }
   };
 
   return (
@@ -70,7 +73,7 @@ function Award({ award, isEditable, setAwardLists }) {
                   <Button
                     color="error"
                     startIcon={<DeleteIcon />}
-                    onClick={deleteHandler}
+                    onClick={() => setIsDeleting(true)}
                   >
                     삭제
                   </Button>
@@ -78,6 +81,9 @@ function Award({ award, isEditable, setAwardLists }) {
               </Menu>
             </>
           )}
+          {isDeleting && (
+              <AlertDialog checkDeleteComplete={deleteHandler} />
+            )}
         </Grid>
       </Grid>
     </>
