@@ -1,11 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, CircularProgress } from "@mui/material";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
 import User from "./user/User";
 
+import Loading from "./Loading";
 import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
@@ -54,7 +55,7 @@ function Portfolio() {
   }, [params, userState, navigate]);
 
   if (!isFetchCompleted) {
-    return "loading...";
+    return <Loading />;
   }
 
   return (
