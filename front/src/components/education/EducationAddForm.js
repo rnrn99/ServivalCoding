@@ -12,11 +12,9 @@ import {
 } from "@mui/material";
 import SchoolIcon from "@mui/icons-material/School";
 import * as Api from "../../api";
-import axios from "axios";
+import { getEducationApi } from "../../utils";
 
 function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
-  const inputRef = useRef();
-
   const [school, setSchool] = useState(""); // 학교 이름을 저장할 상태입니다.
   const [major, setMajor] = useState(""); // 전공을 저장할 상태입니다.
   const [educationStatus, setEducationStatus] = useState("재학중"); // 재학/졸업 여부를 저장할 상태입니다.
@@ -53,26 +51,19 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
   };
 
   const sendQuery = async (word) => {
-    const apiKey = process.env.REACT_APP_API_KEY;
-    const target = process.env.REACT_APP_TARGET;
-    const api = axios.create({
-      baseURL: "http://www.career.go.kr/cnet/openapi/getOpenApi",
-      params: {
-        apiKey,
-        svcType: "api",
-        svcCode: "SCHOOL",
-        contentType: "json",
-        gubun: target,
-        perPage: "3",
-        searchSchulNm: word,
-      },
-    });
+    // 학교 선택지를 가져오기 위해 api를 생성합니다.
+    const api = getEducationApi(word);
+
+    //  open api 주소로 GET 요청을 보냅니다.
     const res = await api.get();
+
+    // 반환된 결과를 3개까지만 저장하고 학교 이름만 가져와 schoolOpt 상태에 저장합니다.
     const data = res.data.dataSearch.content;
     const opt = data.map((v) => v.schoolName);
     setSchoolOpt(opt);
   };
 
+  // 200ms마다 입력된 내용을 검색어로 지정합니다.
   const delayedSearchWord = useRef(
     _.debounce((q) => sendQuery(q), 200),
   ).current;
@@ -89,7 +80,6 @@ function EducationAddForm({ portfolioOwnerId, setClickAddBtn, setEducations }) {
           required
           label="학교 이름"
           value={school}
-          ref={inputRef}
           onChange={(e) => schoolChangeHandler(e)}
         />
         {schoolOpt && (
