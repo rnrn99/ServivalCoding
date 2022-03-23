@@ -18,7 +18,6 @@ import { UserStateContext } from "../../App";
 function Network() {
   const navigate = useNavigate();
   const userState = useContext(UserStateContext);
-  const inputRef = useRef();
 
   const [users, setUsers] = useState([]); // 유저의 정보를 저장합니다.
   const [searchWord, setSearchWord] = useState(""); // 검색어를 저장합니다.
@@ -54,6 +53,7 @@ function Network() {
     }
   };
 
+  // 200ms마다 사용자의 입력을 가져와 쿼리를 보냅니다.
   const delayedSearchWord = useRef(
     _.debounce((q) => sendQuery(q), 200),
   ).current;
@@ -81,7 +81,6 @@ function Network() {
           }
           value={searchWord}
           onChange={(e) => inputChangeHandler(e)}
-          ref={inputRef}
         />
       </Box>
       <Grid container spacing={4}>
