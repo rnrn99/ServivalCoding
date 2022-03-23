@@ -3,6 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { ProjectService } from "../services/projectService.js";
+import { fieldChecking } from "../utils/utils.js";
 
 const projectRouter = Router();
 
@@ -21,7 +22,7 @@ projectRouter.post(
 
       // req (request) 에서 데이터 가져오기
       const userId = req.currentUserId; //로그인한 user의 id
-      const { title, description, from, to } = req.body;
+      const toPost = fieldChecking(req.body, "title", "description", "from", "to");
 
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId: userId });
@@ -35,10 +36,7 @@ projectRouter.post(
       // 에러가 나지 않았다면 위 데이터들을 프로젝트 db에 추가하기
       const newProject = await ProjectService.addProject({
         user,
-        title,
-        description,
-        from,
-        to,
+        ...toPost
       });
 
       // 만약 추가하는 과정에서 에러가 났다면
@@ -47,7 +45,11 @@ projectRouter.post(
         throw new Error(newProject.errorMessage);
       }
 
-      res.status(201).json(newProject);
+      const filteredUser = fieldChecking(user["_doc"], "id");
+      const result = { user: filteredUser, ...toPost };
+
+
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -69,17 +71,6 @@ projectRouter.get(
         // 에러를 throw
         throw new Error(project.errorMessage);
       }
-
-    // // 가져온 project의 user와 현재 로그인한 유저의 id 비교
-    // //
-    // // 현재 로그인한 유저의 id와
-    // const userId = req.currentUserId;
-    //
-    // // project 소유자의 id가 다르다면
-    // if (userId !== project.user.id) {
-    //   // 에러를 throw
-    //   throw new Error('잘못된 접근입니다.');
-    // }
 
       // 200 코드와 함께 프로젝트 정보 전송
       res.status(200).json(project);
@@ -115,13 +106,8 @@ projectRouter.put(
         throw new Error("잘못된 접근입니다.");
       }
 
-      const title = req.body.title ?? null;
-      const description = req.body.description ?? null;
-      const from = req.body.from ?? null;
-      const to = req.body.to ?? null;
-
       // 업데이트할 정보를 묶어서
-      const toUpdate = { title, description, from, to };
+      const toUpdate = fieldChecking(req.body, "title", "description", "from", "to");
 
       // 프로젝트 정보를 업데이트
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
@@ -147,11 +133,6 @@ projectRouter.get(
     const { userId } = req.params;
 
     try {
-      // // 본인이 아닌 사람의 프로젝트 목록을 요청한다면
-      // if (userId !== req.currentUserId) {
-      //   // 에러를 throw
-      //   throw new Error("잘못된 접근입니다.");
-      // }
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId });
 
