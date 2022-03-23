@@ -34,29 +34,24 @@ Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "title": "제목2",
-  "description": "내용2",
+  "title": "플러터 프로젝트123",
+  "description": "예쁜 앱 만들기123",
   "date": "2020-03-04"
 }
 
 ###
-PUT http://localhost:5001/users
+PUT http://localhost:5001/projects/0c032a4c-03c2-49a4-a7ff-99b8db7b68b1
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "name": "변경",
-  "password": "asdf1234",
-  "description": "상태",
-  "permission": {
-    "name": false,
-    "email": true,
-    "description": false
-  }
+  "title": "수정된 제목4",
+  "from": "2022-03-03",
+  "to": "2022-04-04"
 }
 
 
 ###
-GET http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414
+GET http://localhost:5001/project-lists/0c3abbed-17e1-42d7-9156-8f84bb7eb414
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II

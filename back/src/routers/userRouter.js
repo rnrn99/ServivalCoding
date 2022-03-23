@@ -108,7 +108,8 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
     // 토큰에서 사용자 id를 추출함.
     const userId = req.currentUserId;
 
-    const toUpdate = fieldChecking(req.body, "name", "email", "password", "description", "permission");
+    // 이메일 필드는 원천적으로 받지 않음
+    const toUpdate = fieldChecking(req.body, "name", "password", "description", "permission");
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });

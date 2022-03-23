@@ -3,7 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { CertificateService } from "../services/certificateService.js";
 import { UserAuthService } from "../services/userService.js";
-import {fieldChecking} from "../utils/utils.js";
+import { fieldChecking } from "../utils/utils.js";
 
 const certificateRouter = Router();
 
@@ -22,7 +22,8 @@ certificateRouter.post(
 
       // req (request) 에서 데이터 가져오기
       const userId = req.currentUserId;
-      const { title, description, date } = req.body; //로그인한 user의 id
+      const toPost = fieldChecking(req.body, "title", "description", "date");
+
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId });
 
@@ -35,9 +36,7 @@ certificateRouter.post(
       // 에러가 나지 않았다면 위 데이터들을 자격증 db에 추가하기
       const newCertificate = await CertificateService.addCertificate({
         user,
-        title,
-        description,
-        date,
+        ...toPost
       });
 
       // 만약 추가하는 과정에서 에러가 났다면
@@ -47,7 +46,7 @@ certificateRouter.post(
       }
 
       const filteredUser = fieldChecking(user["_doc"], "id");
-      const result = { user: filteredUser, title, description, date };
+      const result = { user: filteredUser, ...toPost };
 
       res.status(201).json(result);
     } catch (error) {
@@ -107,12 +106,8 @@ certificateRouter.put(
         throw new Error("잘못된 접근입니다.");
       }
 
-      const title = req.body.title ?? null;
-      const description = req.body.description ?? null;
-      const date = req.body.date ?? null;
-
       // 업데이트할 정보를 묶어서
-      const toUpdate = { title, description, date };
+      const toUpdate = fieldChecking(req.body, "title", "description", "date");
 
       // 자격증 정보를 업데이트
       const updatedCertificate = await CertificateService.setCertificate({

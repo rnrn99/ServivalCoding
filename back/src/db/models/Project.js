@@ -7,17 +7,23 @@ class Project {
   }
 
   static async findById({ id }) {
-    const project = await ProjectModel.findOne({ id }).populate('user');
+    const project = await ProjectModel
+      .findOne({ id }, { _id: false, __v: false })
+      .populate('user', 'id -_id');
     return project;
   }
 
   static async findByUser({ user }) {
-    const projects = await ProjectModel.find({ user }).populate('user');
+    const projects = await ProjectModel
+      .find({ user }, { _id: false, __v: false })
+      .populate('user', 'id -_id');
     return projects;
   }
 
   static async find(filter) {
-    const projects = await ProjectModel.find(filter).populate('user');
+    const projects = await ProjectModel
+      .find(filter, { _id: false, __v: false })
+      .populate('user', 'id -_id');
     return projects;
   }
 
