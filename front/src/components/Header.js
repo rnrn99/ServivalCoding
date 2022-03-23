@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import Nav from "react-bootstrap/Nav";
+import { AppBar, Toolbar, Box, Typography, Tab } from "@mui/material";
 import { UserStateContext, DispatchContext } from "../App";
+import GroupIcon from "@mui/icons-material/Group";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function Header() {
   const navigate = useNavigate();
@@ -24,22 +27,53 @@ function Header() {
   };
 
   return (
-    <Nav activeKey={location.pathname}>
-      <Nav.Item className="me-auto mb-5">
-        <Nav.Link disabled>안녕하세요, 포트폴리오 공유 서비스입니다.</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/")}>나의 페이지</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={() => navigate("/network")}>네트워크</Nav.Link>
-      </Nav.Item>
-      {isLogin && (
-        <Nav.Item>
-          <Nav.Link onClick={logout}>로그아웃</Nav.Link>
-        </Nav.Item>
-      )}
-    </Nav>
+    <Box sx={{ flexGrow: 1, boxShadow: 0, mb: 3 }}>
+      <AppBar
+        position="static"
+        sx={{
+          boxShadow: 0,
+          bgcolor: "transparent",
+          color: "#000",
+        }}
+      >
+        <Toolbar>
+          <img
+            src="/logo.png"
+            width="6%"
+            alt="logo"
+            style={{ display: "flex", justifyContent: "center" }}
+          />
+          <Typography
+            variant="h5"
+            noWrap
+            component="div"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              fontFamily: "Red Hat Mono, monospace",
+            }}
+          >
+            Survival Coding
+          </Typography>
+
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Tab
+              icon={<AccountCircleIcon />}
+              label="MY PAGE"
+              onClick={() => navigate("/")}
+            />
+            <Tab
+              icon={<GroupIcon />}
+              label="NETWORK"
+              onClick={() => navigate("/network")}
+            />
+            {isLogin && (
+              <Tab icon={<LogoutIcon />} label="LOGOUT" onClick={logout} />
+            )}
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
 
