@@ -28,6 +28,8 @@ function User({ portfolioOwnerId, isEditable }) {
       ) : (
         <UserCard
           user={user}
+          setUser={setUser}
+          portfolioOwnerId={portfolioOwnerId}
           setIsEditing={setIsEditing}
           isEditable={isEditable}
         />
