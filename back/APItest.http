@@ -12,14 +12,14 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "ccc@ccc.com",
+  "email": "yyy@yyy.com",
   "password": "asdf1234"
 }
 
 ###
-POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
+POST http://localhost:5001/users/0a914910-a978-49c0-a2d7-3b0454412e9b/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYTkxNDkxMC1hOTc4LTQ5YzAtYTJkNy0zYjA0NTQ0MTJlOWIiLCJpYXQiOjE2NDc5NDEzMTF9.8b-Gl_ktnp8f946b8iRP3FX3G5xlW2FeaMPghnBWPwU
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlMTI1YmJmYy04NjRjLTQ0YWQtOGMzZC03YWI0YThmN2NmZGEiLCJpYXQiOjE2NDgwMTQzOTV9.dQjuWJssE3_xWsQhme1TrXHJ6IVS9DWThPSHC_xJl60
 
 
 ###
@@ -34,24 +34,23 @@ Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "title": "플러터 프로젝트123",
-  "description": "예쁜 앱 만들기123",
-  "date": "2020-03-04"
+  "title": "작은상",
+  "description": "수상",
+  "date": "2021-03-03"
 }
 
 ###
-PUT http://localhost:5001/projects/0c032a4c-03c2-49a4-a7ff-99b8db7b68b1
+PUT http://localhost:5001/awards/ec537965-9c2e-4a9c-b653-583ecb3324c4
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "title": "수정된 제목4",
-  "from": "2022-03-03",
-  "to": "2022-04-04"
+  "title": "상123",
+  "description": "asdf"
 }
 
 
 ###
-GET http://localhost:5001/project-lists/0c3abbed-17e1-42d7-9156-8f84bb7eb414
+DELETE http://localhost:5001/educations/3b6ff4cd-90a6-4d93-ad3a-09297d40f574
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II

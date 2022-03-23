@@ -26,10 +26,6 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
       password,
     });
 
-    if (newUser.errorMessage) {
-      throw new Error(newUser.errorMessage);
-    }
-
     const result = removeFields(newUser["_doc"], "password");
 
     res
@@ -48,10 +44,6 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await UserAuthService.getUser({ email, password });
 
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
-    }
-
     res
       .status(200)
       .json({ data: user, code: 200, message: "유저 로그인 성공" });
@@ -66,7 +58,7 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     const users = await UserAuthService.getUsers();
 
     // const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
-    const result = users.map((user) => removeFields(user["_doc"], "password", "likes"));
+    const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
 
     res
       .status(200)
@@ -86,10 +78,6 @@ userAuthRouter.get(
       const currentUserInfo = await UserAuthService.getUserInfo({
         userId,
       });
-
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
-      }
 
       const result = removeFields(currentUserInfo["_doc"], "password");
 
@@ -114,11 +102,6 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
-    }
-
     const result = removeFields(updatedUser["_doc"], "password", "like");
 
     res
@@ -136,10 +119,6 @@ userAuthRouter.get(
     try {
       const userId = req.params.id;
       const userInfo = await UserAuthService.getUserInfo({ userId });
-
-      if (userInfo.errorMessage) {
-        throw new Error(userInfo.errorMessage);
-      }
 
       // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
@@ -195,7 +174,9 @@ userAuthRouter.post(
       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
       if (liked === req.currentUserId) {
         // 에러 발생
-        throw new Error("잘못된 접근입니다.");
+        const error = new Error("잘못된 접근입니다.");
+        error.status = 401;
+        throw error;
       }
 
       // user 정보를 불러와서
@@ -223,11 +204,6 @@ userAuthRouter.post(
         userId: liked,
         toUpdate,
       });
-
-      // 실패했다면 에러
-      if (updatedUser.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
-      }
 
       const result = removeFields(updatedUser["_doc"], "password", "like");
 
