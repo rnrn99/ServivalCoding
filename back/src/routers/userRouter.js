@@ -65,7 +65,8 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     // 전체 사용자 목록을 얻음
     const users = await UserAuthService.getUsers();
 
-    const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
+    // const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
+    const result = users.map((user) => removeFields(user["_doc"], "password", "likes"));
 
     res
       .status(200)
@@ -144,7 +145,7 @@ userAuthRouter.get(
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
 
       // 필요없는 필드 제거
-      const rest = removeFields(userInfo["_doc"], "password", "like");
+      const rest = removeFields(userInfo["_doc"], "password");
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);

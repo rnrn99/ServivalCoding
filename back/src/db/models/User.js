@@ -22,7 +22,7 @@ class User {
   }
 
   static async update({ userId, fieldToUpdate }) {
-    const filter = { userId };
+    const filter = { id: userId };
     const option = { returnOriginal: false };
 
     const updatedUser = await UserModel.findOneAndUpdate(
