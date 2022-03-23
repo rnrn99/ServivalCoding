@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from "react";
+import * as Api from "../../api";
+
+//mui
 import { Button, Container } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
-import * as Api from "../../api";
 import {
   Card,
   CardContent,
   Typography, 
-  Box,
 } from "@mui/material";
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
@@ -20,13 +21,13 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
   const [clickHeart, setClickHeart] = useState(false);
   const [heartCount, setHeartCount] = useState(0);
 
+  // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(()=>{
     Api.get("users", portfolioOwnerId).then((res)=> {
-      setUser(res.data.data)
       setHeartCount(res.data.data.like.count)
       setClickHeart(res.data.data.isLikedByThisUser)
     })
-  }, [portfolioOwnerId]);
+  }, [portfolioOwnerId]); // 저에게 경고를 하는 것 같은데, setUser 너무 자주 바뀌니깐 useCallback 처리하라는 말일까요?
 
   const onHeartHandler = async () => {
 
