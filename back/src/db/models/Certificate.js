@@ -42,7 +42,7 @@ class Certificate {
       filter,
       { "$set": fieldToUpdate },
       option
-    );
+    ).populate('user', 'id -_id');
     return updatedCertificate;
   }
 

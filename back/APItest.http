@@ -29,14 +29,15 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYz
 
 
 ###
-POST http://localhost:5001/certificates
+POST http://localhost:5001/projects
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
 
 {
-  "title": "작은상",
-  "description": "수상",
-  "date": "2021-03-03"
+  "title": "작은 프로젝트",
+  "description": "내용",
+  "from": "2021-03-03",
+  "to": "2022-03-03"
 }
 
 ###
@@ -51,6 +52,6 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4Nz
 
 
 ###
-GET http://localhost:5001/users
+DELETE http://localhost:5001/projects/c01ef3ce-e5fe-4802-9a27-ddb4c0f6b632
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98

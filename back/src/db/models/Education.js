@@ -30,7 +30,9 @@ class Education {
   // }
 
   static async find({ id }) {
-    return await EducationModel.findOne({ id }, { _id: false, __v: false });
+    return await EducationModel
+      .findOne({ id }, { _id: false, __v: false })
+      .populate('author', 'id -_id');
   }
 
   static async update({ id, toUpdate }) {

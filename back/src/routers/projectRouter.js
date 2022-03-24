@@ -3,7 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { ProjectService } from "../services/projectService.js";
-import { fieldChecking } from "../utils/utils.js";
+import { fieldChecking, removeFields } from "../utils/utils.js";
 
 const projectRouter = Router();
 
@@ -34,7 +34,9 @@ projectRouter.post(
       });
 
       const filteredUser = fieldChecking(user["_doc"], "id");
-      const project = { user: filteredUser, ...toPost };
+      const removeUser = removeFields(newProject["_doc"], "user", "_id", "__v");
+
+      const project = { user: filteredUser, ...removeUser };
       const body = {
         success: true,
         project: {
@@ -62,7 +64,7 @@ projectRouter.get(
       const body = {
         success: true,
         project: {
-          ...project
+          ...project["_doc"]
         }
       }
 
@@ -104,7 +106,7 @@ projectRouter.put(
       const body = {
         success: true,
         project: {
-          ...updatedProject
+          ...updatedProject["_doc"]
         }
       }
 

@@ -33,11 +33,25 @@ class EducationService {
 
   static async getEducationsList({ author }) {
     const educations = await Education.findByAuthor({ author });
+
+    if (educations.length === 0) {
+      const error = new Error("프로젝트가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
+    }
+
     return educations;
   }
 
   static async getEducation({ id }) {
     const education = await Education.find({ id });
+
+    if (education === null) {
+      const error = new Error("존재하지 않는 프로젝트입니다.");
+      error.status = 404;
+      throw error;
+    }
+
     return education;
   }
 

@@ -3,7 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { CertificateService } from "../services/certificateService.js";
 import { UserAuthService } from "../services/userService.js";
-import { fieldChecking } from "../utils/utils.js";
+import {fieldChecking, removeFields} from "../utils/utils.js";
 
 const certificateRouter = Router();
 
@@ -34,12 +34,12 @@ certificateRouter.post(
       });
 
       const filteredUser = fieldChecking(user["_doc"], "id");
-      const certificate = { user: filteredUser, ...toPost };
+      const removeUser = removeFields(newCertificate["_doc"], "user", "_id", "__v");
+      const certificate = { user: filteredUser, ...removeUser };
+
       const body = {
         success: true,
-        certificate: {
-          ...certificate
-        }
+        certificate
       }
 
       res.status(201).json(body);
@@ -62,7 +62,7 @@ certificateRouter.get(
       const body = {
         success: true,
         certificate: {
-          ...certificate
+          ...certificate["_doc"]
         }
       }
 
@@ -112,9 +112,8 @@ certificateRouter.put(
           ...updatedCertificate["_doc"]
         }
       }
-      console.log(body);
 
-      res.status(200).json(updatedCertificate);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }

@@ -68,7 +68,7 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     const users = await UserAuthService.getUsers();
 
     const result = users
-      .map((user) => removeFields(user["_doc"], "password", "like", "createdAt", "updatedAt"))
+      .map((user) => removeFields(user["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
       .map(filteredByPermissionList);
 
     const body = {
@@ -95,7 +95,7 @@ userAuthRouter.get(
         userId,
       });
 
-      const result = removeFields(currentUserInfo["_doc"], "password");
+      const result = removeFields(currentUserInfo["_doc"], "password", "_id", "__v");
 
       const body = {
         success: true,
@@ -121,7 +121,7 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-    const result = removeFields(updatedUser["_doc"], "password", "like");
+    const result = removeFields(updatedUser["_doc"], "password", "like", "_id", "__v");
 
     const body = {
       success: true,
@@ -148,7 +148,7 @@ userAuthRouter.get(
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
 
       // 필요없는 필드 제거
-      const rest = removeFields(userInfo["_doc"], "password", "createdAt", "updatedAt");
+      const rest = removeFields(userInfo["_doc"], "password", "createdAt", "updatedAt", "_id", "__v");
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);
@@ -181,7 +181,7 @@ userAuthRouter.get(
       const result =
         Object
           .values(user)
-          .map((one) => removeFields(one["_doc"], "password", "like", "createdAt", "updatedAt"))
+          .map((one) => removeFields(one["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
           .map(filteredByPermissionList);
 
       const body = {
@@ -242,7 +242,7 @@ userAuthRouter.post(
 
       const result = filteredByPermissionList(
         removeFields(updatedUser["_doc"],
-        "password", "like", "updatedAt", "createdAt")
+        "password", "like", "updatedAt", "createdAt", "_id", "__v")
       );
 
       const addLikesCount = { ...result,
