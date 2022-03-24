@@ -110,7 +110,7 @@ techRouter.delete(
       // 에러가 발생하지 않았다면 기술 스택 삭제
       await TechService.deleteTech({ userId });
 
-      res.status(201).json({ status: "succ", message: "삭제 성공" });
+      res.status(200).json({ status: "succ", message: "삭제 성공" });
     } catch (error) {
       next(error);
     }
