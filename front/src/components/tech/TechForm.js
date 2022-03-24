@@ -9,6 +9,8 @@ import TagsInput from "./TagsInput";
 const TechForm = ({ techs, checkAddComplete }) => {
   //const [title, setTitle] = useState("Languages");
   //const [description, setDescription] = useState("");
+  const [favorite, setFavorite] = useState(techs.favorite);
+  const [confident, setConfident] = useState(techs.confident);
   const [languages, setLanguages] = useState(techs.languages.list);
   const [frameworks, setFrameworks] = useState(techs.frameworks.list);
   const [tools, setTools] = useState(techs.tools.list);
@@ -21,25 +23,27 @@ const TechForm = ({ techs, checkAddComplete }) => {
       checkAddComplete(null);
     } else {
       checkAddComplete({
-        favorite: "javascript",
-        confident: "python",
+        favorite: favorite,
+        confident: confident,
         languages: { list: [...languages] },
         frameworks: { list: [...frameworks] },
         tools: { list: [...tools] },
       });
     }
   };
-
+  function handleSelecetedFavorite(items) {
+    setFavorite(items[0]);
+  }
+  function handleSelecetedConfident(items) {
+    setConfident(items[0]);
+  }
   function handleSelecetedLanguages(items) {
-    console.log("setLanguages", items);
     setLanguages(items);
   }
   function handleSelecetedFrameworks(items) {
-    console.log("setFrameworks", items);
     setFrameworks(items);
   }
   function handleSelecetedTools(items) {
-    console.log("setTools", items);
     setTools(items);
   }
   return (
@@ -81,6 +85,26 @@ const TechForm = ({ techs, checkAddComplete }) => {
           label="tools"
           tags={tools}
         />
+        <TagsInput
+          selectedTags={handleSelecetedFavorite}
+          fullWidth
+          variant="outlined"
+          id="favorite"
+          name="favorite"
+          placeholder="가장 좋아하는 스킬을 입력해주세요."
+          label="my favorite"
+          tags={[favorite]}
+        />
+        <TagsInput
+          selectedTags={handleSelecetedConfident}
+          fullWidth
+          variant="outlined"
+          id="confident"
+          name="confident"
+          placeholder="가장 자신있는 스킬을 입력해주세요."
+          label="self-confident"
+          tags={[confident]}
+        />
 
         <Stack
           direction="row"
@@ -89,7 +113,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
         >
           <Button name="accept" variant="contained" type="submit">
             완료
-          </Button>{" "}
+          </Button>
           <Button
             name="cancel"
             type="reset"
@@ -97,7 +121,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
             variant="outlined"
           >
             취소
-          </Button>{" "}
+          </Button>
         </Stack>
       </Stack>
     </Box>

@@ -50,15 +50,19 @@ function CareerEditForm({ career, setCareerList, setClickEditBtn }) {
         <Stack direction="row" spacing={2}>
           <DesktopDatePicker
             label="시작일"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={startDate}
+            maxDate={dueDate}
             onChange={(date) => setStartDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />
           <DesktopDatePicker
             label="종료일"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={dueDate}
+            minDate={startDate}
             onChange={(date) => setDueDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />

@@ -51,11 +51,13 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     setExpanded(isExpanded ? panel : false);
   };
   const dataValidCheck = () => {
-    //console.log("비어있는 데이터임을 확인함", isBlank, title, techs);
-    if (!techs?.language && !techs?.framework && !techs?.tool) {
+    if (
+      !techs?.languages?.list &&
+      !techs?.frameworks?.list &&
+      !techs?.tools?.list
+    ) {
       setIsBlank(true);
       setTitle("기술스택을 작성해보세요.");
-      //console.log("비어있는 데이터임을 확인함", isBlank, title);
     } else {
       setIsBlank(false);
       setTitle("기술스택");
@@ -63,17 +65,13 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   };
 
   async function fetchData() {
-    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
-
     await Api.get("techs", portfolioOwnerId).then((res) => {
       setTechs(res.data.tech);
-      // console.log("resDATA", res.data);
-      //console.log("techs", techs);
     });
   }
 
   useEffect(() => {
-    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
+    //    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     Api.get("techs", portfolioOwnerId).then((res) => {
       setTechs(res.data.tech);
@@ -151,12 +149,12 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
                 <>
                   <TechTag
                     key={"favorite"}
-                    tag={techs.favorite}
+                    tag={techs?.favorite}
                     isDeletable={false}
                   />
                   <TechTag
                     key={"confident"}
-                    tag={techs.confident}
+                    tag={techs?.confident}
                     isDeletable={false}
                   />
                 </>
