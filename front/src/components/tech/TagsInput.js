@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { Chip, TextField } from "@mui/material";
-//import { makeStyles } from "@mui/material/styles";
-// import Chip from "@material-ui/core/Chip";
-// import { makeStyles } from "@material-ui/core/styles";
-// import TextField from "@material-ui/core/TextField";
+import { TextField } from "@mui/material";
 import Downshift from "downshift";
 import TechTag from "./TechTag";
 
-// const useStyles = makeStyles((theme) => ({
-//   chip: {
-//     margin: theme.spacing(0.5, 0.25),
-//   },
-// }));
-
 export default function TagsInput({ ...props }) {
-  //  const classes = useStyles();
   const { selectedTags, placeholder, tags, ...other } = props;
-  const [inputValue, setInputValue] = React.useState("");
-  const [selectedItem, setSelectedItem] = React.useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [selectedItem, setSelectedItem] = useState(tags);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder);
   useEffect(() => {
     setSelectedItem(tags);
+    if (tags.length >= 1) setCurrentPlaceholder("");
   }, [tags]);
   useEffect(() => {
     selectedTags(selectedItem);
@@ -29,6 +20,7 @@ export default function TagsInput({ ...props }) {
 
   function handleKeyDown(event) {
     if (event.key === "Enter") {
+      event.preventDefault();
       const newSelectedItem = [...selectedItem];
       const duplicatedValues = newSelectedItem.indexOf(
         event.target.value.trim()
@@ -43,6 +35,7 @@ export default function TagsInput({ ...props }) {
       newSelectedItem.push(event.target.value.trim());
       setSelectedItem(newSelectedItem);
       setInputValue("");
+      placeholderCheck();
     }
     if (
       selectedItem.length &&
@@ -50,8 +43,10 @@ export default function TagsInput({ ...props }) {
       event.key === "Backspace"
     ) {
       setSelectedItem(selectedItem.slice(0, selectedItem.length - 1));
+      placeholderCheck();
     }
   }
+
   function handleChange(item) {
     let newSelectedItem = [...selectedItem];
     if (newSelectedItem.indexOf(item) === -1) {
@@ -61,10 +56,17 @@ export default function TagsInput({ ...props }) {
     setSelectedItem(newSelectedItem);
   }
 
-  const handleDelete = (item) => () => {
+  function placeholderCheck() {
+    if (selectedItem.length > 1) setCurrentPlaceholder("");
+    else {
+      setCurrentPlaceholder(placeholder);
+    }
+  }
+  const handleDelete = (item) => {
     const newSelectedItem = [...selectedItem];
     newSelectedItem.splice(newSelectedItem.indexOf(item), 1);
     setSelectedItem(newSelectedItem);
+    placeholderCheck();
   };
 
   function handleInputChange(event) {
@@ -81,14 +83,20 @@ export default function TagsInput({ ...props }) {
         {({ getInputProps }) => {
           const { onBlur, onChange, onFocus, ...inputProps } = getInputProps({
             onKeyDown: handleKeyDown,
-            placeholder,
+            placeholder: currentPlaceholder,
           });
           return (
             <div>
               <TextField
                 InputProps={{
-                  startAdornment: selectedItem.map((item) => (
-                    <TechTag key={item} tabIndex={-1} tag={item} />
+                  startAdornment: selectedItem.map((item, idx) => (
+                    <TechTag
+                      key={idx}
+                      tabIndex={-1}
+                      tag={item}
+                      isDeletable={true}
+                      deleteHandler={handleDelete}
+                    />
                   )),
                   onBlur,
                   onChange: (event) => {

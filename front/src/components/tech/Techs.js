@@ -30,9 +30,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Techs = ({ portfolioOwnerId, isEditable }) => {
   //const [isEditing, setIsEditing] = useState(false);
+  const [title, setTitle] = useState("기술 스택");
   const [isAdding, setIsAdding] = useState(false);
   const [techs, setTechs] = useState({});
   const [isAdd, setIsAdd] = useState(false);
+  const [isBlank, setIsBlank] = useState();
+  //정보 유효성 체크 > 없으면 플래그 생성.
+
+  //accordion expand check
+  const [expanded, setExpanded] = useState(false);
+  //accordion expand change handle
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   useEffect(() => {
     // Api.get("certificate-lists", portfolioOwnerId).then((res) =>
@@ -46,20 +56,45 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       framework: ["express", "MongoDB", "React"], //프레임워크 항목
       tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
     };
+    // const dummyData = {
+    //   id: "유저 아이디",
+    //   confident: "React", //가장 자신있는 기술
+    //   favorite: "python", //가장 좋아하는 기술
+    //   language: [], //언어 항목
+    //   framework: [], //프레임워크 항목
+    //   tool: [], //툴 항목
+    // };
     setTechs(dummyData);
+    dataValidCheck();
   }, [portfolioOwnerId]);
 
-  const checkAddComplete = () => {};
-  // 사전 정의 항목 스타일 디파인...? 아니면 그냥 하나로 통일.. 일단은 간단하게 구현.
-  // const techWordBag = {
-  //   language: ["python", "javascript", "Objective-C", "SQL"],
-  //   framework: ["express", "MongoDB", "React"],
-  //   tool: ["VisualStudio Code", "git bash", "gitlab"],
-  // };
+  const checkAddComplete = (result) => {
+    if (result) {
+      setTechs(result);
+      dataValidCheck();
+    }
+    setIsAdd(!isAdd);
+  };
 
+  const dataValidCheck = () => {
+    console.log("비어있는 데이터임을 확인함", isBlank, title, techs);
+    if (!techs?.language && !techs?.framework && !techs?.tool) {
+      setIsBlank(true);
+      setTitle("기술스택을 작성해보세요.");
+      console.log("비어있는 데이터임을 확인함", isBlank, title);
+    } else {
+      setIsBlank(false);
+      setTitle("기술스택");
+    }
+  };
   return (
     <Card sx={{ marginBottom: "20px" }}>
-      <Accordion defaultExpanded={true} sx={{ boxShadow: 0 }}>
+      <Accordion
+        defaultExpanded={true}
+        sx={{ boxShadow: 0 }}
+        expanded={expanded === "panel1"}
+        onChange={handleChange("panel1")}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -74,21 +109,32 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
               borderRadius: 1,
             }}
           >
-            <Grid item xs={3}>
-              <Typography sx={{ fontSize: "20px" }}>기술 스택</Typography>
+            <Grid item xs={6}>
+              <Typography sx={{ fontSize: "20px" }}>{title}</Typography>
             </Grid>
             <Grid
-              item
+              container
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
                 p: 1,
                 m: 1,
               }}
-              xs={9}
             >
-              <TechTag key={"favorite"} tag={techs.favorite} />
-              <TechTag key={"confident"} tag={techs.confident} />
+              {!expanded && !isBlank && (
+                <>
+                  <TechTag
+                    key={"favorite"}
+                    tag={techs.favorite}
+                    isDeletable={false}
+                  />
+                  <TechTag
+                    key={"confident"}
+                    tag={techs.confident}
+                    isDeletable={false}
+                  />
+                </>
+              )}
             </Grid>
           </Grid>
         </AccordionSummary>
@@ -117,14 +163,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
           </Grid>
         </AccordionDetails>
       </Accordion>
-      {isEditable && <CardContent></CardContent>}
-    </Card>
-  );
-};
-
-export default Techs;
-/*
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      {isEditable && (
+        <CardContent>
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
               color="primary"
               aria-label="add-education"
@@ -137,7 +178,16 @@ export default Techs;
           <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
             <DialogTitle>기술스택 입력</DialogTitle>
             <DialogContent>
-              <TechForm checkAddComplete={checkAddComplete} />
+              <TechForm checkAddComplete={checkAddComplete} techs={techs} />
             </DialogContent>
           </Dialog>
+        </CardContent>
+      )}
+    </Card>
+  );
+};
+
+export default Techs;
+/*
+
 */

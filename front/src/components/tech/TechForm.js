@@ -1,30 +1,87 @@
 //기술스택 입력 수정 폼
 
 import React, { useState } from "react";
-import { Box, TextField, Stack, Button } from "@mui/material";
+import { Box, Stack, Button } from "@mui/material";
+import PropTypes from "prop-types";
+
 import TagsInput from "./TagsInput";
 
-const TechForm = ({ checkAddComplete }) => {
+const TechForm = ({ techs, checkAddComplete }) => {
   const [title, setTitle] = useState("Languages");
   const [description, setDescription] = useState("");
+  const [languages, setLanguages] = useState(techs.language);
+  const [frameworks, setFrameworks] = useState(techs.framework);
+  const [tools, setTools] = useState(techs.tool);
 
+  //완료되었을때 데이터 techs로 전달
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     if (e.target.name === "cancel") {
       checkAddComplete(null);
     } else {
-      checkAddComplete({ title, description });
+      checkAddComplete({
+        favorite: "javascript",
+        confident: "python",
+        language: languages,
+        framework: frameworks,
+        tool: tools,
+      });
     }
   };
 
-  function handleSelecetedTags(items) {
-    console.log(items);
+  function handleSelecetedLanguages(items) {
+    console.log("setLanguages", items);
+    setLanguages(items);
   }
-
+  function handleSelecetedFrameworks(items) {
+    console.log("setFrameworks", items);
+    setFrameworks(items);
+  }
+  function handleSelecetedTools(items) {
+    console.log("setTools", items);
+    setTools(items);
+  }
   return (
-    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+    <Box
+      component="form"
+      onSubmit={onSubmitHandler}
+      sx={{ mt: 1, width: "60ch" }}
+    >
       <Stack spacing={2}>
+        <TagsInput
+          selectedTags={handleSelecetedLanguages}
+          fullWidth
+          variant="outlined"
+          id="languages"
+          name="languages"
+          placeholder="주로 사용하는 언어를 태깅해보세요."
+          label="Languages"
+          tags={languages}
+        />
+
+        <TagsInput
+          selectedTags={handleSelecetedFrameworks}
+          fullWidth
+          variant="outlined"
+          id="frameworks"
+          name="frameworks"
+          placeholder="주로 사용하는 프레임웍을 태깅해보세요."
+          label="Frameworks"
+          tags={frameworks}
+        />
+
+        <TagsInput
+          selectedTags={handleSelecetedTools}
+          fullWidth
+          variant="outlined"
+          id="tools"
+          name="tools"
+          placeholder="주로 사용하는 개발 도구를 태깅해보세요."
+          label="tools"
+          tags={tools}
+        />
+
         <Stack
           direction="row"
           spacing={2}
@@ -48,39 +105,20 @@ const TechForm = ({ checkAddComplete }) => {
 };
 
 export default TechForm;
-
+TechForm.defaultProps = {
+  techs: {
+    language: [],
+    framework: [],
+    tool: [],
+  },
+};
+TechForm.propTypes = {
+  checkAddComplete: PropTypes.func.isRequired,
+  techs: PropTypes.object,
+};
 /*
-
-      <TagsInput
-          selectedTags={handleSelecetedTags}
-          fullWidth
-          variant="outlined"
-          id="languages"
-          name="languages"
-          placeholder="주로 사용하는 언어를 태깅해보세요."
-          label="Languages"
-        />
-
-        <TagsInput
-          selectedTags={handleSelecetedTags}
-          fullWidth
-          variant="outlined"
-          id="frameworks"
-          name="frameworks"
-          placeholder="주로 사용하는 프레임웍을 태깅해보세요."
-          label="Frameworks"
-        />
-
-        <TagsInput
-          selectedTags={handleSelecetedTags}
-          fullWidth
-          variant="outlined"
-          id="tools"
-          name="tools"
-          placeholder="주로 사용하는 개발 도구를 태깅해보세요."
-          label="tools"
-        />
-
+{ techs, checkAddComplete }
+   
 
 
         <TextField
