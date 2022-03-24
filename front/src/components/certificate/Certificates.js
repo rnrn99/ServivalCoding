@@ -27,7 +27,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
 
   useEffect(() => {
     Api.get("certificate-lists", portfolioOwnerId).then((res) =>
-      setCerts(res.data)
+      setCerts(res.data.certificates),
     );
   }, [portfolioOwnerId]);
 
@@ -53,7 +53,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
       const newData = { ...props }; //이제 그냥 프랍만 넘겨도 되려나
       await Api.post("certificates", newData);
       const res = await Api.get("certificate-lists", portfolioOwnerId);
-      setCerts(res.data);
+      setCerts(res.data.certificates);
     }
     setIsAdd(false);
   };
@@ -67,7 +67,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     }
 
     const res = await Api.get("certificate-lists", portfolioOwnerId);
-    setCerts(res.data);
+    setCerts(res.data.certificates);
     //type 이 delete인 경우 삭제 요청
   };
 

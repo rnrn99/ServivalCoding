@@ -32,7 +32,7 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
 
     // project-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
     const res = await Api.get("project-lists", portfolioOwnerId);
-    setProjects(res.data);
+    setProjects(res.data.projects);
 
     // 프로젝트 추가 후 ProjectAddForm을 닫습니다.
     setClickAddBtn(false);

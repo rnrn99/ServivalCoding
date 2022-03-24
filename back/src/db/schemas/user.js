@@ -42,11 +42,11 @@ const UserSchema = new Schema(
         required: true,
         default: true,
       },
-      name: {
-        type: Boolean,
-        required: true,
-        default: true,
-      },
+      // name: {
+      //   type: Boolean,
+      //   required: true,
+      //   default: true,
+      // },
       description: {
         type: Boolean,
         required: true,

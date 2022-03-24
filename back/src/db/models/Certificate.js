@@ -36,13 +36,13 @@ class Certificate {
 
   static async update({ id, fieldToUpdate }) {
     const filter = { id: id };
-    const option = { returnOriginal: false };
+    const option = { returnOriginal: false, projection: { _id: false, __v: false } };
 
     const updatedCertificate = await CertificateModel.findOneAndUpdate(
       filter,
       { "$set": fieldToUpdate },
       option
-    );
+    ).populate('user', 'id -_id');
     return updatedCertificate;
   }
 

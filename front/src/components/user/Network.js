@@ -30,19 +30,21 @@ function Network() {
       return;
     }
     // "users" 엔드포인트로 GET 요청을 하고, users를 response의 data로 세팅함.
-    Api.get("users").then((res) => setUsers(res.data.data));
+    Api.get("users").then((res) => {
+      setUsers(res.data.users);
+    });
   }, [userState, navigate]);
 
   const sendQuery = async (word) => {
     try {
       if (word.length === 0) {
         const { data } = await Api.get("users");
-        setUsers(data.data);
+        setUsers(data.users);
         setIsFound(true);
       } else {
         const { data } = await Api.get("users/search", word);
-        if (data.data.length > 0) {
-          setUsers(data.data);
+        if (data.users.length > 0) {
+          setUsers(data.users);
           setIsFound(true);
         } else {
           setIsFound(false);

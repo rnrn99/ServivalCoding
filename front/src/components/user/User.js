@@ -12,36 +12,30 @@ function User({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     // "users/유저id" 엔드포인트로 GET 요청을 하고, user를 response의 data로 세팅함.
-    Api.get("users", portfolioOwnerId)
-      //  .then((res) => res.filter((data) => data.id === portfolioOwnerId))
-      .then((res) => setUser(res.data.data));
+    Api.get("users", portfolioOwnerId).then((res) => setUser(res.data.user));
   }, [portfolioOwnerId]);
 
-  //현재 users/:id 요청시 16명분 데이터가 오고 있음.
   return (
     <>
-      {isEditing && (   
-      <Dialog
-        open={isEditing}
-        onClose={() => setIsEditing((cur) => !cur)}
-      >
-        <DialogTitle>프로필 편집</DialogTitle>
-        <DialogContent>
-          <UserEditForm
-            user={user}
-            setIsEditing={setIsEditing}
-            setUser={setUser}
-          />
-        </DialogContent>
-      </Dialog> 
+      {isEditing && (
+        <Dialog open={isEditing} onClose={() => setIsEditing((cur) => !cur)}>
+          <DialogTitle>프로필 편집</DialogTitle>
+          <DialogContent>
+            <UserEditForm
+              user={user}
+              setIsEditing={setIsEditing}
+              setUser={setUser}
+            />
+          </DialogContent>
+        </Dialog>
       )}
-        <UserCard
-          user={user}
-          setUser={setUser}
-          portfolioOwnerId={portfolioOwnerId}
-          setIsEditing={setIsEditing}
-          isEditable={isEditable}
-        />
+      <UserCard
+        user={user}
+        setUser={setUser}
+        portfolioOwnerId={portfolioOwnerId}
+        setIsEditing={setIsEditing}
+        isEditable={isEditable}
+      />
     </>
   );
 }
