@@ -1,23 +1,34 @@
 import multer from "multer";
-import express from "express";
+import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
+import { UserAuthService } from "../services/userService.js";
 
-const multerRouter = express.Router();
+const multerRouter = Router();
 
 const upload = multer({
-  dest: "./src/uploads",
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "uploads/");
+    },
+    filename(req, file, cb) {
+      cb(null, Date.now() + file.originalname);
+    },
+  }),
 });
 
 multerRouter.post(
-  "/profile",
+  "/profiles",
   loginRequired,
   upload.single("image"),
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
-      console.log(req.file);
-      res
-        .status(201)
-        .json({ data: req.file.path, status: 201, message: "성공" });
+      const profile = req.file.filename;
+      const userId = req.currentUserId;
+      const result = await UserAuthService.setProfile({ userId, profile });
+      res.status(201).json({
+        success: true,
+        profiles: req.file,
+      });
     } catch (error) {
       next(error);
     }

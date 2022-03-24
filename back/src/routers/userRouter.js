@@ -1,9 +1,11 @@
 import is from "@sindresorhus/is";
+import dotenv from "dotenv";
+import express from "express";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
-import dotenv from "dotenv";
+
 dotenv.config();
 
 const userAuthRouter = Router();
@@ -26,16 +28,21 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
       password,
     });
 
-    const result = fieldChecking(newUser["_doc"], "id", "email", "name", "description", "permission");
+    const result = fieldChecking(
+      newUser["_doc"],
+      "id",
+      "email",
+      "name",
+      "description",
+      "permission"
+    );
 
     const body = {
       success: true,
-      user: result
-    }
+      user: result,
+    };
 
-    res
-      .status(201)
-      .json(body);
+    res.status(201).json(body);
   } catch (error) {
     next(error);
   }
@@ -51,12 +58,10 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
 
     const body = {
       success: true,
-      user
-    }
+      user,
+    };
 
-    res
-      .status(200)
-      .json(body);
+    res.status(200).json(body);
   } catch (error) {
     next(error);
   }
@@ -68,17 +73,24 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     const users = await UserAuthService.getUsers();
 
     const result = users
-      .map((user) => removeFields(user["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
+      .map((user) =>
+        removeFields(
+          user["_doc"],
+          "password",
+          "like",
+          "createdAt",
+          "updatedAt",
+          "_id",
+          "__v"
+        )
+      )
       .map(filteredByPermissionList);
 
     const body = {
       success: true,
-      users: result
-    }
-
-    res
-      .status(200)
-      .json(body);
+      users: result,
+    };
+    res.status(200).json(body);
   } catch (error) {
     next(error);
   }
@@ -95,16 +107,19 @@ userAuthRouter.get(
         userId,
       });
 
-      const result = removeFields(currentUserInfo["_doc"], "password", "_id", "__v");
+      const result = removeFields(
+        currentUserInfo["_doc"],
+        "password",
+        "_id",
+        "__v"
+      );
 
       const body = {
         success: true,
-        user: result
-      }
+        user: result,
+      };
 
-      res
-        .status(200)
-        .json(body);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -117,20 +132,30 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
     const userId = req.currentUserId;
 
     // 이메일 필드는 원천적으로 받지 않음
-    const toUpdate = fieldChecking(req.body, "name", "password", "description", "permission");
+    const toUpdate = fieldChecking(
+      req.body,
+      "name",
+      "password",
+      "description",
+      "permission"
+    );
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-    const result = removeFields(updatedUser["_doc"], "password", "like", "_id", "__v");
+    const result = removeFields(
+      updatedUser["_doc"],
+      "password",
+      "like",
+      "_id",
+      "__v"
+    );
 
     const body = {
       success: true,
-      user: result
-    }
+      user: result,
+    };
 
-    res
-      .status(201)
-      .json(body);
+    res.status(201).json(body);
   } catch (error) {
     next(error);
   }
@@ -148,22 +173,31 @@ userAuthRouter.get(
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
 
       // 필요없는 필드 제거
-      const rest = removeFields(userInfo["_doc"], "password", "createdAt", "updatedAt", "_id", "__v");
+      const rest = removeFields(
+        userInfo["_doc"],
+        "password",
+        "createdAt",
+        "updatedAt",
+        "_id",
+        "__v"
+      );
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);
 
       // 좋아요 눌렀는지 체크하는 필드 추가
-      const updatedUserInfo = { ...filteredInfo, isLikedByThisUser, like: { count: userInfo.like.count } };
+      const updatedUserInfo = {
+        ...filteredInfo,
+        isLikedByThisUser,
+        like: { count: userInfo.like.count },
+      };
 
       const body = {
         success: true,
-        user: updatedUserInfo
-      }
+        user: updatedUserInfo,
+      };
 
-      res
-        .status(200)
-        .json(body);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -178,20 +212,26 @@ userAuthRouter.get(
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
 
-      const result =
-        Object
-          .values(user)
-          .map((one) => removeFields(one["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
-          .map(filteredByPermissionList);
+      const result = Object.values(user)
+        .map((one) =>
+          removeFields(
+            one["_doc"],
+            "password",
+            "like",
+            "createdAt",
+            "updatedAt",
+            "_id",
+            "__v"
+          )
+        )
+        .map(filteredByPermissionList);
 
       const body = {
         success: true,
-        users: result
-      }
+        users: result,
+      };
 
-      res
-        .status(200)
-        .json(body);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -241,47 +281,68 @@ userAuthRouter.post(
       });
 
       const result = filteredByPermissionList(
-        removeFields(updatedUser["_doc"],
-        "password", "like", "updatedAt", "createdAt", "_id", "__v")
+        removeFields(
+          updatedUser["_doc"],
+          "password",
+          "like",
+          "updatedAt",
+          "createdAt",
+          "_id",
+          "__v"
+        )
       );
 
-      const addLikesCount = { ...result,
-        like: { count: toUpdate.like.count } };
+      const addLikesCount = { ...result, like: { count: toUpdate.like.count } };
 
       const body = {
         success: true,
-        user: addLikesCount
-      }
+        user: addLikesCount,
+      };
 
-      res
-        .status(200)
-        .json(body);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
   }
 );
 
-// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get("/afterlogin", loginRequired, function (req, res, next) {
-  res
-    .status(200)
-    .send(
-      `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
-    );
+userAuthRouter.delete("/users", async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    const user = UserAuthService.getUserInfo({ userId });
+    await UserAuthService.deleteUser({ user });
+
+    res
+      .status(200)
+      .json({ success: true, message: "성공적으로 삭제되었습니다." });
+  } catch (error) {
+    next(error);
+  }
 });
+
+// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
+userAuthRouter.get(
+  "/afterlogin",
+  loginRequired,
+  express.static("uploads"),
+  function (req, res, next) {
+    res
+      .status(200)
+      .send(
+        `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
+      );
+  }
+);
 
 function filteredByPermissionList(document) {
   const { permission, ...fields } = document;
 
-  return Object
-    .entries(fields)
-    .reduce((res, [key, value]) => {
-      if (permission[key] || permission[key] === undefined) {
-        res[key] = value;
-      }
-      return res;
-    }, {});
+  return Object.entries(fields).reduce((res, [key, value]) => {
+    if (permission[key] || permission[key] === undefined) {
+      res[key] = value;
+    }
+    return res;
+  }, {});
 }
 
 export { userAuthRouter };

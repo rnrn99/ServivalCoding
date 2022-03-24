@@ -22,29 +22,34 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
-  const [certs, setCerts] = useState([]);
+  const [certs, setCerts] = useState(null);
   const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => {
-    Api.get("certificate-lists", portfolioOwnerId).then((res) =>
-      setCerts(res.data.certificates),
-    );
+    Api.get("certificate-lists", portfolioOwnerId).then((res) => {
+      if (res.data.success) {
+        setCerts(res.data.certificates);
+      }
+    });
   }, [portfolioOwnerId]);
 
   const setCertificateList = () => {
-    return certs.map((cert) => {
-      return (
-        <Certificate
-          key={cert.id}
-          cert={cert}
-          isEditable={isEditable}
-          checkModified={checkModified}
-          title={cert.title}
-          description={cert.description}
-          date={cert.date}
-        />
-      );
-    });
+    return (
+      certs &&
+      certs.map((cert) => {
+        return (
+          <Certificate
+            key={cert.id}
+            cert={cert}
+            isEditable={isEditable}
+            checkModified={checkModified}
+            title={cert.title}
+            description={cert.description}
+            date={cert.date}
+          />
+        );
+      })
+    );
   };
 
   const checkAddComplete = async (props) => {

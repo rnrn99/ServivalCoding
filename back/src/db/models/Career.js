@@ -8,7 +8,7 @@ class Career {
   }
 
   static async find({ id }) {
-    const career = CareerModel.findOne({ id }, { _id: false });
+    const career = CareerModel.findOne({ id }, { _id: false, __v: false });
     return career;
   }
 
@@ -36,6 +36,10 @@ class Career {
   static async delete({ id }) {
     const career = CareerModel.findOneAndDelete({ id });
     return career;
+  }
+
+  static async deleteAll({ user }) {
+    await CareerModel.deleteMany({ user });
   }
 }
 
