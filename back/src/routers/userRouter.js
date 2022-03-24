@@ -306,10 +306,13 @@ userAuthRouter.post(
   }
 );
 
-userAuthRouter.delete("/users", async (req, res, next) => {
+userAuthRouter.delete(
+  "/users",
+  loginRequired,
+  async (req, res, next) => {
   try {
     const userId = req.currentUserId;
-    const user = UserAuthService.getUserInfo({ userId });
+    const user = await UserAuthService.getUserInfo({ userId });
     await UserAuthService.deleteUser({ user });
 
     res

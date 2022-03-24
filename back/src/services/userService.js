@@ -1,8 +1,8 @@
-import { User, Certificate, Project, Award, Career, Education } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Certificate, Project, Award, Career, Education, Tech } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import { removeFields, updateHandler } from "../utils/utils.js";
+import { updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -134,8 +134,8 @@ class UserAuthService {
     await Education.deleteAll({ user });
     await Award.deleteAll({ user });
     await Career.deleteAll({ user });
-
-    //await User.delete({ user });
+    await Tech.deleteAll({ user });
+    await User.delete({ user });
   }
 
   static async setProfile({ userId, profile }) {
