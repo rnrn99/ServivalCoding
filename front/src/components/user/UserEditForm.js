@@ -19,20 +19,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     name: "",
     email: "",
     description: "",
-  })
-  const [emailPermission, setEmailPermission] = useState(null)
-  const [descPermission, setDescPermission] = useState(null)
+  }) // 편집하고자하는 name, email, description을 form이라는 하나의 state로 관리
 
-  // userstate > user/current
-  // 확인 > permission 정보를 > setUser 업데이트 
-  // userCard 
-
-  //useState로 name 상태를 생성함.
-  // const [name, setName] = useState(user.name);
-  //useState로 email 상태를 생성함.
-  // const [email, setEmail] = useState(user.email);
-  //useState로 description 상태를 생성함.
-  // const [description, setDescription] = useState(user.description);
+  const [emailPermission, setEmailPermission] = useState(null); // email 노출 여부 state
+  const [descPermission, setDescPermission] = useState(null); // description 노출 여부 state
 
   useEffect(() => {
     Api.get("users/current").then((res)=>{
@@ -44,8 +34,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       setEmailPermission(result.permission.email)
       setDescPermission(result.permission.description)
     })
-  },[])
-
+  },[]) // 현재의 form 속의 data를 가져오며, email/description 여부도 불러온다
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,8 +58,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         description: updatedUser.description,
         permission: {email: updatedUser.permission.email, description: updatedUser.permission.description}
       }
-      console.log(result);
-      return result;  
+      return result;  // 문제의 장소, setUser를 어떤식으로 보내줘야 할까요... 
     });
 
     // isEditing을 false로 세팅함.
@@ -96,7 +84,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             value={form.name}
             sx={{ width: '320px'}}
           />
-          <Switch {...label} defaultChecked onChange={(e)=>console.log(e.target.checked)}/>
+          <Switch  defaultChecked onChange={(e)=>console.log(e.target.checked)}/>
         </Stack>
         <Stack style={{display: "inline"}}>
           <TextField
@@ -106,7 +94,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             value={form.email}
             sx={{ width: '320px'}}
           />
-           <Switch {...label} checked={emailPermission} onChange={(e)=>setEmailPermission(e.target.checked)}/> 
+           <Switch checked={emailPermission} onChange={(e)=>setEmailPermission(e.target.checked)}/> 
         </Stack>
         <Stack style={{display: "inline"}}>
           <TextField
@@ -116,7 +104,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             value={form.description}
             sx={{ width: '320px'}}
           />
-          <Switch {...label} checked={descPermission} onChange={(e)=>setDescPermission(e.target.checked)}/>
+          <Switch checked={descPermission} onChange={(e)=>setDescPermission(e.target.checked)}/>
         </Stack>
       </Stack>  
       <Stack
