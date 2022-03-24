@@ -66,9 +66,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     await Api.get("techs", portfolioOwnerId).then((res) => {
-      setTechs(res.data.tech[0]);
-      console.log("resDATA", res.data);
-      console.log("techs", techs);
+      setTechs(res.data.tech);
+      // console.log("resDATA", res.data);
+      //console.log("techs", techs);
     });
   }
 
@@ -76,7 +76,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
 
     Api.get("techs", portfolioOwnerId).then((res) => {
-      setTechs(res.data.tech[0]);
+      setTechs(res.data.tech);
       // console.log("resDATA", res.data);
       // console.log("techs", techs);
     });
