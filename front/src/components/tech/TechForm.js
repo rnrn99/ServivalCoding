@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 import TagsInput from "./TagsInput";
 
 const TechForm = ({ techs, checkAddComplete }) => {
-  const [title, setTitle] = useState("Languages");
-  const [description, setDescription] = useState("");
-  const [languages, setLanguages] = useState(techs.language);
-  const [frameworks, setFrameworks] = useState(techs.framework);
-  const [tools, setTools] = useState(techs.tool);
+  //const [title, setTitle] = useState("Languages");
+  //const [description, setDescription] = useState("");
+  const [languages, setLanguages] = useState(techs.languages.list);
+  const [frameworks, setFrameworks] = useState(techs.frameworks.list);
+  const [tools, setTools] = useState(techs.tools.list);
 
   //완료되었을때 데이터 techs로 전달
   const onSubmitHandler = async (e) => {
@@ -23,9 +23,9 @@ const TechForm = ({ techs, checkAddComplete }) => {
       checkAddComplete({
         favorite: "javascript",
         confident: "python",
-        language: languages,
-        framework: frameworks,
-        tool: tools,
+        languages: { list: [...languages] },
+        frameworks: { list: [...frameworks] },
+        tools: { list: [...tools] },
       });
     }
   };
@@ -107,9 +107,9 @@ const TechForm = ({ techs, checkAddComplete }) => {
 export default TechForm;
 TechForm.defaultProps = {
   techs: {
-    language: [],
-    framework: [],
-    tool: [],
+    languages: [],
+    frameworks: [],
+    tools: [],
   },
 };
 TechForm.propTypes = {
@@ -117,6 +117,16 @@ TechForm.propTypes = {
   techs: PropTypes.object,
 };
 /*
+
+{
+        favorite: "javascript",
+        confident: "python",
+        language: { list: [...languages] },
+        framework: { list: [...frameworks] },
+        tool: { list: [...tools] },
+}
+
+
 { techs, checkAddComplete }
    
 

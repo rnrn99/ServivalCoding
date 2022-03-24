@@ -14,6 +14,8 @@ const techNameToURL = (techName) => {
       newName = "csharp";
     } else if (newName === "c++") {
       newName = "cplusplus";
+    } else if (newName === "js") {
+      newName = "javascript";
     } else if (newName === "mui") {
       newName = "materialui";
     } else if (newName === "awc") {

@@ -2,7 +2,7 @@
 //서버와 통신은 Techs에서만 작업.
 
 import React, { useState, useEffect } from "react";
-//import * as Api from "../../api";
+import * as Api from "../../api";
 
 import TechLists from "./TechLists";
 import TechForm from "./TechForm";
@@ -26,14 +26,14 @@ import {
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const dummyData = {
-  id: "유저 아이디",
-  confident: "React", //가장 자신있는 기술
-  favorite: "python", //가장 좋아하는 기술
-  language: ["python", "javascript", "Objective-C", "SQL"], //언어 항목
-  framework: ["express", "MongoDB", "React"], //프레임워크 항목
-  tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
-};
+// const dummyData = {
+//   id: "유저 아이디",
+//   confident: "React", //가장 자신있는 기술
+//   favorite: "python", //가장 좋아하는 기술
+//   language: ["python", "javascript", "Objective-C", "SQL"], //언어 항목
+//   framework: ["express", "MongoDB", "React"], //프레임워크 항목
+//   tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
+// };
 
 const Techs = ({ portfolioOwnerId, isEditable }) => {
   //const [isEditing, setIsEditing] = useState(false);
@@ -51,34 +51,66 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     setExpanded(isExpanded ? panel : false);
   };
   const dataValidCheck = () => {
-    console.log("비어있는 데이터임을 확인함", isBlank, title, techs);
+    //console.log("비어있는 데이터임을 확인함", isBlank, title, techs);
     if (!techs?.language && !techs?.framework && !techs?.tool) {
       setIsBlank(true);
       setTitle("기술스택을 작성해보세요.");
-      console.log("비어있는 데이터임을 확인함", isBlank, title);
+      //console.log("비어있는 데이터임을 확인함", isBlank, title);
     } else {
       setIsBlank(false);
       setTitle("기술스택");
     }
   };
 
+  async function fetchData() {
+    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+    await Api.get("techs", portfolioOwnerId).then((res) => {
+      setTechs(res.data.tech[0]);
+      console.log("resDATA", res.data);
+      console.log("techs", techs);
+    });
+  }
+
+  useEffect(() => {
+    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+    Api.get("techs", portfolioOwnerId).then((res) => {
+      setTechs(res.data.tech[0]);
+      // console.log("resDATA", res.data);
+      // console.log("techs", techs);
+    });
+  }, [portfolioOwnerId]);
+
   useEffect(() => {
     dataValidCheck();
   });
 
-  useEffect(() => {
-    // Api.get("certificate-lists", portfolioOwnerId).then((res) =>
-    //   setCerts(res.data)
-    // );
-    setTechs(dummyData);
-  }, [portfolioOwnerId]);
+  const checkAddComplete = async (result) => {
+    try {
+      if (result) {
+        if (isBlank) {
+          console.log("기술스택 정보를 보냅니다.isBlank", result);
+          await Api.put("techs", result).then((res) =>
+            setTechs(res.data.tech[0])
+          );
+        } else {
+          await Api.put("techs", result).then((res) =>
+            setTechs(res.data.tech[0])
+          );
+        }
+        //setTechs(result);
+        console.log("기술스택 정보를 보냈습니다. checkAddComplete", techs);
+        //Api.get("techs", portfolioOwnerId).then((res) => setTechs(res.data));
+        fetchData();
+        //console.log("기술스택 정보를 다시 받아왔습니다.", techs);
 
-  const checkAddComplete = (result) => {
-    if (result) {
-      setTechs(result);
-      dataValidCheck();
+        dataValidCheck();
+      }
+      setIsAdd(!isAdd);
+    } catch (error) {
+      console.log(error.response.message);
     }
-    setIsAdd(!isAdd);
   };
 
   return (
@@ -137,20 +169,23 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
             <Grid item xs={4}>
               <Grid container direction={"row"} spacing={1}>
                 <Grid item xs={6}>
-                  <TechPick techName={techs.favorite} type="favorite" />
+                  <TechPick techName={techs?.favorite} type="favorite" />
                 </Grid>
                 <Grid item xs={6}>
-                  <TechPick techName={techs.confident} type="confident" />
+                  <TechPick techName={techs?.confident} type="confident" />
                 </Grid>
               </Grid>
             </Grid>
             <Grid item sx={{ ml: 1 }} xs>
               <Grid container direction="column" justifyContent="center">
-                <TechLists subtitle="Languages" tags={techs.language} />
+                <TechLists subtitle="Languages" tags={techs?.languages?.list} />
                 <Divider />
-                <TechLists subtitle="Frameworks" tags={techs.framework} />
+                <TechLists
+                  subtitle="Frameworks"
+                  tags={techs?.frameworks?.list}
+                />
                 <Divider />
-                <TechLists subtitle="DevTools" tags={techs.tool} />
+                <TechLists subtitle="DevTools" tags={techs?.tools?.list} />
                 <Divider />
               </Grid>
             </Grid>
