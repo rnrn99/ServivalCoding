@@ -37,6 +37,10 @@ class Career {
     const career = CareerModel.findOneAndDelete({ id });
     return career;
   }
+
+  static async deleteAll({ user }) {
+    await CareerModel.deleteMany({ user });
+  }
 }
 
 export { Career };

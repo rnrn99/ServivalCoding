@@ -63,6 +63,10 @@ class Education {
     ).populate("author", "id -_id");
     return education;
   }
+
+  static async deleteAll({ user }) {
+    await EducationModel.deleteMany({ user });
+  }
 }
 
 export { Education };

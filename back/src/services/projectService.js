@@ -63,9 +63,9 @@ class ProjectService {
     let project = await Project.findById({ id });
 
     if (project === null) {
-      const errorMessage =
-        "존재하지 않는 프로젝트입니다.";
-      return { errorMessage };
+      const error = new Error("존재하지 않는 프로젝트입니다.");
+      error.status = 404;
+      throw error;
     }
 
     await Project.delete({ id });

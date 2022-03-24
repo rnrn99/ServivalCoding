@@ -5,8 +5,10 @@ import { educationRouter } from "./routers/educationRouter.js";
 import { awardRouter } from "./routers/awardRouter.js";
 import { certificateRouter } from "./routers/certificateRouter.js";
 import { projectRouter } from "./routers/projectRouter.js";
-import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { careerRouter } from "./routers/careerRouter.js";
+import { techRouter } from "./routers/techRouter.js";
+import { errorMiddleware } from "./middlewares/errorMiddleware.js";
+
 import { multerRouter } from "./routers/multerRouter.js";
 import morgan from "morgan";
 const app = express();
@@ -33,6 +35,7 @@ app.use(educationRouter);
 app.use(awardRouter);
 app.use(projectRouter);
 app.use(careerRouter);
+app.use(techRouter);
 app.use(multerRouter);
 // 순서 중요 (router 에서 next() 시 아래의 에러 핸들링  middleware로 전달됨)
 app.use(errorMiddleware);
