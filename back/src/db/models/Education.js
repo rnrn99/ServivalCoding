@@ -15,13 +15,13 @@ class Education {
     const user = await UserModel.findOne({ id: userId });
     const educations = await EducationModel.find(
       { author: user },
-      { _id: false }
+      { _id: false, __v: false }
     );
     return educations;
   }
 
   static async find({ id }) {
-    return await EducationModel.findOne({ id });
+    return await EducationModel.findOne({ id }, { _id: false, __v: false });
   }
 
   static async update({ id, toUpdate }) {

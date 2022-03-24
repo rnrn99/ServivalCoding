@@ -25,11 +25,18 @@ const UserSchema = new Schema(
       required: false,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
+    profile: {
+      type: String,
+      required: true,
+      default: "../../uploads/defaultImage.jpg",
+    },
     like: {
-      by: [{
-        type: String,
-        required: false,
-      }],
+      by: [
+        {
+          type: String,
+          required: false,
+        },
+      ],
       count: {
         type: Number,
         required: false,
@@ -51,7 +58,7 @@ const UserSchema = new Schema(
         type: Boolean,
         required: true,
         default: true,
-      }
+      },
     },
   },
   {

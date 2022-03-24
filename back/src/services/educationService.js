@@ -46,7 +46,6 @@ class EducationService {
     }
 
     const updateData = await Education.update({ id, toUpdate });
-
     return { data: updateData, code: 201, message: "학력 수정 성공" };
   }
 
