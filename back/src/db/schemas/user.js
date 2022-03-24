@@ -28,7 +28,7 @@ const UserSchema = new Schema(
     profile: {
       type: String,
       required: true,
-      default: "../../uploads/defaultImage.jpg",
+      default: "http://placekitten.com/200/200",
     },
     like: {
       by: [
