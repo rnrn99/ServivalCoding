@@ -6,7 +6,7 @@ function Loading() {
     const skeletonArr = [];
     for (let i = 0; i < compNum; i++) {
       skeletonArr.push(
-        <Card sx={{ marginBottom: "20px" }}>
+        <Card sx={{ marginBottom: "20px" }} key={"component_loading" + i}>
           <Skeleton
             sx={{ height: 230 }}
             animation="wave"
