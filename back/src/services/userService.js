@@ -2,7 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import {removeFields, updateHandler} from "../utils/utils.js";
+import { removeFields, updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -91,9 +91,12 @@ class UserAuthService {
     const fieldToUpdate = updateHandler(toUpdate);
 
     // password 필드가 존재한다면
-    if (fieldToUpdate['password'] !== undefined) {
+    if (fieldToUpdate["password"] !== undefined) {
       // 암호화
-      fieldToUpdate['password'] = await bcrypt.hash(fieldToUpdate['password'], 10);
+      fieldToUpdate["password"] = await bcrypt.hash(
+        fieldToUpdate["password"],
+        10
+      );
     }
     user = await User.update({ userId, fieldToUpdate });
 
@@ -129,6 +132,11 @@ class UserAuthService {
     //   };
     // }
     return users;
+  }
+
+  static async setProfile({ userId, profile }) {
+    const setProfile = await User.updateByProfile({ userId, profile });
+    return setProfile;
   }
 }
 

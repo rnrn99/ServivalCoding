@@ -8,7 +8,7 @@ class Career {
   }
 
   static async find({ id }) {
-    const career = CareerModel.findOne({ id }, { _id: false });
+    const career = CareerModel.findOne({ id }, { _id: false, __v: false });
     return career;
   }
 
