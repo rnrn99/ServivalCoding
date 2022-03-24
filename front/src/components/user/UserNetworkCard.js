@@ -17,7 +17,11 @@ function UserNetworkCard({ user }) {
       <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"
-          image="http://placekitten.com/200/200"
+          image={
+            user.profile === "http://placekitten.com/200/200"
+              ? user.profile
+              : process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+          }
           alt="random"
         />
         <CardContent sx={{ flexGrow: 1 }}>
