@@ -1,4 +1,4 @@
-import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Certificate, Project, Award, Career, Education } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
@@ -125,13 +125,17 @@ class UserAuthService {
       throw error;
     }
 
-    // if (users === null || users === undefined) {
-    //   return {
-    //     code: "400",
-    //     message: "존재하지 않는 유저 입니다",
-    //   };
-    // }
     return users;
+  }
+
+  static async deleteUser({ user }) {
+    await Project.deleteAll({ user });
+    await Certificate.deleteAll({ user });
+    await Education.deleteAll({ user });
+    await Award.deleteAll({ user });
+    await Career.deleteAll({ user });
+
+    //await User.delete({ user });
   }
 
   static async setProfile({ userId, profile }) {
