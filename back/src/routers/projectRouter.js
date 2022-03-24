@@ -4,12 +4,18 @@ import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { ProjectService } from "../services/projectService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
-
+import {
+  checkId,
+  checkUserId,
+  checkProjectCreated,
+  checkUpdate,
+} from "../middlewares/checkMiddleware.js";
 const projectRouter = Router();
 
 projectRouter.post(
   "/projects",
   loginRequired,
+  checkProjectCreated,
   async function (req, res, next) {
     // 새로운 프로젝트를 등록
     // 로그인 필요
@@ -22,7 +28,13 @@ projectRouter.post(
 
       // req (request) 에서 데이터 가져오기
       const userId = req.currentUserId; //로그인한 user의 id
-      const toPost = fieldChecking(req.body, "title", "description", "from", "to");
+      const toPost = fieldChecking(
+        req.body,
+        "title",
+        "description",
+        "from",
+        "to"
+      );
 
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId: userId });
@@ -30,7 +42,7 @@ projectRouter.post(
       // 에러가 나지 않았다면 위 데이터들을 프로젝트 db에 추가하기
       const newProject = await ProjectService.addProject({
         user,
-        ...toPost
+        ...toPost,
       });
 
       const filteredUser = fieldChecking(user["_doc"], "id");
@@ -40,9 +52,9 @@ projectRouter.post(
       const body = {
         success: true,
         project: {
-          ...project
-        }
-      }
+          ...project,
+        },
+      };
 
       res.status(201).json(body);
     } catch (error) {
@@ -54,6 +66,7 @@ projectRouter.post(
 projectRouter.get(
   "/projects/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -64,9 +77,9 @@ projectRouter.get(
       const body = {
         success: true,
         project: {
-          ...project["_doc"]
-        }
-      }
+          ...project["_doc"],
+        },
+      };
 
       // 200 코드와 함께 프로젝트 정보 전송
       res.status(200).json(body);
@@ -79,6 +92,8 @@ projectRouter.get(
 projectRouter.put(
   "/projects/:id",
   loginRequired,
+  checkId,
+  checkUpdate,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -98,7 +113,13 @@ projectRouter.put(
       }
 
       // 업데이트할 정보를 묶어서
-      const toUpdate = fieldChecking(req.body, "title", "description", "from", "to");
+      const toUpdate = fieldChecking(
+        req.body,
+        "title",
+        "description",
+        "from",
+        "to"
+      );
 
       // 프로젝트 정보를 업데이트
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
@@ -106,9 +127,9 @@ projectRouter.put(
       const body = {
         success: true,
         project: {
-          ...updatedProject["_doc"]
-        }
-      }
+          ...updatedProject["_doc"],
+        },
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -120,6 +141,7 @@ projectRouter.put(
 projectRouter.get(
   "/project-lists/:userId",
   loginRequired,
+  checkUserId,
   async function (req, res, next) {
     //userId의 프로젝트 목록을 가져옴
     const { userId } = req.params;
@@ -133,8 +155,8 @@ projectRouter.get(
 
       const body = {
         success: true,
-        projects
-      }
+        projects,
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -146,13 +168,14 @@ projectRouter.get(
 projectRouter.delete(
   "/projects/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     const { id } = req.params;
     const userId = req.currentUserId;
 
     try {
       // project id를 이용해 project를 가져옴
-      const project = await ProjectService.getProject({id});
+      const project = await ProjectService.getProject({ id });
 
       // project 소유자의 id가 다르다면
       if (userId !== project.user.id) {

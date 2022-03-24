@@ -1,13 +1,20 @@
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { EducationService } from "../services/educationService.js";
-import {UserAuthService} from "../services/userService.js";
+import { UserAuthService } from "../services/userService.js";
+import {
+  checkId,
+  checkUserId,
+  checkEducationCreated,
+  checkUpdate,
+} from "../middlewares/checkMiddleware.js";
 
 const educationRouter = Router();
 
 educationRouter.post(
   "/educations",
   loginRequired,
+  checkEducationCreated,
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
@@ -19,9 +26,9 @@ educationRouter.post(
       const body = {
         success: true,
         education: {
-          ...newEducation
-        }
-      }
+          ...newEducation,
+        },
+      };
 
       res.status(201).json(body);
       // status(400) 잘못된 데이터 인식 [ API 호출하는 쪽의 문제 ] validator 함수를 사용하기
@@ -35,6 +42,7 @@ educationRouter.post(
 educationRouter.get(
   "/educations/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     try {
       const id = req.params.id;
@@ -42,8 +50,8 @@ educationRouter.get(
 
       const body = {
         success: true,
-        education
-      }
+        education,
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -55,6 +63,7 @@ educationRouter.get(
 educationRouter.get(
   "/education-lists/:userId",
   loginRequired,
+  checkUserId,
   async function (req, res, next) {
     try {
       const { userId } = req.params;
@@ -66,8 +75,8 @@ educationRouter.get(
 
       const body = {
         success: true,
-        educations
-      }
+        educations,
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -79,6 +88,8 @@ educationRouter.get(
 educationRouter.put(
   "/educations/:id",
   loginRequired,
+  checkId,
+  checkUpdate,
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -92,8 +103,8 @@ educationRouter.put(
 
       const body = {
         success: true,
-        education
-      }
+        education,
+      };
 
       res.status(201).json(body);
     } catch (error) {
@@ -105,6 +116,7 @@ educationRouter.put(
 educationRouter.delete(
   "/educations/:id",
   loginRequired,
+  checkId,
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -112,8 +124,8 @@ educationRouter.delete(
 
       const body = {
         success: true,
-        education
-      }
+        education,
+      };
 
       res.status(200).json(body);
     } catch (error) {

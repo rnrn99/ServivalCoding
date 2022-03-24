@@ -3,13 +3,20 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { CertificateService } from "../services/certificateService.js";
 import { UserAuthService } from "../services/userService.js";
-import {fieldChecking, removeFields} from "../utils/utils.js";
+import { fieldChecking, removeFields } from "../utils/utils.js";
+import {
+  checkId,
+  checkUserId,
+  checkCertificateCreated,
+  checkUpdate,
+} from "../middlewares/checkMiddleware.js";
 
 const certificateRouter = Router();
 
 certificateRouter.post(
   "/certificates",
   loginRequired,
+  checkCertificateCreated,
   async function (req, res, next) {
     // 새로운 자격증을 등록
     // 로그인 필요
@@ -30,17 +37,22 @@ certificateRouter.post(
       // 에러가 나지 않았다면 위 데이터들을 자격증 db에 추가하기
       const newCertificate = await CertificateService.addCertificate({
         user,
-        ...toPost
+        ...toPost,
       });
 
       const filteredUser = fieldChecking(user["_doc"], "id");
-      const removeUser = removeFields(newCertificate["_doc"], "user", "_id", "__v");
+      const removeUser = removeFields(
+        newCertificate["_doc"],
+        "user",
+        "_id",
+        "__v"
+      );
       const certificate = { user: filteredUser, ...removeUser };
 
       const body = {
         success: true,
-        certificate
-      }
+        certificate,
+      };
 
       res.status(201).json(body);
     } catch (error) {
@@ -52,6 +64,7 @@ certificateRouter.post(
 certificateRouter.get(
   "/certificates/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -62,9 +75,9 @@ certificateRouter.get(
       const body = {
         success: true,
         certificate: {
-          ...certificate["_doc"]
-        }
-      }
+          ...certificate["_doc"],
+        },
+      };
 
       // 200 코드와 함께 자격증 정보 전송
       res.status(200).json(body);
@@ -77,6 +90,8 @@ certificateRouter.get(
 certificateRouter.put(
   "/certificates/:id",
   loginRequired,
+  checkId,
+  checkUpdate,
   async function (req, res, next) {
     const { id } = req.params;
 
@@ -109,9 +124,9 @@ certificateRouter.put(
       const body = {
         success: true,
         certificate: {
-          ...updatedCertificate["_doc"]
-        }
-      }
+          ...updatedCertificate["_doc"],
+        },
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -123,6 +138,7 @@ certificateRouter.put(
 certificateRouter.get(
   "/certificate-lists/:userId",
   loginRequired,
+  checkUserId,
   async function (req, res, next) {
     //userId의 자격증 목록을 가져옴
     const { userId } = req.params;
@@ -136,8 +152,8 @@ certificateRouter.get(
 
       const body = {
         success: true,
-        certificates
-      }
+        certificates,
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -149,6 +165,7 @@ certificateRouter.get(
 certificateRouter.delete(
   "/certificates/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     const { id } = req.params;
     const userId = req.currentUserId;
