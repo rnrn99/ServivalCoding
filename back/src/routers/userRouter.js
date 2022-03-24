@@ -186,7 +186,7 @@ userAuthRouter.get(
 
       const body = {
         success: true,
-        user: result
+        users: result
       }
 
       res
