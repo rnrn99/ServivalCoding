@@ -15,8 +15,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     description: "",
   }) // 편집하고자하는 name, email, description을 form이라는 하나의 state로 관리
 
-  const [emailPermission, setEmailPermission] = useState(null); // email 노출 여부 state
-  const [descPermission, setDescPermission] = useState(null); // description 노출 여부 state
+  const [emailPermission, setEmailPermission] = useState(true); // email 노출 여부 state
+  const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
 
   useEffect(() => {
     Api.get("users/current").then((res)=>{

@@ -26,8 +26,9 @@ function UserCard({
   // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(() => {
     Api.get("users", portfolioOwnerId).then((res) => {
-      setHeartCount(res.data.user.like.count);
-      setClickHeart(res.data.user.isLikedByThisUser);
+      const userResult = res.data.user
+      setHeartCount(userResult.like.count);
+      setClickHeart(userResult.isLikedByThisUser);
     });
   }, [portfolioOwnerId]);
 
@@ -39,7 +40,7 @@ function UserCard({
     setHeartCount(res.data.user.like.count);
     setClickHeart(res.data.user.isLikedByThisUser);
   };
- // visible 기능에 따른 부가 컴포넌트 생성 
+//  visible 기능에 따른 부가 컴포넌트 생성 
   const TypographyEmail = () => {
     if(user?.permission?.email === false) {
       return <Typography />
@@ -79,7 +80,7 @@ function UserCard({
             <Typography style={{ fontWeight: "bold", fontSize: "22px" }}>
               {user?.name}
             </Typography>
-            {/* {user?.permission?.email&& (
+            {/* {emailPermission&& (
                 <Typography
                         className="text-muted"
                       style={{ fontSize: "13px", marginBottom: "12px" }}
