@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import * as Api from "../../api";
 import Avatar from "@mui/material/Avatar";
-import { Box, TextField, Stack, Button } from "@mui/material";
+import { Box, TextField, Stack, Button, Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Switch from "@mui/material/Switch";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
 function UserEditForm({ user, setIsEditing, setUser }) {
@@ -110,6 +113,18 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             onChange={(e) => setDescPermission(e.target.checked)}
           />
         </Stack>
+        <Stack style={{ display: "inline" }}>
+          <TextField label="git URL" sx={{ width: "320px" }} /> 
+          <GitHubIcon sx={iconStyles} />
+        </Stack>
+        <Stack style={{ display: "inline" }}>
+          <TextField label="instar URL" sx={{ width: "320px" }} />
+          <InstagramIcon sx={iconStyles} /> 
+        </Stack> 
+        <Stack style={{ display: "inline" }}>
+          <TextField label="blog URL" sx={{ width: "320px" }} />
+          <WysiwygIcon sx={iconStyles} />
+        </Stack>     
       </Stack>
       <Stack
         direction="row"
@@ -136,7 +151,7 @@ export default UserEditForm;
 const Input = styled("input")({
   display: "none",
 });
-
+const iconStyles = { marginLeft: "25px", marginTop: "15px", marginRight: '10px'}
 const shapeStyles = { width: 150, height: 150 };
 const shapeCircleStyles = { borderRadius: "50%" };
 const avatar = (
