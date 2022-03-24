@@ -60,6 +60,13 @@ class careerService {
 
   static async getCareers({ userId }) {
     const careers = await Career.findAll({ userId });
+
+    if (careers.length === 0) {
+      const error = new Error("경력사항이 없습니다.");
+      error.status = 404;
+      throw error;
+    }
+
     return careers;
   }
   static async deleteCareer({ id }) {
