@@ -17,15 +17,16 @@ import {
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AlertError from "../utils/AlertError";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
-  //useState로 email 상태를 생성함.
-  const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(""); //useState로 email 상태를 생성함.
+  const [password, setPassword] = useState(""); //useState로 password 상태를 생성함.
+  const [alertOpen, setAlertOpen] = useState(false); // alert 창 open 여부를 저장합니다.
+  const [errorMessage, setErrorMessage] = useState(""); // 에러 메세지를 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -56,7 +57,9 @@ const LoginForm = () => {
 
       // 로그인 실패 시 에러 반환
       if (!res.data.success) {
-        throw new Error("Failed to Login");
+        setAlertOpen((cur) => !cur);
+        setErrorMessage(res.data.error.message);
+        throw new Error("로그인에 실패하였습니다.");
       }
 
       // 유저 정보는 response의 data임.
@@ -75,7 +78,7 @@ const LoginForm = () => {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      console.log("로그인에 실패하였습니다.\n", err);
+      console.log(err);
     }
   };
 
@@ -145,6 +148,13 @@ const LoginForm = () => {
           </Grid>
         </Grid>
       </Card>
+      {alertOpen && (
+        <AlertError
+          alertOpen={alertOpen}
+          setAlertOpen={setAlertOpen}
+          message={errorMessage}
+        />
+      )}
     </Container>
   );
 };
