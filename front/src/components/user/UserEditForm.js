@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import * as Api from "../../api";
-import {
-  Box,
-  TextField,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Box, TextField, Stack, Button } from "@mui/material";
 
 function UserEditForm({ user, setIsEditing, setUser }) {
   //useState로 name 상태를 생성함.
@@ -25,7 +20,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       description,
     });
     // 유저 정보는 response의 data임.
-    const updatedUser = res.data.data;
+    const updatedUser = res.data.user;
     // 해당 유저 정보로 user을 세팅함.
     setUser(updatedUser);
 
@@ -55,7 +50,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           onChange={(e) => setDescription(e.target.value)}
           value={description}
         />
-      </Stack>  
+      </Stack>
       <Stack
         direction="row"
         spacing={2}
@@ -72,7 +67,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           취소
         </Button>
       </Stack>
-  </Box> 
+    </Box>
   );
 }
 

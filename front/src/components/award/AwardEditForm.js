@@ -26,12 +26,16 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
     await Api.put(`awards/${award.id}`, edtAwardData);
 
     const editData = await Api.get("award-lists", userId);
-    setAwardLists(editData.data.data);
+    setAwardLists(editData.data.awards);
     setIsEditing(false);
   };
 
   return (
-    <Box component="form" onSubmit={editSubmitHandler} sx={{ mt: 1,  width: 400  }}>
+    <Box
+      component="form"
+      onSubmit={editSubmitHandler}
+      sx={{ mt: 1, width: 400 }}
+    >
       <Stack spacing={2}>
         <TextField
           required
@@ -67,4 +71,3 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
 }
 
 export default AwardEditForm;
-
