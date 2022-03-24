@@ -1,42 +1,85 @@
 //기술스택 입력 수정 폼
 
 import React, { useState } from "react";
-import { Box, TextField, Stack, Button } from "@mui/material";
+import { Box, Stack, Button } from "@mui/material";
+import PropTypes from "prop-types";
 
-const TechForm = ({ checkAddComplete }) => {
-  const [title, setTitle] = useState("Languages");
-  const [description, setDescription] = useState("");
+import TagsInput from "./TagsInput";
 
-  // Date를 YYYY-MM-DD의 문자열로 바꾸는 함수입니다. 지유님꺼 업어옴
+const TechForm = ({ techs, checkAddComplete }) => {
+  //const [title, setTitle] = useState("Languages");
+  //const [description, setDescription] = useState("");
+  const [languages, setLanguages] = useState(techs.languages.list);
+  const [frameworks, setFrameworks] = useState(techs.frameworks.list);
+  const [tools, setTools] = useState(techs.tools.list);
 
+  //완료되었을때 데이터 techs로 전달
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    // Date type의 시작일, 마감일 상태를 YYYY-MM-DD의 문자열로 바꿉니다.
-    //const strDate = dateToString(date);
-
-    //서버에 post 요청을 하고 갱신.
-    // const isAccepted = accept;
 
     if (e.target.name === "cancel") {
       checkAddComplete(null);
     } else {
-      checkAddComplete({ title, description });
+      checkAddComplete({
+        favorite: "javascript",
+        confident: "python",
+        languages: { list: [...languages] },
+        frameworks: { list: [...frameworks] },
+        tools: { list: [...tools] },
+      });
     }
   };
 
+  function handleSelecetedLanguages(items) {
+    console.log("setLanguages", items);
+    setLanguages(items);
+  }
+  function handleSelecetedFrameworks(items) {
+    console.log("setFrameworks", items);
+    setFrameworks(items);
+  }
+  function handleSelecetedTools(items) {
+    console.log("setTools", items);
+    setTools(items);
+  }
   return (
-    <Box component="form" onSubmit={onSubmitHandler} sx={{ mt: 1 }}>
+    <Box
+      component="form"
+      onSubmit={onSubmitHandler}
+      sx={{ mt: 1, width: "60ch" }}
+    >
       <Stack spacing={2}>
-        <TextField
-          label="보유 기술 - 개발언어"
-          required
-          onChange={(e) => setTitle(e.target.value)}
-          sx={{ width: "60ch" }}
+        <TagsInput
+          selectedTags={handleSelecetedLanguages}
+          fullWidth
+          variant="outlined"
+          id="languages"
+          name="languages"
+          placeholder="주로 사용하는 언어를 태깅해보세요."
+          label="Languages"
+          tags={languages}
         />
-        <TextField
-          label="항목"
-          required
-          onChange={(e) => setDescription(e.target.value)}
+
+        <TagsInput
+          selectedTags={handleSelecetedFrameworks}
+          fullWidth
+          variant="outlined"
+          id="frameworks"
+          name="frameworks"
+          placeholder="주로 사용하는 프레임웍을 태깅해보세요."
+          label="Frameworks"
+          tags={frameworks}
+        />
+
+        <TagsInput
+          selectedTags={handleSelecetedTools}
+          fullWidth
+          variant="outlined"
+          id="tools"
+          name="tools"
+          placeholder="주로 사용하는 개발 도구를 태깅해보세요."
+          label="tools"
+          tags={tools}
         />
 
         <Stack
@@ -45,7 +88,7 @@ const TechForm = ({ checkAddComplete }) => {
           sx={{ mt: 2, justifyContent: "center" }}
         >
           <Button name="accept" variant="contained" type="submit">
-            확인
+            완료
           </Button>{" "}
           <Button
             name="cancel"
@@ -62,3 +105,43 @@ const TechForm = ({ checkAddComplete }) => {
 };
 
 export default TechForm;
+TechForm.defaultProps = {
+  techs: {
+    languages: [],
+    frameworks: [],
+    tools: [],
+  },
+};
+TechForm.propTypes = {
+  checkAddComplete: PropTypes.func.isRequired,
+  techs: PropTypes.object,
+};
+/*
+
+{
+        favorite: "javascript",
+        confident: "python",
+        language: { list: [...languages] },
+        framework: { list: [...frameworks] },
+        tool: { list: [...tools] },
+}
+
+
+{ techs, checkAddComplete }
+   
+
+
+        <TextField
+          label="보유 기술 - 개발언어"
+          required
+          onChange={(e) => setTitle(e.target.value)}
+          sx={{ width: "60ch" }}
+        />
+        <TextField
+          label="항목"
+          required
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        
+*/

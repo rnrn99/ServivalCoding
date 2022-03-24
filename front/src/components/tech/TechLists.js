@@ -7,7 +7,7 @@ const TechLists = ({ subtitle, tags }) => {
   const setTagList = () => {
     console.log(tags);
     return tags.map((tag, idx) => {
-      return <TechTag key={idx} tag={tag} />;
+      return <TechTag key={idx} tag={tag} isDeletable={false} />;
     });
   };
 
