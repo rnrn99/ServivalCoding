@@ -24,6 +24,7 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
   // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(()=>{
     Api.get("users", portfolioOwnerId).then((res)=> {
+      console.log(res.data.data)
       setHeartCount(res.data.data.like.count)
       setClickHeart(res.data.data.isLikedByThisUser)
     })
@@ -34,6 +35,7 @@ function UserCard({ user, setUser, setIsEditing, isEditable, portfolioOwnerId })
       await Api.post(`users/${user.id}/likes`);
 
       const res = await Api.get("users", portfolioOwnerId);
+        console.log(res.data.data)
         setUser(res.data.data)
         setHeartCount(res.data.data.like.count)
         setClickHeart(res.data.data.isLikedByThisUser)

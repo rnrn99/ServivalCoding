@@ -20,6 +20,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     email: user.email,
     description: user.description
   })
+
   //useState로 name 상태를 생성함.
   // const [name, setName] = useState(user.name);
   //useState로 email 상태를 생성함.
@@ -39,6 +40,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     // 유저 정보는 response의 data임.
     const updatedUser = res.data.data;
     // 해당 유저 정보로 user을 세팅함.
+  
     setUser(updatedUser);
 
     // isEditing을 false로 세팅함.
