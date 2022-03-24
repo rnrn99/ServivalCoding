@@ -12,26 +12,32 @@ const TechSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    confident: { // 프로젝트 이름
+    confident: { // 자신있는 기술
       type: String,
       required: true,
     },
-    favorite: { // 프로젝트 내용
+    favorite: { // 좋아하는 기술
       type: String,
       required: true,
     },
-    languages: [{ // 프로젝트 시작일 // YYYY-MM-DD
-      type: String,
-      required: true,
-    }],
-    frameworks: [{ // 프로젝트 시작일 // YYYY-MM-DD
-      type: String,
-      required: true,
-    }],
-    tools: [{ // 프로젝트 시작일 // YYYY-MM-DD
-      type: String,
-      required: true,
-    }],
+    languages: {
+      list: [{ // 사용 가능한 언어들
+        type: String,
+        required: true,
+      }]
+    },
+    frameworks: {
+      list: [{ // 사용 가능한 프레임워크들
+        type: String,
+        required: true,
+      }]
+    },
+    tools: {
+      list: [{ // 사용 가능한 도구
+        type: String,
+        required: true,
+      }]
+    },
   },
   /*  {
       timestamps: true,

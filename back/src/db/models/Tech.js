@@ -27,8 +27,8 @@ class Tech {
     return techs;
   }
 
-  static async update({ id, fieldToUpdate }) {
-    const filter = { id: id };
+  static async update({ user, fieldToUpdate }) {
+    const filter = { user };
     const option = { returnOriginal: false, projection: { _id: false, __v: false } };
 
     const updatedTech = await TechModel.findOneAndUpdate(
@@ -40,8 +40,8 @@ class Tech {
     return updatedTech;
   }
 
-  static async delete({ id }) {
-    await TechModel.deleteOne({ id });
+  static async delete({ user }) {
+    await TechModel.deleteOne({ user });
   }
 }
 
