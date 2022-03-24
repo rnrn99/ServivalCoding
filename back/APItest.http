@@ -29,7 +29,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 }
 
 ###
-POST http://localhost:5001/projects
+POST http://localhost:5001/
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
 
