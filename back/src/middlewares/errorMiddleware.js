@@ -10,7 +10,7 @@ function errorMiddleware(error, req, res, next) {
     }
   };
   res
-    //.status(error.status)
+    .status(error.status)
     .send(body);
 }
 

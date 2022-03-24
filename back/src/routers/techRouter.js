@@ -62,7 +62,7 @@ techRouter.get(
 
       const body = {
         success: true,
-        tech
+        tech: tech[0]
       }
 
       // 200 코드와 함께 기술 스택 정보 전송
