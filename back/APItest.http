@@ -105,7 +105,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 ###
 POST http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMzMxMzZ9.n5sykP86MHICUlt-7xX39VZPFL8MenWar-WG0zgHOKM
 
 {
   "confident": "리액트",
@@ -145,6 +145,6 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 
 
 ###
-DELETE http://localhost:5001/users
+GET http://localhost:5001/techs/c7ac3516-11d2-4aa1-af92-0e60b7fe3ba1
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMzMxMzZ9.n5sykP86MHICUlt-7xX39VZPFL8MenWar-WG0zgHOKM
