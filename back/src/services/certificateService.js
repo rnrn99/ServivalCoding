@@ -8,7 +8,6 @@ class CertificateService {
     const newCertificate = { id, user, title, description, date };
 
     const createdNewCertificate = await Certificate.create({ newCertificate });
-    createdNewCertificate.errorMessage = null;
 
     return createdNewCertificate;
   }
@@ -16,11 +15,25 @@ class CertificateService {
   static async getCertificate({ id }) {
     // 유효한 id인지 확인
     const certificate = await Certificate.findById({ id });
+
+    if (certificate === null) {
+      const error = new Error("자격증 정보가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
+    }
+
     return certificate;
   }
 
   static async getCertificates({ user }) {
     const certificates = await Certificate.findByUser({ user });
+
+    if (certificates.length === 0) {
+      const error = new Error("자격증 정보가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
+    }
+
     return certificates;
   }
 
@@ -30,8 +43,9 @@ class CertificateService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (certificate.length === 0) {
-      const errorMessage = "존재하지 않는 자격증입니다.";
-      return { errorMessage };
+      const error = new Error("자격증 정보가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
@@ -46,8 +60,9 @@ class CertificateService {
     let certificate = await Certificate.findById({ id });
 
     if (certificate.length === 0) {
-      const errorMessage = "존재하지 않는 자격증입니다.";
-      return { errorMessage };
+      const error = new Error("자격증 정보가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
     }
 
     await Certificate.delete({ id });

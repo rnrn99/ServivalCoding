@@ -27,7 +27,7 @@ function ProjectCard({ project, setClickEditBtn, isEditable, setProjects }) {
 
       // project-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
       const res = await Api.get("project-lists", project.user.id);
-      setProjects(res.data);
+      setProjects(res.data.projects);
     }
   };
 

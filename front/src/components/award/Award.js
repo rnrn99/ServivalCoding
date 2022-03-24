@@ -1,7 +1,7 @@
-import React, {useState,useContext} from 'react';
-import AwardEditForm from './AwardEditForm';
+import React, { useState, useContext } from "react";
+import AwardEditForm from "./AwardEditForm";
 import { UserStateContext } from "../../App";
-import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그 
+import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그
 import * as Api from "../../api";
 
 import { Button, Grid, IconButton, Menu, MenuItem } from "@mui/material";
@@ -18,7 +18,7 @@ function Award({ award, isEditable, setAwardLists }) {
 
   const userState = useContext(UserStateContext);
   const userId = userState.user.id;
-  
+
   const open = Boolean(anchorEl); // * 수정 필요 (state로 관리하기)*
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -28,11 +28,11 @@ function Award({ award, isEditable, setAwardLists }) {
   };
 
   const deleteHandler = async (isDeleting) => {
-    if(isDeleting) {
+    if (isDeleting) {
       await Api.delete("awards", award.id);
 
-    const deleteData = await Api.get("award-lists", userId);
-    setAwardLists(deleteData.data.data);
+      const deleteData = await Api.get("award-lists", userId);
+      setAwardLists(deleteData.data.awards);
     }
   };
 
@@ -81,9 +81,7 @@ function Award({ award, isEditable, setAwardLists }) {
               </Menu>
             </>
           )}
-          {isDeleting && (
-              <AlertDialog checkDeleteComplete={deleteHandler} />
-            )}
+          {isDeleting && <AlertDialog checkDeleteComplete={deleteHandler} />}
         </Grid>
       </Grid>
     </>
@@ -91,4 +89,3 @@ function Award({ award, isEditable, setAwardLists }) {
 }
 
 export default Award;
-

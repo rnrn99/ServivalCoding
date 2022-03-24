@@ -32,7 +32,7 @@ const LoginForm = () => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
 
@@ -53,8 +53,14 @@ const LoginForm = () => {
         email,
         password,
       });
+
+      // 로그인 실패 시 에러 반환
+      if (!res.data.success) {
+        throw new Error("Failed to Login");
+      }
+
       // 유저 정보는 response의 data임.
-      const user = res.data.data;
+      const user = res.data.user;
 
       // JWT 토큰은 유저 정보의 token임.
       const jwtToken = user.token;

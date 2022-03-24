@@ -8,10 +8,11 @@ class UserAuthService {
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
     const user = await User.findByEmail({ email });
-    if (user) {
-      const errorMessage =
-        "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.";
-      return { errorMessage };
+
+    if (user !== null) {
+      const error = new Error("이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요.");
+      error.status = 400;
+      throw error;
     }
 
     // 비밀번호 해쉬화
@@ -31,10 +32,11 @@ class UserAuthService {
   static async getUser({ email, password }) {
     // 이메일 db에 존재 여부 확인
     const user = await User.findByEmail({ email });
-    if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+
+    if (user === null) {
+      const error = new Error("해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      error.status = 404;
+      throw error;
     }
 
     // 비밀번호 일치 여부 확인
@@ -43,10 +45,11 @@ class UserAuthService {
       password,
       correctPasswordHash
     );
+
     if (!isPasswordCorrect) {
-      const errorMessage =
-        "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+      const error = new Error("비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.");
+      error.status = 401;
+      throw error;
     }
 
     // 로그인 성공 -> JWT 웹 토큰 생성
@@ -78,9 +81,10 @@ class UserAuthService {
     let user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
-      const errorMessage = "가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+    if (user === null) {
+      const error = new Error("가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      error.status = 404;
+      throw error;
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
@@ -103,10 +107,10 @@ class UserAuthService {
     const user = await User.findById({ userId });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
-      const errorMessage =
-        "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
-      return { errorMessage };
+    if (user === null) {
+      const error = new Error("존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요.");
+      error.status = 404;
+      throw error;
     }
 
     return user;
@@ -114,12 +118,19 @@ class UserAuthService {
 
   static async searchUser({ name }) {
     const users = await User.findByName({ name });
+
     if (users === null || users === undefined) {
-      return {
-        code: "400",
-        message: "존재하지 않는 유저 입니다",
-      };
+      const error = new Error("존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요.");
+      error.status = 404;
+      throw error;
     }
+
+    // if (users === null || users === undefined) {
+    //   return {
+    //     code: "400",
+    //     message: "존재하지 않는 유저 입니다",
+    //   };
+    // }
     return users;
   }
 

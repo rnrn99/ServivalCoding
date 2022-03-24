@@ -10,19 +10,19 @@ class Award {
     const findAward = await AwardModel.findOne(
       { id },
       { _id: false, __v: false }
-    );
+    ).populate('author', 'id -_id');
     return findAward;
   }
 
   static async update({ id, toUpdate }) {
     const filter = { id };
-    const option = { returnOriginal: false };
+    const option = { returnOriginal: false, projection: { _id: false, __v: false } };
 
     const updateAward = await AwardModel.findOneAndUpdate(
       filter,
       toUpdate,
       option
-    );
+    ).populate('author', 'id -_id');
     return updateAward;
   }
 
@@ -31,12 +31,14 @@ class Award {
     const findAwards = await AwardModel.find(
       { author: user },
       { _id: false, __v: false }
-    );
+    ).populate('author', 'id -_id');
     return findAwards;
   }
 
   static async delete({ id }) {
-    const deleteAwards = await AwardModel.findOneAndDelete({ id });
+    const deleteAwards = await AwardModel
+      .findOneAndDelete({ id }, { projection: { _id: false, __v: false } })
+      .populate('author', 'id -_id');
     return deleteAwards;
   }
 }
