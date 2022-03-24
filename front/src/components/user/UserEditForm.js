@@ -79,12 +79,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             label="이름"
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             value={form.name}
-            sx={{ width: "320px" }}
-          />
-          <Switch
-            {...label}
-            defaultChecked
-            onChange={(e) => console.log(e.target.checked)}
+            sx={{ width: "375px" }}
           />
         </Stack>
         <Stack style={{ display: "inline" }}>

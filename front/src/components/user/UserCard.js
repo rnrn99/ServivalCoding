@@ -39,6 +39,26 @@ function UserCard({
     setHeartCount(res.data.user.like.count);
     setClickHeart(res.data.user.isLikedByThisUser);
   };
+ // visible 기능에 따른 부가 컴포넌트 생성 
+  const TypographyEmail = () => {
+    if(user?.permission?.email === false) {
+      return <Typography />
+    } else {
+      return <Typography
+                className="text-muted"
+                style={{ fontSize: "13px", marginBottom: "12px" }}
+              >
+                {user?.email}
+              </Typography>
+    }
+  } 
+  const TypographyDescription = () => {
+    if(user?.permission?.description === false) {
+        return <Typography />
+    } else {
+      return (<Typography>{user?.description}</Typography>)
+    }
+  } 
 
   return (
     <>
@@ -59,17 +79,14 @@ function UserCard({
             <Typography style={{ fontWeight: "bold", fontSize: "22px" }}>
               {user?.name}
             </Typography>
-            {user?.permission?.email && (
-              <Typography
-                className="text-muted"
-                style={{ fontSize: "13px", marginBottom: "12px" }}
-              >
-                ({user?.email})
-              </Typography>
-            )}
-            {user?.permission?.description && (
-              <Typography>"{user?.description}"</Typography>
-            )}
+            {/* {user?.permission?.email&& (
+                <Typography
+                        className="text-muted"
+                      style={{ fontSize: "13px", marginBottom: "12px" }}
+                  >({user?.email})</Typography>
+            )} */}
+            <TypographyEmail />
+            <TypographyDescription />
           </Container>
           <Container className="text-muted" style={{ fontSize: "12px" }}>
             <Button
