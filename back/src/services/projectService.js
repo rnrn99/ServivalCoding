@@ -18,11 +18,25 @@ class ProjectService {
   static async getProject({ id }) {
     // 유효한 id인지 확인
     const project = await Project.findById({id});
+
+    if (project === null) {
+      const error = new Error("존재하지 않는 프로젝트입니다.");
+      error.status = 401;
+      throw error;
+    }
+
     return project;
   }
 
   static async getProjects({ user }) {
     const projects = await Project.findByUser({ user });
+
+    if (projects === null) {
+      const error = new Error("프로젝트가 없습니다.");
+      error.status = 401;
+      throw error;
+    }
+
     return projects;
   }
 
@@ -31,10 +45,10 @@ class ProjectService {
     let project = await Project.findById({ id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (project.length === 0) {
-      const errorMessage =
-        "존재하지 않는 프로젝트입니다.";
-      return { errorMessage };
+    if (project === null) {
+      const error = new Error("존재하지 않는 프로젝트입니다.");
+      error.status = 401;
+      throw error;
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
@@ -48,7 +62,7 @@ class ProjectService {
     // project id를 이용해 프로젝트를 가져옴
     let project = await Project.findById({ id });
 
-    if (project.length === 0) {
+    if (project === null) {
       const errorMessage =
         "존재하지 않는 프로젝트입니다.";
       return { errorMessage };

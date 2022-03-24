@@ -27,13 +27,17 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
     await Api.post("awards", uptAwardData);
 
     const updateList = await Api.get("award-lists", userId);
-    setAwardLists(updateList.data.data);
+    setAwardLists(updateList.data.awards);
 
     setAddAward(false);
   };
 
   return (
-    <Box component="form" onSubmit={addSubmitHandler} sx={{ mt: 1, width: 400 }}>
+    <Box
+      component="form"
+      onSubmit={addSubmitHandler}
+      sx={{ mt: 1, width: 400 }}
+    >
       <Stack spacing={2}>
         <TextField
           required
@@ -71,4 +75,3 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
 }
 
 export default AwardAddForm;
-

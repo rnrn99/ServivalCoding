@@ -3,7 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { ProjectService } from "../services/projectService.js";
-import { fieldChecking } from "../utils/utils.js";
+import { fieldChecking, removeFields } from "../utils/utils.js";
 
 const projectRouter = Router();
 
@@ -27,29 +27,24 @@ projectRouter.post(
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId: userId });
 
-      // 찾지 못했다면
-      if (user.errorMessage) {
-        // 에러를 throw
-        throw new Error(user.errorMessage);
-      }
-
       // 에러가 나지 않았다면 위 데이터들을 프로젝트 db에 추가하기
       const newProject = await ProjectService.addProject({
         user,
         ...toPost
       });
 
-      // 만약 추가하는 과정에서 에러가 났다면
-      if (newProject.errorMessage) {
-        // 에러를 throw
-        throw new Error(newProject.errorMessage);
+      const filteredUser = fieldChecking(user["_doc"], "id");
+      const removeUser = removeFields(newProject["_doc"], "user", "_id", "__v");
+
+      const project = { user: filteredUser, ...removeUser };
+      const body = {
+        success: true,
+        project: {
+          ...project
+        }
       }
 
-      const filteredUser = fieldChecking(user["_doc"], "id");
-      const result = { user: filteredUser, ...toPost };
-
-
-      res.status(201).json(result);
+      res.status(201).json(body);
     } catch (error) {
       next(error);
     }
@@ -66,14 +61,15 @@ projectRouter.get(
       // project id를 이용하여 db에서 프로젝트 검색
       const project = await ProjectService.getProject({ id });
 
-      // 에러가 발생했다면
-      if (project.errorMessage) {
-        // 에러를 throw
-        throw new Error(project.errorMessage);
+      const body = {
+        success: true,
+        project: {
+          ...project["_doc"]
+        }
       }
 
       // 200 코드와 함께 프로젝트 정보 전송
-      res.status(200).json(project);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -90,11 +86,6 @@ projectRouter.put(
       // project id를 이용하여 기존의 project를 가져옴
       const project = await ProjectService.getProject({ id });
 
-      // 에러가 발생했다면
-      if (project.errorMessage) {
-        // 에러를 throw
-        throw new Error(project.errorMessage);
-      }
       // 가져온 project의 user와 현재 로그인한 유저의 id 비교
       //
       // 현재 로그인한 유저의 id와
@@ -112,13 +103,14 @@ projectRouter.put(
       // 프로젝트 정보를 업데이트
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
 
-      // 만약 에러가 발생했다면
-      if (updatedProject.errorMessage) {
-        // 에러를 throw
-        throw new Error(updatedProject.errorMessage);
+      const body = {
+        success: true,
+        project: {
+          ...updatedProject["_doc"]
+        }
       }
 
-      res.status(200).json(updatedProject);
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -136,16 +128,15 @@ projectRouter.get(
       // user 정보를 db에서 가져오기
       const user = await UserAuthService.getUserInfo({ userId });
 
-      // 에러가 났다면
-      if (user.errorMessage) {
-        // 에러를 throw
-        throw new Error(user.errorMessage);
-      }
-
       // 해당 user의 프로젝트 목록 가져오기
       const projects = await ProjectService.getProjects({ user });
 
-      res.status(200).send(projects);
+      const body = {
+        success: true,
+        projects
+      }
+
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -162,12 +153,6 @@ projectRouter.delete(
     try {
       // project id를 이용해 project를 가져옴
       const project = await ProjectService.getProject({id});
-
-      // 에러가 발생했다면
-      if (project.errorMessage) {
-        // 에러를 throw
-        throw new Error(project.errorMessage);
-      }
 
       // project 소유자의 id가 다르다면
       if (userId !== project.user.id) {

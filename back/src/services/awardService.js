@@ -16,60 +16,66 @@ class AwardService {
 
     const createdAward = await Award.create(newAward);
 
-    const sendData = {
+    return {
       id: createdAward.id,
       title: createdAward.title,
       description: createdAward.description,
     };
-
-    const result = {
-      data: sendData,
-      code: 201,
-      meesage: "수상내역 생성 성공",
-    };
-
-    return result;
   }
 
   static async getAward({ id }) {
     const award = await Award.find({ id });
+
     if (award === null || award === undefined) {
-      return { code: 400, errorMessage: "올바르지 않은 id 입니다." };
+      const error = new Error("올바르지 않은 id 입니다.");
+      error.status = 404;
+      throw error;
     }
-    return { data: award, code: 200, message: "수상내역 조회 성공" };
+
+    return award;
   }
 
   static async updateAward({ id, toUpdate }) {
     const award = await Award.find({ id });
+
     if (award === null || award === undefined) {
-      return { code: 400, errorMessage: "올바르지 않는 id 입니다." };
+      const error = new Error("올바르지 않은 id 입니다.");
+      error.status = 404;
+      throw error;
     }
+
     if (toUpdate === null || toUpdate === undefined) {
-      return { code: 400, errorMessage: "수정할 값을 넣어주지 않았습니다." };
+      const error = new Error("수정할 값을 넣어주지 않았습니다.");
+      error.status = 400;
+      throw error;
     }
+
     const updateData = await Award.update({ id, toUpdate });
 
-    return { data: updateData, code: 201, message: "수상내역 수정 성공" };
+    return updateData;
   }
 
   static async listAward({ userId }) {
     const awards = await Award.findAll({ userId });
+
     if (userId === null || userId === undefined) {
-      return { code: 400, errorMessage: "userId 값이 없습니다." };
+      const error = new Error("userId 값이 없습니다.");
+      error.status = 400;
+      throw error;
     }
-    return {
-      data: awards,
-      code: 200,
-      message: "수상내역 리스트 조회 성공",
-    };
+    return awards;
   }
 
   static async deleteAward({ id }) {
     const award = await Award.delete({ id });
+
     if (award === null || award === undefined) {
-      return { code: 400, errorMessage: "삭제할 자료가 없습니다." };
+      const error = new Error("삭제할 자료가 없습니다.");
+      error.status = 400;
+      throw error;
     }
-    return { data: award, code: 201, message: "수상내역 삭제 성공" };
+
+    return award;
   }
 }
 

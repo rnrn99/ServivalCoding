@@ -8,7 +8,9 @@ class EducationService {
     const user = await User.findById({ userId });
 
     if (user === null || user === undefined) {
-      return { code: 404, errorMessage: "존재하지 않는 유저 ID 입니다." };
+      const error = new Error("존재하지 않는 유저 ID 입니다.");
+      error.status = 404;
+      throw error;
     }
 
     const newEducation = {
@@ -20,42 +22,62 @@ class EducationService {
     };
 
     const createNewEducation = await Education.create(newEducation);
-    const sendData = {
+
+    return {
       id: createNewEducation.id,
       school: createNewEducation.school,
       major: createNewEducation.major,
       position: createNewEducation.position,
     };
-    return { data: sendData, code: 201, message: "학력 생성 성공!" };
   }
 
-  static async getEducationsList({ userId }) {
-    const educations = await Education.findAll({ userId });
-    return { data: educations, code: 200, message: "학력 리스트 조회 성공" };
+  static async getEducationsList({ author }) {
+    const educations = await Education.findByAuthor({ author });
+
+    if (educations.length === 0) {
+      const error = new Error("프로젝트가 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
+    }
+
+    return educations;
   }
 
   static async getEducation({ id }) {
     const education = await Education.find({ id });
-    return { data: education, code: 200, message: "학력 조회 성공" };
+
+    if (education === null) {
+      const error = new Error("존재하지 않는 프로젝트입니다.");
+      error.status = 404;
+      throw error;
+    }
+
+    return education;
   }
 
   static async updateEducation({ id, toUpdate }) {
     const education = await Education.find({ id });
+
     if (education === null || education === undefined) {
-      return { code: 400, errorMessage: "존재하지 않는 학력 입니다." };
+      const error = new Error("존재하지 않는 학력 입니다.");
+      error.status = 404;
+      throw error;
     }
 
     const updateData = await Education.update({ id, toUpdate });
-
-    return { data: updateData, code: 201, message: "학력 수정 성공" };
+    return updateData;
   }
 
   static async deleteEducation({ id }) {
     const education = await Education.delete({ id });
+
     if (education === null || education === undefined) {
-      return { code: 404, errorMessage: "삭제할 자료가 없습니다." };
+      const error = new Error("삭제할 자료가 없습니다.");
+      error.status = 404;
+      throw error;
     }
-    return { data: education, code: 200, message: "학력 삭제 성공!" };
+
+    return education;
   }
 }
 
