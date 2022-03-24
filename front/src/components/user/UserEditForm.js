@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Api from "../../api";
 import Avatar from "@mui/material/Avatar";
 import { Box, TextField, Stack, Button } from "@mui/material";
@@ -6,9 +6,12 @@ import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Switch from "@mui/material/Switch";
+import { sendFile } from "../../utils";
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
 function UserEditForm({ user, setIsEditing, setUser }) {
+  const inputRef = useRef();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -16,17 +19,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   });
   const [emailPermission, setEmailPermission] = useState(null);
   const [descPermission, setDescPermission] = useState(null);
-
-  // userstate > user/current
-  // 확인 > permission 정보를 > setUser 업데이트
-  // userCard
-
-  //useState로 name 상태를 생성함.
-  // const [name, setName] = useState(user.name);
-  //useState로 email 상태를 생성함.
-  // const [email, setEmail] = useState(user.email);
-  //useState로 description 상태를 생성함.
-  // const [description, setDescription] = useState(user.description);
+  const [userImage, setUserImage] = useState(user.profile);
 
   useEffect(() => {
     Api.get("users/current").then((res) => {
@@ -54,6 +47,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       email: form.email,
       description: form.description,
       permission: { email: emailPermission, description: descPermission },
+      profile: userImage,
     });
     // 유저 정보는 response의 data임.
     const updatedUser = res.data.user;
@@ -65,6 +59,29 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     setIsEditing(false);
   };
 
+  // 이미지 정보를 유저가 선택한 이미지로 바꿉니다.
+  const setImage = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+
+    const res = await sendFile(formData);
+    setUserImage(res.data.profiles.filename);
+  };
+
+  // 아바타의 src 속성을 기본 고양이 / 유저 선택 사진 으로 설정합니다.
+  const avatar = (
+    <Avatar
+      component="span"
+      alt="Remy Sharp"
+      src={
+        userImage === "http://placekitten.com/200/200"
+          ? user.profile
+          : process.env.REACT_APP_IMAGE_URL_DEV + userImage
+      }
+      sx={{ ...shapeStyles, ...shapeCircleStyles }}
+    />
+  );
+
   return (
     <Box
       component="form"
@@ -73,22 +90,29 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     >
       <Stack spacing={2} align="center">
         <label htmlFor="icon-button-file">
-          <Input accept="image/*" id="icon-button-file" type="file" />
+          <Input
+            accept="image/*"
+            id="icon-button-file"
+            type="file"
+            ref={inputRef}
+            onChange={setImage.bind(this)}
+          />
           <IconButton
             color="primary"
             aria-label="upload picture"
             component="span"
           >
             <Badge
+              color="primary"
               overlap="circular"
               badgeContent="+"
-              style={{ bgColor: "#C7A27C" }}
+              sx={{ bgColor: "#C7A27C" }}
             >
               {avatar}
             </Badge>
           </IconButton>
         </label>
-        <Stack style={{ display: "inline" }}>
+        <Stack sx={{ display: "inline" }}>
           <TextField
             required
             label="이름"
@@ -159,13 +183,5 @@ const Input = styled("input")({
 
 const shapeStyles = { width: 150, height: 150 };
 const shapeCircleStyles = { borderRadius: "50%" };
-const avatar = (
-  <Avatar
-    component="span"
-    alt="Remy Sharp"
-    src="http://placekitten.com/200/200"
-    sx={{ ...shapeStyles, ...shapeCircleStyles }}
-  />
-);
 
 const label = { inputProps: { "aria-label": "Switch demo" } };

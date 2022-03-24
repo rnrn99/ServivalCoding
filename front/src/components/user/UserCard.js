@@ -47,7 +47,11 @@ function UserCard({
           <Container style={{ marginBottom: "25px" }}>
             <Avatar
               alt="Remy Sharp"
-              src="http://placekitten.com/200/200"
+              src={
+                user?.profile === "http://placekitten.com/200/200"
+                  ? user.profile
+                  : process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+              }
               sx={{
                 width: 180,
                 height: 180,
