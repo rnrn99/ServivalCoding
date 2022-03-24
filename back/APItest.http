@@ -29,29 +29,45 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYz
 
 
 ###
-POST http://localhost:5001/projects
+POST http://localhost:5001/techs
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
 
 {
-  "title": "작은 프로젝트",
-  "description": "내용",
-  "from": "2021-03-03",
-  "to": "2022-03-03"
+  "confident": "리액트",
+  "favorite": "js",
+  "languages": {
+    "list": ["C++", "Python"]
+  },
+  "frameworks": {
+    "list": ["리액트", "basf2"]
+  },
+  "tools": {
+    "list": ["git", "vscode"]
+  }
 }
 
 ###
-PUT http://localhost:5001/users
+PUT http://localhost:5001/techs
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
 
 {
-  "name": "123",
-  "description": "afdg"
+  "confident": "다른거",
+  "favorite": "다른언어",
+  "languages": {
+    "list": ["C", "C#"]
+  },
+  "frameworks": {
+    "list": ["react", "root"]
+  },
+  "tools": {
+    "list": ["xcode", "intellij"]
+  }
 }
 
 
 ###
-DELETE http://localhost:5001/projects/c01ef3ce-e5fe-4802-9a27-ddb4c0f6b632
+DELETE http://localhost:5001/techs
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
