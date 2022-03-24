@@ -37,10 +37,4 @@ multerRouter.post(
   }
 );
 
-multerRouter.get("/profiles", async (req, res, next) => {
-  res.send(
-    `<img src="profile-67fe5e13-35ef-41a3-8e1a-2bbf946aca83.png"></img>`
-  );
-});
-
 export { multerRouter };
