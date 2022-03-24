@@ -41,6 +41,10 @@ class Award {
       .populate('author', 'id -_id');
     return deleteAwards;
   }
+
+  static async deleteAll({ user }) {
+    await AwardModel.deleteMany({ user });
+  }
 }
 
 export { Award };

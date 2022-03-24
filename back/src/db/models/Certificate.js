@@ -49,6 +49,10 @@ class Certificate {
   static async delete({ id }) {
     await CertificateModel.deleteOne({ id });
   }
+
+  static async deleteAll({ user }) {
+    await CertificateModel.deleteMany({ user });
+  }
 }
 
 export { Certificate };

@@ -1,8 +1,8 @@
-import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
+import { User, Certificate, Project, Award, Career, Education, Tech } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import {removeFields, updateHandler} from "../utils/utils.js";
+import { updateHandler } from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -91,9 +91,12 @@ class UserAuthService {
     const fieldToUpdate = updateHandler(toUpdate);
 
     // password 필드가 존재한다면
-    if (fieldToUpdate['password'] !== undefined) {
+    if (fieldToUpdate["password"] !== undefined) {
       // 암호화
-      fieldToUpdate['password'] = await bcrypt.hash(fieldToUpdate['password'], 10);
+      fieldToUpdate["password"] = await bcrypt.hash(
+        fieldToUpdate["password"],
+        10
+      );
     }
     user = await User.update({ userId, fieldToUpdate });
 
@@ -122,13 +125,22 @@ class UserAuthService {
       throw error;
     }
 
-    // if (users === null || users === undefined) {
-    //   return {
-    //     code: "400",
-    //     message: "존재하지 않는 유저 입니다",
-    //   };
-    // }
     return users;
+  }
+
+  static async deleteUser({ user }) {
+    await Project.deleteAll({ user });
+    await Certificate.deleteAll({ user });
+    await Education.deleteAll({ user });
+    await Award.deleteAll({ user });
+    await Career.deleteAll({ user });
+    await Tech.deleteAll({ user });
+    await User.delete({ user });
+  }
+
+  static async setProfile({ userId, profile }) {
+    const setProfile = await User.updateByProfile({ userId, profile });
+    return setProfile;
   }
 }
 

@@ -43,6 +43,10 @@ class Tech {
   static async delete({ user }) {
     await TechModel.deleteOne({ user });
   }
+
+  static async deleteAll({ user }) {
+    await TechModel.deleteOne({ user });
+  }
 }
 
 export { Tech };

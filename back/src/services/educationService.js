@@ -65,6 +65,7 @@ class EducationService {
     }
 
     const updateData = await Education.update({ id, toUpdate });
+
     return updateData;
   }
 

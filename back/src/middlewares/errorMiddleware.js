@@ -9,7 +9,9 @@ function errorMiddleware(error, req, res, next) {
       message: error.message
     }
   };
-  res.status(error.status).send(body);
+  res
+    .status(error.status)
+    .send(body);
 }
 
 export { errorMiddleware };
