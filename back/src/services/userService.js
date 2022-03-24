@@ -105,7 +105,7 @@ class UserAuthService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (user === null) {
-      const error = new Error("해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+      const error = new Error("존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요.");
       error.status = 404;
       throw error;
     }
@@ -116,8 +116,8 @@ class UserAuthService {
   static async searchUser({ name }) {
     const users = await User.findByName({ name });
 
-    if (user === null || users === undefined) {
-      const error = new Error("해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.");
+    if (users === null || users === undefined) {
+      const error = new Error("존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요.");
       error.status = 404;
       throw error;
     }

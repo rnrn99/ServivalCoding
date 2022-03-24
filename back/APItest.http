@@ -2,8 +2,8 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "yyy@yyy.com",
-  "name": "yyy",
+  "email": "asdf@yyy.com",
+  "name": "하트여왕",
   "password": "asdf1234"
 }
 
@@ -12,7 +12,7 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "yyy@yyy.com",
+  "email": "asdf@yyy.com",
   "password": "asdf1234"
 }
 
@@ -31,7 +31,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYz
 ###
 POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
 
 {
   "title": "작은상",
@@ -40,17 +40,17 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYm
 }
 
 ###
-PUT http://localhost:5001/awards/ec537965-9c2e-4a9c-b653-583ecb3324c4
+PUT http://localhost:5001/users
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98
 
 {
-  "title": "상123",
-  "description": "asdf"
+  "name": "123",
+  "description": "afdg"
 }
 
 
 ###
-DELETE http://localhost:5001/educations/3b6ff4cd-90a6-4d93-ad3a-09297d40f574
+GET http://localhost:5001/users
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3NmI4NzFlOC0wMWNjLTQ1MGQtODUzZi04NTcyZjQ1OGI4MGEiLCJpYXQiOjE2NDgwODMxNTZ9.g_UGNSUU2kt_L7P4zBZm596uX_x0ULHpxxXz_iove98

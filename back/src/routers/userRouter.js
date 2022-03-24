@@ -26,11 +26,16 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
       password,
     });
 
-    const result = removeFields(newUser["_doc"], "password");
+    const result = fieldChecking(newUser["_doc"], "id", "email", "name", "description", "permission");
+
+    const body = {
+      success: true,
+      user: result
+    }
 
     res
       .status(201)
-      .json({ data: result, code: 201, message: "유저 생성 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -44,9 +49,14 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await UserAuthService.getUser({ email, password });
 
+    const body = {
+      success: true,
+      user
+    }
+
     res
       .status(200)
-      .json({ data: user, code: 200, message: "유저 로그인 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -57,12 +67,18 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     // 전체 사용자 목록을 얻음
     const users = await UserAuthService.getUsers();
 
-    // const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
-    const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
+    const result = users
+      .map((user) => removeFields(user["_doc"], "password", "like", "createdAt", "updatedAt"))
+      .map(filteredByPermissionList);
+
+    const body = {
+      success: true,
+      users: result
+    }
 
     res
       .status(200)
-      .json({ data: result, code: 200, message: "유저 리스트 조회 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -81,11 +97,14 @@ userAuthRouter.get(
 
       const result = removeFields(currentUserInfo["_doc"], "password");
 
-      res.status(200).json({
-        data: result,
-        code: 200,
-        message: "사용자 조회 성공",
-      });
+      const body = {
+        success: true,
+        user: result
+      }
+
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -104,9 +123,14 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
     const result = removeFields(updatedUser["_doc"], "password", "like");
 
+    const body = {
+      success: true,
+      user: result
+    }
+
     res
       .status(201)
-      .json({ data: result, code: 201, message: "유저 수정 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -124,7 +148,7 @@ userAuthRouter.get(
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
 
       // 필요없는 필드 제거
-      const rest = removeFields(userInfo["_doc"], "password");
+      const rest = removeFields(userInfo["_doc"], "password", "createdAt", "updatedAt");
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);
@@ -132,9 +156,14 @@ userAuthRouter.get(
       // 좋아요 눌렀는지 체크하는 필드 추가
       const updatedUserInfo = { ...filteredInfo, isLikedByThisUser, like: { count: userInfo.like.count } };
 
+      const body = {
+        success: true,
+        user: updatedUserInfo
+      }
+
       res
         .status(200)
-        .json({ data: updatedUserInfo, code: 200, message: "유저 조회 성공" });
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -152,11 +181,17 @@ userAuthRouter.get(
       const result =
         Object
           .values(user)
-          .map((one) => removeFields(one["_doc"], "password", "like"));
+          .map((one) => removeFields(one["_doc"], "password", "like", "createdAt", "updatedAt"))
+          .map(filteredByPermissionList);
+
+      const body = {
+        success: true,
+        user: result
+      }
 
       res
         .status(200)
-        .json({ data: result, code: 200, message: "유저 검색 성공" });
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -205,11 +240,22 @@ userAuthRouter.post(
         toUpdate,
       });
 
-      const result = removeFields(updatedUser["_doc"], "password", "like");
+      const result = filteredByPermissionList(
+        removeFields(updatedUser["_doc"],
+        "password", "like", "updatedAt", "createdAt")
+      );
+
+      const addLikesCount = { ...result,
+        like: { count: toUpdate.like.count } };
+
+      const body = {
+        success: true,
+        user: addLikesCount
+      }
 
       res
         .status(200)
-        .json({ data: result, code: 200, message: "좋아요 반영 완료" });
+        .json(body);
     } catch (error) {
       next(error);
     }
