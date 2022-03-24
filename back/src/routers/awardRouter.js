@@ -13,7 +13,15 @@ awardRouter.post("/awards", loginRequired, async (req, res, next) => {
       title,
       description,
     });
-    return res.status(201).json(createdAward);
+
+    const body = {
+      success: true,
+      award: {
+        ...createdAward
+      }
+    }
+
+    return res.status(201).json(body);
   } catch (error) {
     next(error);
   }
@@ -23,7 +31,13 @@ awardRouter.get("/awards/:id", loginRequired, async (req, res, next) => {
   try {
     const { id } = req.params;
     const award = await AwardService.getAward({ id });
-    return res.status(201).json(award);
+
+    const body = {
+      success: true,
+      award
+    }
+
+    return res.status(200).json(body);
   } catch (error) {
     next(error);
   }
@@ -38,7 +52,13 @@ awardRouter.put("/awards/:id", loginRequired, async (req, res, next) => {
     };
 
     const award = await AwardService.updateAward({ id, toUpdate });
-    res.status(201).json(award);
+
+    const body = {
+      success: true,
+      award
+    }
+
+    res.status(201).json(body);
   } catch (error) {
     next(error);
   }
@@ -51,7 +71,13 @@ awardRouter.get(
     try {
       const { userId } = req.params;
       const awards = await AwardService.listAward({ userId });
-      res.status(201).json(awards);
+
+      const body = {
+        success: true,
+        awards
+      }
+
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -62,7 +88,13 @@ awardRouter.delete("/awards/:id", loginRequired, async (req, res, next) => {
   try {
     const { id } = req.params;
     const award = await AwardService.deleteAward({ id });
-    res.status(201).json(award);
+
+    const body = {
+      success: true,
+      award
+    }
+
+    res.status(200).json(body);
   } catch (error) {
     next(error);
   }

@@ -26,15 +26,16 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
       password,
     });
 
-    if (newUser.errorMessage) {
-      throw new Error(newUser.errorMessage);
-    }
+    const result = fieldChecking(newUser["_doc"], "id", "email", "name", "description", "permission");
 
-    const result = removeFields(newUser["_doc"], "password");
+    const body = {
+      success: true,
+      user: result
+    }
 
     res
       .status(201)
-      .json({ data: result, code: 201, message: "유저 생성 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -48,13 +49,14 @@ userAuthRouter.post("/users/login", async function (req, res, next) {
     // 위 데이터를 이용하여 유저 db에서 유저 찾기
     const user = await UserAuthService.getUser({ email, password });
 
-    if (user.errorMessage) {
-      throw new Error(user.errorMessage);
+    const body = {
+      success: true,
+      user
     }
 
     res
       .status(200)
-      .json({ data: user, code: 200, message: "유저 로그인 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -65,12 +67,18 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
     // 전체 사용자 목록을 얻음
     const users = await UserAuthService.getUsers();
 
-    // const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
-    const result = users.map((user) => removeFields(user["_doc"], "password", "likes"));
+    const result = users
+      .map((user) => removeFields(user["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
+      .map(filteredByPermissionList);
+
+    const body = {
+      success: true,
+      users: result
+    }
 
     res
       .status(200)
-      .json({ data: result, code: 200, message: "유저 리스트 조회 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -87,17 +95,16 @@ userAuthRouter.get(
         userId,
       });
 
-      if (currentUserInfo.errorMessage) {
-        throw new Error(currentUserInfo.errorMessage);
+      const result = removeFields(currentUserInfo["_doc"], "password", "_id", "__v");
+
+      const body = {
+        success: true,
+        user: result
       }
 
-      const result = removeFields(currentUserInfo["_doc"], "password");
-
-      res.status(200).json({
-        data: result,
-        code: 200,
-        message: "사용자 조회 성공",
-      });
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -114,16 +121,16 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
+    const result = removeFields(updatedUser["_doc"], "password", "like", "_id", "__v");
 
-    if (updatedUser.errorMessage) {
-      throw new Error(updatedUser.errorMessage);
+    const body = {
+      success: true,
+      user: result
     }
-
-    const result = removeFields(updatedUser["_doc"], "password", "like");
 
     res
       .status(201)
-      .json({ data: result, code: 201, message: "유저 수정 성공" });
+      .json(body);
   } catch (error) {
     next(error);
   }
@@ -137,15 +144,11 @@ userAuthRouter.get(
       const userId = req.params.id;
       const userInfo = await UserAuthService.getUserInfo({ userId });
 
-      if (userInfo.errorMessage) {
-        throw new Error(userInfo.errorMessage);
-      }
-
       // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
 
       // 필요없는 필드 제거
-      const rest = removeFields(userInfo["_doc"], "password");
+      const rest = removeFields(userInfo["_doc"], "password", "createdAt", "updatedAt", "_id", "__v");
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);
@@ -153,9 +156,14 @@ userAuthRouter.get(
       // 좋아요 눌렀는지 체크하는 필드 추가
       const updatedUserInfo = { ...filteredInfo, isLikedByThisUser, like: { count: userInfo.like.count } };
 
+      const body = {
+        success: true,
+        user: updatedUserInfo
+      }
+
       res
         .status(200)
-        .json({ data: updatedUserInfo, code: 200, message: "유저 조회 성공" });
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -173,11 +181,17 @@ userAuthRouter.get(
       const result =
         Object
           .values(user)
-          .map((one) => removeFields(one["_doc"], "password", "like"));
+          .map((one) => removeFields(one["_doc"], "password", "like", "createdAt", "updatedAt", "_id", "__v"))
+          .map(filteredByPermissionList);
+
+      const body = {
+        success: true,
+        users: result
+      }
 
       res
         .status(200)
-        .json({ data: result, code: 200, message: "유저 검색 성공" });
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -195,7 +209,9 @@ userAuthRouter.post(
       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
       if (liked === req.currentUserId) {
         // 에러 발생
-        throw new Error("잘못된 접근입니다.");
+        const error = new Error("잘못된 접근입니다.");
+        error.status = 401;
+        throw error;
       }
 
       // user 정보를 불러와서
@@ -224,16 +240,22 @@ userAuthRouter.post(
         toUpdate,
       });
 
-      // 실패했다면 에러
-      if (updatedUser.errorMessage) {
-        throw new Error(updatedUser.errorMessage);
-      }
+      const result = filteredByPermissionList(
+        removeFields(updatedUser["_doc"],
+        "password", "like", "updatedAt", "createdAt", "_id", "__v")
+      );
 
-      const result = removeFields(updatedUser["_doc"], "password", "like");
+      const addLikesCount = { ...result,
+        like: { count: toUpdate.like.count } };
+
+      const body = {
+        success: true,
+        user: addLikesCount
+      }
 
       res
         .status(200)
-        .json({ data: result, code: 200, message: "좋아요 반영 완료" });
+        .json(body);
     } catch (error) {
       next(error);
     }

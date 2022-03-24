@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as Api from "../../api";
+<<<<<<< HEAD
 import Avatar from '@mui/material/Avatar';
 import {
   Box,
@@ -13,6 +14,9 @@ import Badge from '@mui/material/Badge';
 import Switch from '@mui/material/Switch';
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
+=======
+import { Box, TextField, Stack, Button } from "@mui/material";
+>>>>>>> dev
 
 function UserEditForm({ user, setIsEditing, setUser }) {
   const [form, setForm] = useState({
@@ -38,7 +42,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       description: form.description
     });
     // 유저 정보는 response의 data임.
-    const updatedUser = res.data.data;
+    const updatedUser = res.data.user;
     // 해당 유저 정보로 user을 세팅함.
   
     setUser(updatedUser);
@@ -48,6 +52,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   };
 
   return (
+<<<<<<< HEAD
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '400px' }}>
       <Stack spacing={2} align="center" >
         <label htmlFor="icon-button-file">
@@ -89,6 +94,30 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <Switch {...label} defaultChecked onChange={(e)=>console.log(e.target.checked)}/>
         </Stack>
       </Stack>  
+=======
+    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+      <Stack spacing={2}>
+        <TextField
+          required
+          label="이름"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <TextField
+          required
+          type="email"
+          label="이메일"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <TextField
+          required
+          label="정보, 인사말"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
+      </Stack>
+>>>>>>> dev
       <Stack
         direction="row"
         spacing={2}
@@ -105,7 +134,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           취소
         </Button>
       </Stack>
-  </Box> 
+    </Box>
   );
 }
 

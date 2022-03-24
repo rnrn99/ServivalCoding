@@ -1,10 +1,12 @@
 import React, { useContext, useState } from "react";
+import { UserStateContext } from "../../App";
+import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그 
+import * as Api from "../../api";
+// mui 
 import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { UserStateContext } from "../../App";
-import * as Api from "../../api";
 import TimelineItem from "@mui/lab/TimelineItem";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
@@ -12,12 +14,13 @@ import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 
 function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false); // 삭제 여부를 저장합니다.
+
   const userState = useContext(UserStateContext);
   const userId = userState.user.id;
-  const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
-
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -25,11 +28,13 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
     setAnchorEl(null);
   };
 
-  const deleteHandler = async (e) => {
-    await Api.delete("careers", career.id);
+  const deleteHandler = async (isDeleting) => {
+    if(isDeleting) {
+      await Api.delete("careers", career.id);
 
-    const deleteData = await Api.get("career-lists", userId);
-    setCareerList(deleteData.data.data);
+      const deleteData = await Api.get("career-lists", userId);
+      setCareerList(deleteData.data.data);
+    }
   };
 
   return (
@@ -70,7 +75,7 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
                 <Button
                   color="error"
                   startIcon={<DeleteIcon />}
-                  onClick={deleteHandler}
+                  onClick={()=>setIsDeleting(true)}
                 >
                   삭제
                 </Button>
@@ -78,6 +83,9 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
             </Menu>
           </>
         )}
+        {isDeleting && (
+          <AlertDialog checkDeleteComplete={deleteHandler} />
+            )}
       </TimelineContent>
     </TimelineItem>
   );

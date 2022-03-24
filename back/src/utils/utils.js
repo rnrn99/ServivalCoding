@@ -1,25 +1,25 @@
 function updateHandler(toUpdate) {
   return Object
     .entries(toUpdate)
-    .filter(([key, value]) => isTruthy(value))
+    .filter(([key, value]) => isEmpty(value))
     .reduce((result, [key, value]) => {
       result[key] = value;
       return result;
     }, {});
 }
 
-function isTruthy(data) {
-  return !(data === null
-    || data === undefined
-    || data === false
-    || data === ""
-    || data === 0);
+function isEmpty(data) {
+  if (data instanceof Array) {
+    return data.length === 0
+  }
+
+  return !!data;
 }
 
 function fieldChecking(body, ...args) {
   return args
     .reduce((res, acc) => {
-      res[acc] = isTruthy(body[acc]) ? body[acc] : null;
+      res[acc] = isEmpty(body[acc]) ? body[acc] : null;
       return res;
     }, {});
 }
@@ -34,4 +34,4 @@ function removeFields(document, ...args) {
     }, {});
 }
 
-export { updateHandler, isTruthy, fieldChecking, removeFields }
+export { updateHandler, isEmpty, fieldChecking, removeFields }

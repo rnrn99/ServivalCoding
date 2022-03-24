@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+
 import { Box, TextField, Stack, Button } from "@mui/material";
 
 // 수상이력 수정 컴포넌트로, {해당 수상내역}, {수정 컴포넌트 활성화 state}, {수상이력리스트 업데이트 함수} 를 props로 받아옵니다.
@@ -25,12 +26,16 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
     await Api.put(`awards/${award.id}`, edtAwardData);
 
     const editData = await Api.get("award-lists", userId);
-    setAwardLists(editData.data.data);
+    setAwardLists(editData.data.awards);
     setIsEditing(false);
   };
 
   return (
-    <Box component="form" onSubmit={editSubmitHandler} sx={{ mt: 1 }}>
+    <Box
+      component="form"
+      onSubmit={editSubmitHandler}
+      sx={{ mt: 1, width: 400 }}
+    >
       <Stack spacing={2}>
         <TextField
           required
@@ -66,4 +71,3 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
 }
 
 export default AwardEditForm;
-
