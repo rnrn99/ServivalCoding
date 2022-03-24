@@ -2,11 +2,9 @@
 //서버와 통신은 Techs에서만 작업.
 
 import React, { useState, useEffect } from "react";
-import * as Api from "../../api";
+//import * as Api from "../../api";
 
 import TechLists from "./TechLists";
-//import TechFrameworks from "./TechFrameworks";
-//import TechTools from "./TechTools";
 import TechForm from "./TechForm";
 import TechPick from "./TechPick";
 import TechTag from "./TechTag";
@@ -28,10 +26,19 @@ import {
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+const dummyData = {
+  id: "유저 아이디",
+  confident: "React", //가장 자신있는 기술
+  favorite: "python", //가장 좋아하는 기술
+  language: ["python", "javascript", "Objective-C", "SQL"], //언어 항목
+  framework: ["express", "MongoDB", "React"], //프레임워크 항목
+  tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
+};
+
 const Techs = ({ portfolioOwnerId, isEditable }) => {
   //const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState("기술 스택");
-  const [isAdding, setIsAdding] = useState(false);
+  //const [isAdding, setIsAdding] = useState(false);
   const [techs, setTechs] = useState({});
   const [isAdd, setIsAdd] = useState(false);
   const [isBlank, setIsBlank] = useState();
@@ -43,39 +50,6 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
-  useEffect(() => {
-    // Api.get("certificate-lists", portfolioOwnerId).then((res) =>
-    //   setCerts(res.data)
-    // );
-    const dummyData = {
-      id: "유저 아이디",
-      confident: "React", //가장 자신있는 기술
-      favorite: "python", //가장 좋아하는 기술
-      language: ["python", "javascript", "Objective-C", "SQL"], //언어 항목
-      framework: ["express", "MongoDB", "React"], //프레임워크 항목
-      tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
-    };
-    // const dummyData = {
-    //   id: "유저 아이디",
-    //   confident: "React", //가장 자신있는 기술
-    //   favorite: "python", //가장 좋아하는 기술
-    //   language: [], //언어 항목
-    //   framework: [], //프레임워크 항목
-    //   tool: [], //툴 항목
-    // };
-    setTechs(dummyData);
-    dataValidCheck();
-  }, [portfolioOwnerId]);
-
-  const checkAddComplete = (result) => {
-    if (result) {
-      setTechs(result);
-      dataValidCheck();
-    }
-    setIsAdd(!isAdd);
-  };
-
   const dataValidCheck = () => {
     console.log("비어있는 데이터임을 확인함", isBlank, title, techs);
     if (!techs?.language && !techs?.framework && !techs?.tool) {
@@ -87,6 +61,26 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       setTitle("기술스택");
     }
   };
+
+  useEffect(() => {
+    dataValidCheck();
+  });
+
+  useEffect(() => {
+    // Api.get("certificate-lists", portfolioOwnerId).then((res) =>
+    //   setCerts(res.data)
+    // );
+    setTechs(dummyData);
+  }, [portfolioOwnerId]);
+
+  const checkAddComplete = (result) => {
+    if (result) {
+      setTechs(result);
+      dataValidCheck();
+    }
+    setIsAdd(!isAdd);
+  };
+
   return (
     <Card sx={{ marginBottom: "20px" }}>
       <Accordion
@@ -188,6 +182,3 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
 };
 
 export default Techs;
-/*
-
-*/
