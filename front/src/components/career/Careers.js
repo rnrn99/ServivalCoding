@@ -26,9 +26,9 @@ function Careers({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     // "careerList/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
-    Api.get("career-lists", portfolioOwnerId).then((res) =>
-      setCareerList(res.data.careers)
-    );
+    Api.get("career-lists", portfolioOwnerId)
+      .then((res) => setCareerList(res.data.careers))
+      .catch((err) => setCareerList([]));
   }, [portfolioOwnerId]);
 
   return (
@@ -64,7 +64,7 @@ function Careers({ portfolioOwnerId, isEditable }) {
         <CardContent style={{ paddingTop: "0" }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              style={{ color: '#C7A27C'}}
+              style={{ color: "#C7A27C" }}
               aria-label="add-career"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >

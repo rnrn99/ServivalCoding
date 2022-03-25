@@ -26,11 +26,11 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
   const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => {
-    Api.get("certificate-lists", portfolioOwnerId).then((res) => {
-      if (res.data.success) {
+    Api.get("certificate-lists", portfolioOwnerId)
+      .then((res) => {
         setCerts(res.data.certificates);
-      }
-    });
+      })
+      .catch((err) => setCerts([]));
   }, [portfolioOwnerId]);
 
   const setCertificateList = () => {
@@ -93,7 +93,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              style={{ color: '#C7A27C'}}
+              style={{ color: "#C7A27C" }}
               aria-label="add-education"
               onClick={() => setIsAdd((cur) => !cur)}
             >
