@@ -8,7 +8,7 @@ const multerRouter = Router();
 const upload = multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "uploads/");
+      cb(null, process.env.IMAGE_DIR);
     },
     filename(req, file, cb) {
       cb(null, Date.now() + file.originalname);
