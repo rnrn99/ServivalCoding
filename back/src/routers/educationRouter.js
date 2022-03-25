@@ -3,10 +3,10 @@ import { loginRequired } from "../middlewares/loginRequired.js";
 import { EducationService } from "../services/educationService.js";
 import { UserAuthService } from "../services/userService.js";
 import {
+  checkUpdate,
   checkId,
   checkUserId,
   checkEducationCreated,
-  checkUpdate,
 } from "../middlewares/checkMiddleware.js";
 
 const educationRouter = Router();

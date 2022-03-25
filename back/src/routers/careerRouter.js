@@ -2,10 +2,10 @@ import { careerService } from "../services/careerService.js";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import {
+  checkUpdate,
   checkId,
   checkUserId,
   checkCareerCreated,
-  checkUpdate,
 } from "../middlewares/checkMiddleware.js";
 
 const careerRouter = Router();
