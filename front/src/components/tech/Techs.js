@@ -68,6 +68,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
             setTechs(res.data.tech)
           );
         } else {
+          console.log("테크 수정>>>>", result);
+          console.log("테크 수정>>>>favor>>>", result.favorite);
+          console.log("테크 수정>>>>conf>>>", result.confident);
           await Api.put("techs", result).then((res) => setTechs(res.data.tech));
         }
 
@@ -162,7 +165,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              style={{ color: '#C7A27C'}}
+              style={{ color: "#C7A27C" }}
               aria-label="add-education"
               onClick={() => setIsAdd((cur) => !cur)}
             >
