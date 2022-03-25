@@ -12,6 +12,7 @@ const CareerSchema = new Schema({
   title: {
     type: String,
     required: true,
+    minlength: 1,
   },
   fromDate: {
     type: String,

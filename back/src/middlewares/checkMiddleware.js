@@ -100,6 +100,37 @@ function checkProjectCreated(req, res, next) {
   }
   next();
 }
+function checkUserCreated(req, res, next) {
+  const fields = ["name", "email", "password"];
+  const body = Object.keys(req.body);
+  const check = fields.filter((field) => !body.includes(field));
+  if (check.length) {
+    return res.status(400).json({
+      success: false,
+      error: {
+        code: 400,
+        message: `${check.join(", ")} 은(는) 필수로 입력해줘야 합니다.`,
+      },
+    });
+  }
+  next();
+}
+
+function checkUserLogin(req, res, next) {
+  const fields = ["email", "password"];
+  const body = Object.keys(req.body);
+  const check = fields.filter((field) => !body.includes(field));
+  if (check.length) {
+    return res.status(400).json({
+      success: false,
+      error: {
+        code: 400,
+        message: `${check.join(", ")} 은(는) 필수로 입력해줘야 합니다.`,
+      },
+    });
+  }
+  next();
+}
 
 export {
   checkAwardCreated,
@@ -110,4 +141,6 @@ export {
   checkCertificateCreated,
   checkEducationCreated,
   checkProjectCreated,
+  checkUserCreated,
+  checkUserLogin,
 };
