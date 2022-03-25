@@ -33,7 +33,6 @@ const paramsValidate = (req, res, next) => {
 const checkId = [
   param("id")
     .exists()
-    .notEmpty()
     .isLength({ min: 36 })
     .withMessage("올바른 id 값을 입력해주세요")
     .trim(),
