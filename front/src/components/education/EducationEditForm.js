@@ -61,6 +61,7 @@ function EducationEditForm({ education, setEducations, setClickEditBtn }) {
 
     // 반환된 결과를 3개까지만 저장하고 학교 이름만 가져와 schoolOpt 상태에 저장합니다.
     const data = res.data.dataSearch.content;
+
     const opt = data.map((v) => v.schoolName);
     setSchoolOpt(opt);
   };
