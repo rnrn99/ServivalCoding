@@ -104,6 +104,7 @@ export default function TagsInput({ ...props }) {
             <div>
               <TextField
                 disabled={readOnly}
+                required
                 InputProps={{
                   startAdornment: selectedItem.map((item, idx) => (
                     <TechTag

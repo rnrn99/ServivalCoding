@@ -27,14 +27,15 @@ const TechForm = ({ techs, checkAddComplete }) => {
       checkAddComplete(null);
     } else {
       checkAddComplete({
-        favorite: favorite[0],
-        confident: confident[0],
+        favorite: favorite[0] ?? "",
+        confident: confident[0] ?? "",
         languages: { list: [...languages] },
         frameworks: { list: [...frameworks] },
         tools: { list: [...tools] },
       });
     }
   };
+
   function handleSelecetedFavorite(items) {
     setFavorite(items);
   }
