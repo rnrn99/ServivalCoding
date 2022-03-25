@@ -1,26 +1,56 @@
-function checkAwardCreated(req, res, next) {
-  const check = Object.keys(req.body).includes("title");
-  if (check) {
-    if (req.body.title) {
-      return next();
-    }
-  }
-  return res.status(400).json({
-    success: false,
-    error: { code: 400, message: "title 은 필수로 입력해야합니다." },
-  });
-}
+import { check, param, body, validationResult } from "express-validator";
 
-function checkId(req, res, next) {
-  const check = req.params.id.length;
-  if (check === 36) {
+const validate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
     return next();
   }
+  console.log(errors);
   return res.status(400).json({
     success: false,
-    error: { code: 400, message: "올바른 id 값이 아닙니다." },
+    error: {
+      code: 400,
+      message: errors.array()[0].msg,
+      detail: errors.errors,
+    },
   });
-}
+};
+
+const paramsValidate = (req, res, next) => {
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    return next();
+  }
+  console.log(errors);
+  return res.status(404).json({
+    success: false,
+    error: {
+      code: 404,
+      message: errors.array()[0].msg,
+      detail: errors.errors,
+    },
+  });
+};
+
+const checkId = [
+  param("id")
+    .exists()
+    .notEmpty()
+    .isLength({ min: 36 })
+    .withMessage("올바른 id 값을 입력해주세요")
+    .trim(),
+  paramsValidate,
+];
+
+const checkAwardCreated = [
+  body("title")
+    .exists()
+    .withMessage("제목은 필수로 1 글자 이상 입력해야 합니다!")
+    .bail()
+    .isLength({ min: 1 })
+    .withMessage("제목은 필수로 1 글자 이상 입력해야 합니다!"),
+  validate,
+];
 
 function checkUpdate(req, res, next) {
   const check = Object.keys(req.body);
@@ -33,32 +63,41 @@ function checkUpdate(req, res, next) {
   next();
 }
 
-function checkUserId(req, res, next) {
-  const check = req.params.userId.length;
-  if (check === 36) {
-    return next();
-  }
-  return res.status(400).json({
-    success: false,
-    error: { code: 400, message: "올바른 id 값이 아닙니다." },
-  });
-}
+const checkUserId = [
+  param("userId")
+    .exists()
+    .trim()
+    .isLength({ min: 36 })
+    .withMessage("올바른 userId 값을 입력해주세요!"),
+  paramsValidate,
+];
 
-function checkCareerCreated(req, res, next) {
-  const fields = ["title", "fromDate", "toDate"];
-  const body = Object.keys(req.body);
-  const check = fields.filter((field) => !body.includes(field));
-  if (check.length) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 400,
-        message: `${check.join(", ")} 은(는) 필수로 입력해줘야 합니다.`,
-      },
-    });
-  }
-  next();
-}
+const checkCareerCreated = [
+  body("title")
+    .exists()
+    .isLength({ min: 1 })
+    .withMessage("제목은 필수로 1 글자 이상 입력해야 합니다!")
+    .bail(),
+  body("fromDate")
+    .exists()
+    .isLength({ min: 1 })
+    .withMessage("시작일은 필수로 입력해야 합니다.")
+    .bail(),
+  body("toDate")
+    .exists()
+    .isLength({ min: 1 })
+    .withMessage("종료일은 필수로 입력해야 합니다."),
+  validate,
+];
+const checkEducationCreated = [
+  body("school")
+    .exists()
+    .withMessage("학교는 필수로 1글자 이상 입력해야합니다.")
+    .bail()
+    .isLength({ min: 1 })
+    .withMessage("학교는 필수로 1글자 이상 입력해야합니다."),
+  validate,
+];
 
 function checkCertificateCreated(req, res, next) {
   const fields = ["title", "description", "date"];
@@ -74,17 +113,6 @@ function checkCertificateCreated(req, res, next) {
     });
   }
   next();
-}
-
-function checkEducationCreated(req, res, next) {
-  const check = Object.keys(req.body).includes("school");
-  if (check) {
-    return next();
-  }
-  return res.status(400).json({
-    success: false,
-    error: { code: 400, message: "school 은 필수로 입력해야합니다." },
-  });
 }
 
 function checkProjectCreated(req, res, next) {
@@ -145,4 +173,6 @@ export {
   checkProjectCreated,
   checkUserCreated,
   checkUserLogin,
+  validate,
+  paramsValidate,
 };
