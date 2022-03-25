@@ -53,7 +53,7 @@ class User {
   }
 
   static async delete({ user }) {
-    await UserModel.findOneAndDelete({ user });
+    await UserModel.findOneAndDelete({ id: user.id });
   }
 }
 
