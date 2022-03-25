@@ -10,13 +10,12 @@ import {
   Card,
   Container,
   Typography,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AlertError from "../utils/AlertError";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -24,6 +23,7 @@ const LoginForm = () => {
 
   const [email, setEmail] = useState(""); //useState로 email 상태를 생성함.
   const [password, setPassword] = useState(""); //useState로 password 상태를 생성함.
+  const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -68,7 +68,7 @@ const LoginForm = () => {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      console.log(err);
+      setErrorMessage(err.response.data.error.message);
     }
   };
 
@@ -115,10 +115,7 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="로그인 기억하기"
-        />
+        {errorMessage && <AlertError message={errorMessage} />}
 
         <Button
           type="submit"
