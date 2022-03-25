@@ -24,9 +24,11 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     // "project-lists/유저id" 엔드포인트로 GET 요청을 하고, projects를 response의 data로 세팅함.
-    Api.get("project-lists", portfolioOwnerId).then((res) => {
-      setProjects(res.data.projects);
-    });
+    Api.get("project-lists", portfolioOwnerId)
+      .then((res) => {
+        setProjects(res.data.projects);
+      })
+      .catch((err) => setProjects([]));
   }, [portfolioOwnerId]);
 
   return (
@@ -54,7 +56,7 @@ function Projects({ portfolioOwnerId, isEditable }) {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              style={{ color: '#C7A27C'}}
+              style={{ color: "#C7A27C" }}
               aria-label="add-education"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >
