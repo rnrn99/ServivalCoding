@@ -9,6 +9,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import { defaultImage } from "../../utils";
 
 function UserNetworkCard({ user }) {
   const navigate = useNavigate();
@@ -18,9 +19,10 @@ function UserNetworkCard({ user }) {
         <CardMedia
           component="img"
           image={
-            user.profile === "http://placekitten.com/200/200"
-              ? user.profile
-              : process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+            user &&
+            (user.profile !== defaultImage
+              ? process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+              : user.profile)
           }
           alt="random"
         />

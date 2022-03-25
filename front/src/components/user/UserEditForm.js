@@ -7,6 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Switch from "@mui/material/Switch";
 import { sendFile } from "../../utils";
+import { defaultImage } from "../../utils";
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
 function UserEditForm({ user, setIsEditing, setUser }) {
@@ -74,7 +75,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       component="span"
       alt="Remy Sharp"
       src={
-        userImage === "http://placekitten.com/200/200"
+        userImage === defaultImage
           ? user.profile
           : process.env.REACT_APP_IMAGE_URL_DEV + userImage
       }

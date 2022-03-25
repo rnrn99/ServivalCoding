@@ -40,3 +40,5 @@ export function sendFile(formData) {
     },
   });
 }
+
+export const defaultImage = "http://placekitten.com/200/200";
