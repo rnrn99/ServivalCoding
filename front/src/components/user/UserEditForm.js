@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Api from "../../api";
 
 import {
@@ -15,12 +16,17 @@ import { styled } from "@mui/material/styles";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
+import { DispatchContext } from "../../App";
 import { sendFile, defaultImage } from "../../utils";
+import AlertDialog from "../utils/AlertDialog";
 
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
 function UserEditForm({ user, setIsEditing, setUser }) {
+  const navigate = useNavigate();
+  const dispatch = useContext(DispatchContext);
   const inputRef = useRef();
 
   const [form, setForm] = useState({
@@ -30,7 +36,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   }); // 편집하고자하는 name, email, description을 form이라는 하나의 state로 관리
   const [emailPermission, setEmailPermission] = useState(true); // email 노출 여부 state
   const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
-  const [userImage, setUserImage] = useState(user.profile);
+  const [userImage, setUserImage] = useState(user.profile); // 유저의 프로필 사진을 저장합니다.
+  const [isDeleteAccount, setIsDeleteAccount] = useState(false); // 회원 탈퇴 버튼 클릭 여부를 저장합니다.
 
   useEffect(() => {
     Api.get("users/current").then((res) => {
@@ -68,6 +75,19 @@ function UserEditForm({ user, setIsEditing, setUser }) {
 
     // isEditing을 false로 세팅함.
     setIsEditing(false);
+  };
+
+  const deleteAccountBtnClick = async (isDeleting) => {
+    if (isDeleting) {
+      // 회원 정보를 삭제합니다.
+      await Api.delete("users");
+      // sessionStorage 에 저장했던 JWT 토큰을 삭제합니다.
+      sessionStorage.removeItem("userToken");
+      // dispatch 함수를 이용해 로그아웃함.
+      dispatch({ type: "LOGOUT" });
+      // 로그인 화면으로 돌아갑니다.
+      navigate("/login");
+    }
   };
 
   // 이미지 정보를 유저가 선택한 이미지로 바꿉니다.
@@ -189,6 +209,17 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           취소
         </Button>
       </Stack>
+      <Button
+        variant="text"
+        startIcon={<PersonRemoveIcon />}
+        sx={{ float: "right", color: "#7e7e7e" }}
+        onClick={() => setIsDeleteAccount(true)}
+      >
+        회원 탈퇴
+      </Button>
+      {isDeleteAccount && (
+        <AlertDialog checkDeleteComplete={deleteAccountBtnClick} />
+      )}
     </Box>
   );
 }

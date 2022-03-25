@@ -145,6 +145,6 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 
 
 ###
-DELETE http://localhost:5001/projects/d0c92712-b2f5-436b-a17b-72dc3dacbca1
+DELETE http://localhost:5001/users
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxNjkxNTd9.ouNpC9kcq-halckw6H4MHZIyyHDaBAa37Jbwtn-Gz_M
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MDVkZmQ2YS1kMGMyLTQ2NzYtOWY1MC1iMzc1YWVkNWIwOGUiLCJpYXQiOjE2NDgxODA2MzZ9.dpRpEbIeLKD9FTCkl9VR93GBGJdK5W-BoibAjzNeOtk

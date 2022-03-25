@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Grid, CircularProgress } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
