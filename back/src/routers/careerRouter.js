@@ -24,7 +24,13 @@ careerRouter.post(
         fromDate,
         toDate,
       });
-      res.status(201).json(createCareer);
+
+      const body = {
+        success: true,
+        career: createCareer,
+      };
+
+      res.status(201).json(body);
     } catch (error) {
       next(error);
     }
@@ -39,7 +45,13 @@ careerRouter.get(
     try {
       const { id } = req.params;
       const career = await careerService.getCareer({ id });
-      res.status(200).json(career);
+
+      const body = {
+        success: true,
+        career,
+      };
+
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -48,9 +60,9 @@ careerRouter.get(
 
 careerRouter.put(
   "/careers/:id",
-  loginRequired,
   checkId,
   checkUpdate,
+  loginRequired,
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -58,7 +70,13 @@ careerRouter.put(
         ...req.body,
       };
       const career = await careerService.updateCareer({ id, toUpdate });
-      res.status(201).json(career);
+
+      const body = {
+        success: true,
+        career,
+      };
+
+      res.status(201).json(body);
     } catch (error) {
       next(error);
     }
@@ -73,7 +91,13 @@ careerRouter.get(
     try {
       const { userId } = req.params;
       const careers = await careerService.getCareers({ userId });
-      res.status(200).json(careers);
+
+      const body = {
+        success: true,
+        careers,
+      };
+
+      res.status(200).json(body);
     } catch (error) {
       next(error);
     }
@@ -87,8 +111,10 @@ careerRouter.delete(
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const career = await careerService.deleteCareer({ id });
-      res.status(200).json(career);
+      await careerService.deleteCareer({ id });
+      res
+        .status(200)
+        .json({ success: true, message: "성공적으로 삭제되었습니다." });
     } catch (error) {
       next(error);
     }

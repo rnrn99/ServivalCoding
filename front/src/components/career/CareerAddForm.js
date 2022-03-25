@@ -38,7 +38,7 @@ function CareerAddForm({ portfolioOwnerId, setCareerList, setClickAddBtn }) {
 
     // careerlist/유저id로 GET 요청을 보내 업데이트 사항이 반영된 프로젝트를 새로 저장합니다.
     const res = await Api.get("career-lists", portfolioOwnerId);
-    setCareerList(res.data.data);
+    setCareerList(res.data.careers);
 
     // 프로젝트 추가 후 ProjectAddForm을 닫습니다.
     setClickAddBtn(false);
@@ -50,15 +50,19 @@ function CareerAddForm({ portfolioOwnerId, setCareerList, setClickAddBtn }) {
         <Stack direction="row" spacing={2}>
           <DesktopDatePicker
             label="시작일"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={startDate}
+            maxDate={dueDate}
             onChange={(date) => setStartDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />
           <DesktopDatePicker
             label="종료일"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={dueDate}
+            minDate={startDate}
             onChange={(date) => setDueDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />

@@ -9,6 +9,7 @@ import {
   Grid,
   Button,
 } from "@mui/material";
+import { defaultImage } from "../../utils";
 
 function UserNetworkCard({ user }) {
   const navigate = useNavigate();
@@ -17,7 +18,12 @@ function UserNetworkCard({ user }) {
       <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"
-          image="http://placekitten.com/200/200"
+          image={
+            user &&
+            (user.profile !== defaultImage
+              ? process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+              : user.profile)
+          }
           alt="random"
         />
         <CardContent sx={{ flexGrow: 1 }}>

@@ -43,6 +43,10 @@ class Project {
   static async delete({ id }) {
     await ProjectModel.deleteOne({ id });
   }
+
+  static async deleteAll({ user }) {
+    await ProjectModel.deleteMany({ user });
+  }
 }
 
 export { Project };

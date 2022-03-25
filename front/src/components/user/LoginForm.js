@@ -10,29 +10,27 @@ import {
   Card,
   Container,
   Typography,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
 } from "@mui/material";
 
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import AlertError from "../utils/AlertError";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
-  //useState로 email 상태를 생성함.
-  const [email, setEmail] = useState("");
-  //useState로 password 상태를 생성함.
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(""); //useState로 email 상태를 생성함.
+  const [password, setPassword] = useState(""); //useState로 password 상태를 생성함.
+  const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -54,11 +52,6 @@ const LoginForm = () => {
         password,
       });
 
-      // 로그인 실패 시 에러 반환
-      if (!res.data.success) {
-        throw new Error("Failed to Login");
-      }
-
       // 유저 정보는 response의 data임.
       const user = res.data.user;
 
@@ -75,7 +68,7 @@ const LoginForm = () => {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      console.log("로그인에 실패하였습니다.\n", err);
+      setErrorMessage(err.response.data.error.message);
     }
   };
 
@@ -92,12 +85,30 @@ const LoginForm = () => {
           borderRadius: 2,
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+        <Avatar
+          src="/logo.png"
+          variant="square"
+          alt="logo"
+          sx={{ width: 128, height: 128, mb: 0 }}
+        >
+          {/* <LockOutlinedIcon />
+          \ <img
+            src="/logo.png"
+            width="6%"
+            alt="logo"
+            style={{ display: "flex", justifyContent: "center" }}
+          /> */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          로그인
-        </Typography>
+        {/* <Typography
+          component="h1"
+          variant="h5"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            fontFamily: "Red Hat Mono, monospace",
+          }}
+        >
+          Login
+        </Typography> */}
 
         <TextField
           margin="normal"
@@ -122,10 +133,7 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <FormControlLabel
-          control={<Checkbox value="remember" color="primary" />}
-          label="로그인 기억하기"
-        />
+        {errorMessage && <AlertError message={errorMessage} />}
 
         <Button
           type="submit"
@@ -135,6 +143,16 @@ const LoginForm = () => {
           onClick={handleSubmit}
         >
           로그인
+        </Button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={handleSubmit}
+        >
+          게스트계정으로 살펴보기
         </Button>
         <Grid container>
           <Grid item xs>

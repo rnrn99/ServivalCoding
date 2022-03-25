@@ -56,15 +56,19 @@ function ProjectAddForm({ portfolioOwnerId, setClickAddBtn, setProjects }) {
         <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
           <DesktopDatePicker
             label="from"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={startDate}
+            maxDate={dueDate}
             onChange={(date) => setStartDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />
           <DesktopDatePicker
             label="to"
-            inputFormat="MM/dd/yyyy"
+            inputFormat={"yyyy-MM-dd"}
+            mask={"____-__-__"}
             value={dueDate}
+            minDate={startDate}
             onChange={(date) => setDueDate(date)}
             renderInput={(params) => <TextField {...params} />}
           />

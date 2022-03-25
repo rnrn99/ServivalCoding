@@ -51,6 +51,10 @@ class User {
     );
     return updateUser;
   }
+
+  static async delete({ user }) {
+    await UserModel.findOneAndDelete({ id: user.id });
+  }
 }
 
 export { User };

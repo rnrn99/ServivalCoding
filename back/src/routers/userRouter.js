@@ -325,6 +325,20 @@ userAuthRouter.post(
   }
 );
 
+userAuthRouter.delete("/users", loginRequired, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    const user = await UserAuthService.getUserInfo({ userId });
+    await UserAuthService.deleteUser({ user });
+
+    res
+      .status(200)
+      .json({ success: true, message: "성공적으로 삭제되었습니다." });
+  } catch (error) {
+    next(error);
+  }
+});
+
 function filteredByPermissionList(document) {
   const { permission, ...fields } = document;
 
