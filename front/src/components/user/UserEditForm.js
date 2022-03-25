@@ -1,7 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Api from "../../api";
 
-import { Box, TextField, Stack, Button, Avatar, IconButton, Badge, Switch} from "@mui/material";
+import {
+  Box,
+  TextField,
+  Stack,
+  Button,
+  Avatar,
+  IconButton,
+  Badge,
+  Switch,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -21,19 +30,25 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   }); // 편집하고자하는 name, email, description을 form이라는 하나의 state로 관리
   const [emailPermission, setEmailPermission] = useState(true); // email 노출 여부 state
   const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
+  const [userImage, setUserImage] = useState(user.profile);
 
   useEffect(() => {
-    Api.get("users/current").then((res)=>{
-      const result = res.data.user
-      setForm((cur)=>{
-        const newForm = {...cur, email: result.email, description: result.description, name: result.name}
-        return newForm
-      })
-      setEmailPermission(result.permission.email)
-      setDescPermission(result.permission.description)
-    })
-  },[]) // 현재의 form 속의 data를 가져오며, email/description 여부도 불러온다
-  
+    Api.get("users/current").then((res) => {
+      const result = res.data.user;
+      setForm((cur) => {
+        const newForm = {
+          ...cur,
+          email: result.email,
+          description: result.description,
+          name: result.name,
+        };
+        return newForm;
+      });
+      setEmailPermission(result.permission.email);
+      setDescPermission(result.permission.description);
+    });
+  }, []); // 현재의 form 속의 data를 가져오며, email/description 여부도 불러온다
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -146,17 +161,17 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           />
         </Stack>
         <Stack style={{ display: "inline" }}>
-          <TextField label="git URL" sx={{ width: "320px" }} /> 
+          <TextField label="git URL" sx={{ width: "320px" }} />
           <GitHubIcon sx={iconStyles} />
         </Stack>
         <Stack style={{ display: "inline" }}>
           <TextField label="instar URL" sx={{ width: "320px" }} />
-          <InstagramIcon sx={iconStyles} /> 
-        </Stack> 
+          <InstagramIcon sx={iconStyles} />
+        </Stack>
         <Stack style={{ display: "inline" }}>
           <TextField label="blog URL" sx={{ width: "320px" }} />
           <WysiwygIcon sx={iconStyles} />
-        </Stack>     
+        </Stack>
       </Stack>
       <Stack
         direction="row"
@@ -183,7 +198,11 @@ export default UserEditForm;
 const Input = styled("input")({
   display: "none",
 });
-const iconStyles = { marginLeft: "25px", marginTop: "15px", marginRight: '10px'}
+const iconStyles = {
+  marginLeft: "25px",
+  marginTop: "15px",
+  marginRight: "10px",
+};
 const shapeStyles = { width: 150, height: 150 };
 const shapeCircleStyles = { borderRadius: "50%" };
 
