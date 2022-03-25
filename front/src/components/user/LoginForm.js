@@ -9,14 +9,14 @@ import {
   TextField,
   Card,
   Container,
-  Typography,
-  FormControlLabel,
-  Checkbox,
+  //Typography,
+  //FormControlLabel,
+  //Checkbox,
   Link,
   Grid,
 } from "@mui/material";
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+//import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const LoginForm = () => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -92,12 +92,30 @@ const LoginForm = () => {
           borderRadius: 2,
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
+        <Avatar
+          src="/logo.png"
+          variant="square"
+          alt="logo"
+          sx={{ width: 128, height: 128, mb: 0 }}
+        >
+          {/* <LockOutlinedIcon />
+          \ <img
+            src="/logo.png"
+            width="6%"
+            alt="logo"
+            style={{ display: "flex", justifyContent: "center" }}
+          /> */}
         </Avatar>
-        <Typography component="h1" variant="h5">
-          로그인
-        </Typography>
+        {/* <Typography
+          component="h1"
+          variant="h5"
+          sx={{
+            display: { xs: "none", sm: "block" },
+            fontFamily: "Red Hat Mono, monospace",
+          }}
+        >
+          Login
+        </Typography> */}
 
         <TextField
           margin="normal"
@@ -122,10 +140,10 @@ const LoginForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox value="remember" color="primary" />}
           label="로그인 기억하기"
-        />
+        /> */}
 
         <Button
           type="submit"
@@ -135,6 +153,16 @@ const LoginForm = () => {
           onClick={handleSubmit}
         >
           로그인
+        </Button>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={handleSubmit}
+        >
+          게스트계정으로 살펴보기
         </Button>
         <Grid container>
           <Grid item xs>
