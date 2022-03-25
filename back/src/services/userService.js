@@ -1,3 +1,5 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import {
   User,
   Certificate,
@@ -7,11 +9,8 @@ import {
   Education,
   Tech,
 } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
-import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
-import jwt from "jsonwebtoken";
 import { updateHandler } from "../utils/utils.js";
-
 class UserAuthService {
   static async addUser({ name, email, password }) {
     // 이메일 중복 확인
@@ -157,7 +156,6 @@ class UserAuthService {
       error.status = 404;
       throw error;
     }
-
     return user;
   }
 
