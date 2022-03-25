@@ -30,7 +30,7 @@ const LoginForm = () => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
 
@@ -90,25 +90,7 @@ const LoginForm = () => {
           variant="square"
           alt="logo"
           sx={{ width: 128, height: 128, mb: 0 }}
-        >
-          {/* <LockOutlinedIcon />
-          \ <img
-            src="/logo.png"
-            width="6%"
-            alt="logo"
-            style={{ display: "flex", justifyContent: "center" }}
-          /> */}
-        </Avatar>
-        {/* <Typography
-          component="h1"
-          variant="h5"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            fontFamily: "Red Hat Mono, monospace",
-          }}
-        >
-          Login
-        </Typography> */}
+        />
 
         <TextField
           margin="normal"
@@ -139,7 +121,7 @@ const LoginForm = () => {
           type="submit"
           fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mt: 3, mb: 1 }}
           onClick={handleSubmit}
         >
           로그인
@@ -149,7 +131,7 @@ const LoginForm = () => {
           fullWidth
           variant="contained"
           color="secondary"
-          sx={{ mt: 3, mb: 2 }}
+          sx={{ mb: 2 }}
           onClick={handleSubmit}
         >
           게스트계정으로 살펴보기
