@@ -50,6 +50,7 @@ function Header() {
             sx={{
               display: { xs: "none", sm: "block" },
               fontFamily: "Red Hat Mono, monospace",
+              color: '#C7A27C'
             }}
           >
             Survival Coding
