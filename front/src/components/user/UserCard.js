@@ -40,6 +40,7 @@ function UserCard({
     setHeartCount(res.data.user.like.count);
     setClickHeart(res.data.user.isLikedByThisUser);
   };
+  
 //  visible 기능에 따른 부가 컴포넌트 생성 
   const TypographyEmail = () => {
     if(user?.permission?.email === false) {
