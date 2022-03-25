@@ -135,15 +135,14 @@ class UserAuthService {
 
   static async searchUser({ name }) {
     const users = await User.findByName({ name });
+    const techs = await User.findByTech({ name });
 
-    if (users === null || users === undefined) {
-      const error = new Error(
-        "존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
-      );
-      error.status = 404;
-      throw error;
+    for (const tech of techs) {
+      if (tech.user === null || tech.user === undefined) {
+        continue;
+      }
+      users.push(tech.user);
     }
-
     return users;
   }
 

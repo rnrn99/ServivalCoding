@@ -1,7 +1,7 @@
 import is from "@sindresorhus/is";
 import dotenv from "dotenv";
 import { Router } from "express";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
@@ -11,6 +11,7 @@ import {
   checkUpdate,
   checkUserLogin,
   validate,
+  paramsValidate,
 } from "../middlewares/checkMiddleware.js";
 import { transPort } from "../utils/mailer.js";
 
@@ -230,11 +231,19 @@ userAuthRouter.get(
 userAuthRouter.get(
   "/users/search/:name",
   loginRequired,
+  [
+    param("name")
+      .exists()
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage("검색어를 한 글자 이상 입력해주세요."),
+    paramsValidate,
+  ],
   async (req, res, next) => {
     try {
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
-
+      console.log(`빈 값: ${user}`);
       const result = Object.values(user)
         .map((one) =>
           removeFields(
