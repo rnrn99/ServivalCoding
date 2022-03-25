@@ -1,6 +1,6 @@
 //기술스택 입력 수정 폼
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Stack, Button } from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -9,19 +9,15 @@ import TagsInput from "./TagsInput";
 const TechForm = ({ techs, checkAddComplete }) => {
   //const [title, setTitle] = useState("Languages");
   //const [description, setDescription] = useState("");
-  const [favorite, setFavorite] = useState(techs?.favorite); //string
-  const [confident, setConfident] = useState(techs?.confident); //string
+  const [favorite, setFavorite] = useState(
+    techs?.favorite && [techs?.favorite]
+  ); //string >array
+  const [confident, setConfident] = useState(
+    techs?.confident && [techs?.confident]
+  ); //string >array
   const [languages, setLanguages] = useState(techs?.languages?.list);
   const [frameworks, setFrameworks] = useState(techs?.frameworks?.list);
   const [tools, setTools] = useState(techs?.tools?.list);
-
-  // useEffect(() => {
-  //   // setFavorite(techs?.favorite);
-  //   // setConfident(techs?.confident);
-  //   setLanguages(techs?.languages?.list);
-  //   setFrameworks(techs?.frameworks?.list);
-  //   setTools(techs?.tools?.list);
-  // }, [techs]);
 
   //완료되었을때 데이터 techs로 전달
   const onSubmitHandler = async (e) => {
@@ -31,8 +27,8 @@ const TechForm = ({ techs, checkAddComplete }) => {
       checkAddComplete(null);
     } else {
       checkAddComplete({
-        favorite: favorite,
-        confident: confident,
+        favorite: favorite[0],
+        confident: confident[0],
         languages: { list: [...languages] },
         frameworks: { list: [...frameworks] },
         tools: { list: [...tools] },
@@ -40,10 +36,10 @@ const TechForm = ({ techs, checkAddComplete }) => {
     }
   };
   function handleSelecetedFavorite(items) {
-    setFavorite(items[0]);
+    setFavorite(items);
   }
   function handleSelecetedConfident(items) {
-    setConfident(items[0]);
+    setConfident(items);
   }
   function handleSelecetedLanguages(items) {
     setLanguages(items);
@@ -101,7 +97,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="favorite"
           placeholder="가장 좋아하는 스킬을 입력해주세요."
           label="my favorite"
-          tags={[favorite]}
+          tags={favorite}
         />
         <TagsInput
           selectedTags={handleSelecetedConfident}
@@ -111,7 +107,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="confident"
           placeholder="가장 자신있는 스킬을 입력해주세요."
           label="self-confident"
-          tags={[confident]}
+          tags={confident}
         />
 
         <Stack
@@ -139,8 +135,8 @@ const TechForm = ({ techs, checkAddComplete }) => {
 export default TechForm;
 TechForm.defaultProps = {
   techs: {
-    favorite: "",
-    confident: "",
+    // favorite: "",
+    // confident: "",
     languages: {
       list: [],
     },

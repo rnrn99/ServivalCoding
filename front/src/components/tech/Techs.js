@@ -26,23 +26,10 @@ import {
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-// const dummyData = {
-//   id: "유저 아이디",
-//   confident: "React", //가장 자신있는 기술
-//   favorite: "python", //가장 좋아하는 기술
-//   language: ["python", "javascript", "Objective-C", "SQL"], //언어 항목
-//   framework: ["express", "MongoDB", "React"], //프레임워크 항목
-//   tool: ["VisualStudio Code", "git bash", "gitlab"], //툴 항목
-// };
-
 const Techs = ({ portfolioOwnerId, isEditable }) => {
-  //const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState("기술 스택");
-  //const [isAdding, setIsAdding] = useState(false);
   const [techs, setTechs] = useState({});
   const [isAdd, setIsAdd] = useState(false);
   const [isBlank, setIsBlank] = useState();
-  //정보 유효성 체크 > 없으면 플래그 생성.
 
   //accordion expand check
   const [expanded, setExpanded] = useState(false);
@@ -50,6 +37,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   const dataValidCheck = () => {
     if (
       !techs?.languages?.list &&
@@ -57,26 +45,14 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       !techs?.tools?.list
     ) {
       setIsBlank(true);
-      setTitle("기술스택을 작성해보세요.");
     } else {
       setIsBlank(false);
-      setTitle("기술스택");
     }
   };
 
-  async function fetchData() {
-    await Api.get("techs", portfolioOwnerId).then((res) => {
-      setTechs(res.data.tech);
-    });
-  }
-
   useEffect(() => {
-    //    console.log("fetchData>>>>>>>>>>>>>>>>>>>>>>>>>");
-
     Api.get("techs", portfolioOwnerId).then((res) => {
       setTechs(res.data.tech);
-      // console.log("resDATA", res.data);
-      // console.log("techs", techs);
     });
   }, [portfolioOwnerId]);
 
@@ -88,20 +64,12 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     try {
       if (result) {
         if (isBlank) {
-          console.log("기술스택 정보를 보냅니다.isBlank", result);
           await Api.post("techs", result).then((res) =>
-            setTechs(res.data.tech[0])
+            setTechs(res.data.tech)
           );
         } else {
-          await Api.put("techs", result).then((res) =>
-            setTechs(res.data.tech[0])
-          );
+          await Api.put("techs", result).then((res) => setTechs(res.data.tech));
         }
-        //setTechs(result);
-        console.log("기술스택 정보를 보냈습니다. checkAddComplete", techs);
-        //Api.get("techs", portfolioOwnerId).then((res) => setTechs(res.data));
-        fetchData();
-        //console.log("기술스택 정보를 다시 받아왔습니다.", techs);
 
         dataValidCheck();
       }
@@ -134,7 +102,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
             }}
           >
             <Grid item xs={6}>
-              <Typography sx={{ fontSize: "20px" }}>{title}</Typography>
+              <Typography sx={{ fontSize: "20px" }}>기술 스택</Typography>
             </Grid>
             <Grid
               container

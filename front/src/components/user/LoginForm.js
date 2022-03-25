@@ -9,12 +9,12 @@ import {
   TextField,
   Card,
   Container,
-  Typography,
+  // Typography,
   Link,
   Grid,
 } from "@mui/material";
 
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+//import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AlertError from "../utils/AlertError";
 
 const LoginForm = () => {
@@ -46,6 +46,12 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
+      // if (e.target.name === "GUEST") {
+      //   console.log("게스트버튼 설정");
+      //   setEmail("guest@elice.com");
+      //   setPassword("1234");
+      // }
+
       // "users/login" 엔드포인트로 post요청함.
       const res = await Api.post("users/login", {
         email,
@@ -90,15 +96,7 @@ const LoginForm = () => {
           variant="square"
           alt="logo"
           sx={{ width: 128, height: 128, mb: 0 }}
-        >
-          {/* <LockOutlinedIcon />
-          \ <img
-            src="/logo.png"
-            width="6%"
-            alt="logo"
-            style={{ display: "flex", justifyContent: "center" }}
-          /> */}
-        </Avatar>
+        ></Avatar>
         {/* <Typography
           component="h1"
           variant="h5"
@@ -137,6 +135,7 @@ const LoginForm = () => {
 
         <Button
           type="submit"
+          name="LOGIN"
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2 }}
@@ -146,6 +145,7 @@ const LoginForm = () => {
         </Button>
         <Button
           type="submit"
+          name="GUEST"
           fullWidth
           variant="contained"
           color="secondary"
@@ -168,15 +168,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-// {!isEmailValid && (
-//     <Typography className="text-success" component="h5" variant="h5">
-//       이메일 형식이 올바르지 않습니다.
-//     </Typography>
-//   )}
-
-//   {!isPasswordValid && (
-//     <Typography className="text-success" component="p" variant="p">
-//       비밀번호는 4글자 이상입니다.
-//     </Typography>
-//   )}
