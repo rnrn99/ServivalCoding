@@ -40,7 +40,7 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
   return (
     <TimelineItem>
       <TimelineSeparator>
-        <TimelineDot style={{ backgroundColor: "#808e95" }} />
+        <TimelineDot style={{ backgroundColor: "#C7A27C" }} />
         <TimelineConnector />
       </TimelineSeparator>
       <TimelineContent>
