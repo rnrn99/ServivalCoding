@@ -12,7 +12,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg"; // 정녕 블로그 아이콘이 없답니까../
 // import Link from '@material-ui/core/Link'; // 추가 설치 드 가야합니다.. > 아이콘에 링크 두려면(깃헙, 블로그, 인스타 등)
-import { defaultImage } from "../../utils";
+import { defaultImage, getImageBaseUrl } from "../../utils";
 
 function UserCard({
   user,
@@ -24,10 +24,12 @@ function UserCard({
   const [clickHeart, setClickHeart] = useState(false); // 좋아요 boolean 값을 서버로 부터 받아와 저장합니다
   const [heartCount, setHeartCount] = useState(0); //좋아요 count를 서버로 부터 받아와 저장합니다
 
+  const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
+
   // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(() => {
     Api.get("users", portfolioOwnerId).then((res) => {
-      const userResult = res.data.user
+      const userResult = res.data.user;
       setHeartCount(userResult.like.count);
       setClickHeart(userResult.isLikedByThisUser);
     });
@@ -41,27 +43,29 @@ function UserCard({
     setHeartCount(res.data.user.like.count);
     setClickHeart(res.data.user.isLikedByThisUser);
   };
-  
-//  visible 기능에 따른 부가 컴포넌트 생성 
+
+  //  visible 기능에 따른 부가 컴포넌트 생성
   const TypographyEmail = () => {
-    if(user?.permission?.email === false) {
-      return <Typography />
+    if (user?.permission?.email === false) {
+      return <Typography />;
     } else {
-      return <Typography
-                className="text-muted"
-                style={{ fontSize: "13px", marginBottom: "12px" }}
-              >
-                {user?.email}
-              </Typography>
+      return (
+        <Typography
+          className="text-muted"
+          style={{ fontSize: "13px", marginBottom: "12px" }}
+        >
+          {user?.email}
+        </Typography>
+      );
     }
-  } 
+  };
   const TypographyDescription = () => {
-    if(user?.permission?.description === false) {
-        return <Typography />
+    if (user?.permission?.description === false) {
+      return <Typography />;
     } else {
-      return (<Typography>{user?.description}</Typography>)
+      return <Typography>{user?.description}</Typography>;
     }
-  } 
+  };
 
   return (
     <>
@@ -73,7 +77,7 @@ function UserCard({
               src={
                 user &&
                 (user.profile !== defaultImage
-                  ? process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+                  ? imageBaseUrl + user.profile
                   : user.profile)
               }
               sx={{

@@ -2,8 +2,8 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "aaa@aaa.com",
-  "name": "하트여왕",
+  "email": "bbb@bbb.com",
+  "name": "체셔캣",
   "password": "asdf1234"
 }
 
@@ -12,7 +12,7 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "aaa@aaa.com",
+  "email": "bbb@bbb.com",
   "password": "asdf1234"
 }
 
@@ -43,7 +43,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
 
 {
   "title": "자격증1",
@@ -142,9 +142,20 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
   "fromDate": "2020-05-03",
   "toDate": "2020-07-04"
 }
+###
+PUT http://localhost:5001/users
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZjliMTUwYi00YmVkLTRhYzQtYThiNy0zZjUxZjAzNTAzYWUiLCJpYXQiOjE2NDgxODY2Nzh9.rnSHngTQlXItVB0l9l7WwbTlJibZUkf9tAH-oa2yiI8
 
+{
+  "sns": {
+    "github": "깃헙주소",
+    "instagram": "인스타그램 주소",
+    "blog": "블로그 주소"
+  }
+}
 
 ###
-DELETE http://localhost:5001/users
+GET http://localhost:5001/users/7f9b150b-4bed-4ac4-a8b7-3f51f03503ae
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MDVkZmQ2YS1kMGMyLTQ2NzYtOWY1MC1iMzc1YWVkNWIwOGUiLCJpYXQiOjE2NDgxODA2MzZ9.dpRpEbIeLKD9FTCkl9VR93GBGJdK5W-BoibAjzNeOtk
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I

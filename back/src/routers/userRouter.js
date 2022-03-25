@@ -1,71 +1,83 @@
 import is from "@sindresorhus/is";
 import dotenv from "dotenv";
-import express from "express";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
-
+import {
+  checkId,
+  checkUserCreated,
+  checkUpdate,
+  checkUserLogin,
+} from "../middlewares/checkMiddleware.js";
 dotenv.config();
 
 const userAuthRouter = Router();
 
-userAuthRouter.post("/users/register", async function (req, res, next) {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
+userAuthRouter.post(
+  "/users/register",
+  checkUserCreated,
+  async function (req, res, next) {
+    try {
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          "headers의 Content-Type을 application/json으로 설정해주세요"
+        );
+      }
+
+      // req (request) 에서 데이터 가져오기
+      const { name, email, password } = req.body;
+
+      // 위 데이터를 유저 db에 추가하기
+      const newUser = await UserAuthService.addUser({
+        name,
+        email,
+        password,
+      });
+
+      const result = fieldChecking(
+        newUser["_doc"],
+        "id",
+        "email",
+        "name",
+        "description",
+        "permission"
       );
+
+      const body = {
+        success: true,
+        user: result,
+      };
+
+      res.status(201).json(body);
+    } catch (error) {
+      next(error);
     }
-
-    // req (request) 에서 데이터 가져오기
-    const { name, email, password } = req.body;
-
-    // 위 데이터를 유저 db에 추가하기
-    const newUser = await UserAuthService.addUser({
-      name,
-      email,
-      password,
-    });
-
-    const result = fieldChecking(
-      newUser["_doc"],
-      "id",
-      "email",
-      "name",
-      "description",
-      "permission"
-    );
-
-    const body = {
-      success: true,
-      user: result,
-    };
-
-    res.status(201).json(body);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-userAuthRouter.post("/users/login", async function (req, res, next) {
-  try {
-    // req (request) 에서 데이터 가져오기
-    const { email, password } = req.body;
+userAuthRouter.post(
+  "/users/login",
+  checkUserLogin,
+  async function (req, res, next) {
+    try {
+      // req (request) 에서 데이터 가져오기
+      const { email, password } = req.body;
 
-    // 위 데이터를 이용하여 유저 db에서 유저 찾기
-    const user = await UserAuthService.getUser({ email, password });
+      // 위 데이터를 이용하여 유저 db에서 유저 찾기
+      const user = await UserAuthService.getUser({ email, password });
 
-    const body = {
-      success: true,
-      user,
-    };
+      const body = {
+        success: true,
+        user,
+      };
 
-    res.status(200).json(body);
-  } catch (error) {
-    next(error);
+      res.status(200).json(body);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
   try {
@@ -126,44 +138,51 @@ userAuthRouter.get(
   }
 );
 
-userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
-  try {
-    // 토큰에서 사용자 id를 추출함.
-    const userId = req.currentUserId;
+userAuthRouter.put(
+  "/users",
+  loginRequired,
+  checkUpdate,
+  async function (req, res, next) {
+    try {
+      // 토큰에서 사용자 id를 추출함.
+      const userId = req.currentUserId;
 
-    // 이메일 필드는 원천적으로 받지 않음
-    const toUpdate = fieldChecking(
-      req.body,
-      "name",
-      "password",
-      "description",
-      "permission"
-    );
+      // 이메일 필드는 원천적으로 받지 않음
+      const toUpdate = fieldChecking(
+        req.body,
+        "name",
+        "password",
+        "description",
+        "permission",
+        "sns"
+      );
 
-    // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
-    const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
-    const result = removeFields(
-      updatedUser["_doc"],
-      "password",
-      "like",
-      "_id",
-      "__v"
-    );
+      // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
+      const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
+      const result = removeFields(
+        updatedUser["_doc"],
+        "password",
+        "like",
+        "_id",
+        "__v"
+      );
 
-    const body = {
-      success: true,
-      user: result,
-    };
+      const body = {
+        success: true,
+        user: result,
+      };
 
-    res.status(201).json(body);
-  } catch (error) {
-    next(error);
+      res.status(201).json(body);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 userAuthRouter.get(
   "/users/:id",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     try {
       const userId = req.params.id;
@@ -241,6 +260,7 @@ userAuthRouter.get(
 userAuthRouter.post(
   "/users/:id/likes",
   loginRequired,
+  checkId,
   async function (req, res, next) {
     try {
       const current = req.currentUserId;
@@ -306,10 +326,7 @@ userAuthRouter.post(
   }
 );
 
-userAuthRouter.delete(
-  "/users",
-  loginRequired,
-  async (req, res, next) => {
+userAuthRouter.delete("/users", loginRequired, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
     const user = await UserAuthService.getUserInfo({ userId });
@@ -322,20 +339,6 @@ userAuthRouter.delete(
     next(error);
   }
 });
-
-// jwt 토큰 기능 확인용, 삭제해도 되는 라우터임.
-userAuthRouter.get(
-  "/afterlogin",
-  loginRequired,
-  express.static("uploads"),
-  function (req, res, next) {
-    res
-      .status(200)
-      .send(
-        `안녕하세요 ${req.currentUserId}님, jwt 웹 토큰 기능 정상 작동 중입니다.`
-      );
-  }
-);
 
 function filteredByPermissionList(document) {
   const { permission, ...fields } = document;

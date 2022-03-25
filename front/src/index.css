@@ -10,7 +10,7 @@ body {
 
 #root {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: #F4E4BA;
 }
 
 /* width */
@@ -20,16 +20,16 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #F4E4BA;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #a9a9a9;
+  background: #ddc485ce;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #d8a42aec;
 }

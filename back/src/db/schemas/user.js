@@ -15,10 +15,12 @@ const UserSchema = new Schema(
     name: {
       type: String,
       required: true,
+      minlength: 1,
     },
     password: {
       type: String,
       required: true,
+      minlength: 1,
     },
     description: {
       type: String,
@@ -29,6 +31,20 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       default: "http://placekitten.com/200/200",
+    },
+    sns: {
+      github: {
+        type: String,
+        required: false,
+      },
+      instagram: {
+        type: String,
+        required: false,
+      },
+      blog: {
+        type: String,
+        required: false,
+      }
     },
     like: {
       by: [
@@ -49,11 +65,6 @@ const UserSchema = new Schema(
         required: true,
         default: true,
       },
-      // name: {
-      //   type: Boolean,
-      //   required: true,
-      //   default: true,
-      // },
       description: {
         type: Boolean,
         required: true,

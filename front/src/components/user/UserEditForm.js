@@ -19,7 +19,7 @@ import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
 import { DispatchContext } from "../../App";
-import { sendFile, defaultImage } from "../../utils";
+import { sendFile, defaultImage, getImageBaseUrl } from "../../utils";
 import AlertDialog from "../utils/AlertDialog";
 
 // 스타일적용부분은 export 하단으로 옮겨 둠
@@ -38,6 +38,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
   const [userImage, setUserImage] = useState(user.profile); // 유저의 프로필 사진을 저장합니다.
   const [isDeleteAccount, setIsDeleteAccount] = useState(false); // 회원 탈퇴 버튼 클릭 여부를 저장합니다.
+
+  const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
 
   useEffect(() => {
     Api.get("users/current").then((res) => {
@@ -104,11 +106,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     <Avatar
       component="span"
       alt="Remy Sharp"
-      src={
-        userImage === defaultImage
-          ? user.profile
-          : process.env.REACT_APP_IMAGE_URL_DEV + userImage
-      }
+      src={userImage === defaultImage ? user.profile : imageBaseUrl + userImage}
       sx={{ ...shapeStyles, ...shapeCircleStyles }}
     />
   );

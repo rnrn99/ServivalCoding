@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
+
 import * as projectMiddleware from "../middlewares/projectMiddleware.js";
 import * as commonMiddleware from "../middlewares/commonMiddleware.js";
 const projectRouter = Router();
@@ -7,6 +8,7 @@ const projectRouter = Router();
 projectRouter.post(
   "/projects",
   loginRequired,
+
   commonMiddleware.isBodyEmpty,
   commonMiddleware.checkRequestBody("title", "description", "from", "to"),
   projectMiddleware.addProject,
@@ -32,6 +34,7 @@ projectRouter.get(
 projectRouter.put(
   "/projects/:id",
   loginRequired,
+
   commonMiddleware.getParameter("id"),
   projectMiddleware.setProject,
   commonMiddleware.makeResponseBody("project"),
