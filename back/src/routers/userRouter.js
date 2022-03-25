@@ -269,7 +269,7 @@ userAuthRouter.post(
       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
       if (liked === req.currentUserId) {
         // 에러 발생
-        const error = new Error("잘못된 접근입니다.");
+        const error = new Error("본인은 불가합니다.");
         error.status = 401;
         throw error;
       }
