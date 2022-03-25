@@ -1,6 +1,5 @@
 import is from "@sindresorhus/is";
 import dotenv from "dotenv";
-import express from "express";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";

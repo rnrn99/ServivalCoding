@@ -1,7 +1,9 @@
 function checkAwardCreated(req, res, next) {
   const check = Object.keys(req.body).includes("title");
   if (check) {
-    return next();
+    if (req.body.title) {
+      return next();
+    }
   }
   return res.status(400).json({
     success: false,
