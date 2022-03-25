@@ -64,7 +64,7 @@ function Careers({ portfolioOwnerId, isEditable }) {
         <CardContent style={{ paddingTop: "0" }}>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              color="primary"
+              style={{ color: '#C7A27C'}}
               aria-label="add-career"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >

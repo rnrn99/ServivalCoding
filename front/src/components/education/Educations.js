@@ -57,7 +57,7 @@ function Educations({ portfolioOwnerId, isEditable }) {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              color="primary"
+              style={{ color: '#C7A27C'}}
               aria-label="add-education"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >

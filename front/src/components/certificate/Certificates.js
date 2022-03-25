@@ -93,7 +93,7 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              color="primary"
+              style={{ color: '#C7A27C'}}
               aria-label="add-education"
               onClick={() => setIsAdd((cur) => !cur)}
             >
