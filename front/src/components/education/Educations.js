@@ -19,14 +19,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as Api from "../../api";
 
 function Educations({ portfolioOwnerId, isEditable }) {
-  const [educations, setEducations] = useState([]); // 해당 유저의 학력을 저장합니다.
+  const [educations, setEducations] = useState(null); // 해당 유저의 학력을 저장합니다.
   const [clickAddBtn, setClickAddBtn] = useState(false); // 학력 추가 버튼 클릭 상태를 저장합니다.
 
   useEffect(() => {
     // "education-lists/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
-    Api.get("education-lists", portfolioOwnerId).then((res) =>
-      setEducations(res.data.educations),
-    );
+    Api.get("education-lists", portfolioOwnerId).then((res) => {
+      if (res.data.success) {
+        setEducations(res.data.educations);
+      }
+    });
   }, [portfolioOwnerId]);
 
   return (
@@ -40,14 +42,15 @@ function Educations({ portfolioOwnerId, isEditable }) {
           <Typography sx={{ fontSize: "20px" }}>학력</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {educations.map((edu) => (
-            <Education
-              key={edu.id}
-              education={edu}
-              setEducations={setEducations}
-              isEditable={isEditable}
-            />
-          ))}
+          {educations &&
+            educations.map((edu) => (
+              <Education
+                key={edu.id}
+                education={edu}
+                setEducations={setEducations}
+                isEditable={isEditable}
+              />
+            ))}
         </AccordionDetails>
       </Accordion>
       {isEditable && (

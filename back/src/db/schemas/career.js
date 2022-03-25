@@ -28,6 +28,6 @@ const CareerSchema = new Schema({
   },
 });
 
-const CareerModel = model("Carrer", CareerSchema);
+const CareerModel = model("Career", CareerSchema);
 
 export { CareerSchema, CareerModel };

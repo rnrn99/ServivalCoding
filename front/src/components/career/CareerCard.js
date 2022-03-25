@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { UserStateContext } from "../../App";
-import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그 
+import AlertDialog from "../utils/AlertDialog"; // 최종 삭제 여부 다이얼로그
 import * as Api from "../../api";
-// mui 
+// mui
 import { Button, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
@@ -29,11 +29,11 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
   };
 
   const deleteHandler = async (isDeleting) => {
-    if(isDeleting) {
+    if (isDeleting) {
       await Api.delete("careers", career.id);
 
       const deleteData = await Api.get("career-lists", userId);
-      setCareerList(deleteData.data.data);
+      setCareerList(deleteData.data.careers);
     }
   };
 
@@ -75,7 +75,7 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
                 <Button
                   color="error"
                   startIcon={<DeleteIcon />}
-                  onClick={()=>setIsDeleting(true)}
+                  onClick={() => setIsDeleting(true)}
                 >
                   삭제
                 </Button>
@@ -83,9 +83,7 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
             </Menu>
           </>
         )}
-        {isDeleting && (
-          <AlertDialog checkDeleteComplete={deleteHandler} />
-            )}
+        {isDeleting && <AlertDialog checkDeleteComplete={deleteHandler} />}
       </TimelineContent>
     </TimelineItem>
   );

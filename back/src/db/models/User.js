@@ -7,7 +7,7 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }, { _id: false, __v: false });
     return user;
   }
 
@@ -17,7 +17,7 @@ class User {
   }
 
   static async findAll() {
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}, { _id: false, __v: false });
     return users;
   }
 
@@ -27,15 +27,33 @@ class User {
 
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,
-      { "$set": fieldToUpdate },
+      { $set: fieldToUpdate },
       option
     );
     return updatedUser;
   }
 
   static async findByName({ name }) {
-    const user = await UserModel.find({ name: { $regex: name } });
+    const user = await UserModel.find(
+      { name: { $regex: name } },
+      { _id: false, __v: false }
+    );
     return user;
+  }
+
+  static async updateByProfile({ userId, profile }) {
+    const filter = { id: userId };
+    const option = { returnOriginal: false };
+    const updateUser = await UserModel.findOneAndUpdate(
+      filter,
+      { $set: { profile } },
+      option
+    );
+    return updateUser;
+  }
+
+  static async delete({ user }) {
+    await UserModel.findOneAndDelete({ user });
   }
 }
 

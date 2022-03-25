@@ -8,43 +8,48 @@ import CertificateAddForm from "./CertificateAddForm";
 import {
   Accordion,
   AccordionSummary,
-  AccordionDetails, // Accordion 적용 시 필요한 부분
+  AccordionDetails,
   Card,
-  CardContent, // Card 적용 시 필요한 부분
-  Typography, // Card 타이틀(ex. 수상이력, 자격증 정보)
+  CardContent,
+  Typography,
   IconButton,
-  Box, // Add 버튼 적용 시 필요한 부분
+  Box,
   Dialog,
   DialogTitle,
-  DialogContent, // AddForm Modal 적용
+  DialogContent,
 } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Certificates = ({ portfolioOwnerId, isEditable }) => {
-  const [certs, setCerts] = useState([]);
+  const [certs, setCerts] = useState(null);
   const [isAdd, setIsAdd] = useState(false);
 
   useEffect(() => {
-    Api.get("certificate-lists", portfolioOwnerId).then((res) =>
-      setCerts(res.data.certificates),
-    );
+    Api.get("certificate-lists", portfolioOwnerId).then((res) => {
+      if (res.data.success) {
+        setCerts(res.data.certificates);
+      }
+    });
   }, [portfolioOwnerId]);
 
   const setCertificateList = () => {
-    return certs.map((cert) => {
-      return (
-        <Certificate
-          key={cert.id}
-          cert={cert}
-          isEditable={isEditable}
-          checkModified={checkModified}
-          title={cert.title}
-          description={cert.description}
-          date={cert.date}
-        />
-      );
-    });
+    return (
+      certs &&
+      certs.map((cert) => {
+        return (
+          <Certificate
+            key={cert.id}
+            cert={cert}
+            isEditable={isEditable}
+            checkModified={checkModified}
+            title={cert.title}
+            description={cert.description}
+            date={cert.date}
+          />
+        );
+      })
+    );
   };
 
   const checkAddComplete = async (props) => {
