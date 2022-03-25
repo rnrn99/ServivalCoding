@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Api from "../../api";
-import Avatar from "@mui/material/Avatar";
-import { Box, TextField, Stack, Button } from "@mui/material";
+
+import { Box, TextField, Stack, Button, Avatar, IconButton, Badge, Switch} from "@mui/material";
 import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Switch from "@mui/material/Switch";
-import { sendFile } from "../../utils";
-import { defaultImage } from "../../utils";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import WysiwygIcon from "@mui/icons-material/Wysiwyg";
+
+import { sendFile, defaultImage } from "../../utils";
+
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
 function UserEditForm({ user, setIsEditing, setUser }) {
@@ -17,28 +18,22 @@ function UserEditForm({ user, setIsEditing, setUser }) {
     name: "",
     email: "",
     description: "",
-  });
-  const [emailPermission, setEmailPermission] = useState(null);
-  const [descPermission, setDescPermission] = useState(null);
-  const [userImage, setUserImage] = useState(user.profile);
+  }); // 편집하고자하는 name, email, description을 form이라는 하나의 state로 관리
+  const [emailPermission, setEmailPermission] = useState(true); // email 노출 여부 state
+  const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
 
   useEffect(() => {
-    Api.get("users/current").then((res) => {
-      const result = res.data.user;
-      setForm((cur) => {
-        const newForm = {
-          ...cur,
-          email: result.email,
-          description: result.description,
-          name: result.name,
-        };
-        return newForm;
-      });
-      setEmailPermission(result.permission.email);
-      setDescPermission(result.permission.description);
-    });
-  }, []);
-
+    Api.get("users/current").then((res)=>{
+      const result = res.data.user
+      setForm((cur)=>{
+        const newForm = {...cur, email: result.email, description: result.description, name: result.name}
+        return newForm
+      })
+      setEmailPermission(result.permission.email)
+      setDescPermission(result.permission.description)
+    })
+  },[]) // 현재의 form 속의 data를 가져오며, email/description 여부도 불러온다
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -119,12 +114,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             label="이름"
             onChange={(e) => setForm({ ...form, name: e.target.value })}
             value={form.name}
-            sx={{ width: "320px" }}
-          />
-          <Switch
-            {...label}
-            defaultChecked
-            onChange={(e) => console.log(e.target.checked)}
+            sx={{ width: "375px" }}
           />
         </Stack>
         <Stack style={{ display: "inline" }}>
@@ -155,6 +145,18 @@ function UserEditForm({ user, setIsEditing, setUser }) {
             onChange={(e) => setDescPermission(e.target.checked)}
           />
         </Stack>
+        <Stack style={{ display: "inline" }}>
+          <TextField label="git URL" sx={{ width: "320px" }} /> 
+          <GitHubIcon sx={iconStyles} />
+        </Stack>
+        <Stack style={{ display: "inline" }}>
+          <TextField label="instar URL" sx={{ width: "320px" }} />
+          <InstagramIcon sx={iconStyles} /> 
+        </Stack> 
+        <Stack style={{ display: "inline" }}>
+          <TextField label="blog URL" sx={{ width: "320px" }} />
+          <WysiwygIcon sx={iconStyles} />
+        </Stack>     
       </Stack>
       <Stack
         direction="row"
@@ -181,7 +183,7 @@ export default UserEditForm;
 const Input = styled("input")({
   display: "none",
 });
-
+const iconStyles = { marginLeft: "25px", marginTop: "15px", marginRight: '10px'}
 const shapeStyles = { width: 150, height: 150 };
 const shapeCircleStyles = { borderRadius: "50%" };
 
