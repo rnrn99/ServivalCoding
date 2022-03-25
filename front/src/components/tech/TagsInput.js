@@ -6,21 +6,35 @@ import Downshift from "downshift";
 import TechTag from "./TechTag";
 
 export default function TagsInput({ ...props }) {
+  //other에 갯수제한을 넣자. number, other.limit << 해당 인풋창이 생성할수 있는 태그 갯수제한 일단 3개로 트라이
+  //인풋창의 readOnly 불린값으로 콘트롤.
+  const limit = props?.limit ?? 3;
+  const [readOnly, setReadOnly] = useState(false);
   const { selectedTags, placeholder, tags, ...other } = props;
   const [inputValue, setInputValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(tags);
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder);
+
   useEffect(() => {
     setSelectedItem(tags);
     if (tags.length >= 1) setCurrentPlaceholder("");
   }, [tags]);
+
   useEffect(() => {
     selectedTags(selectedItem);
-  }, [selectedItem, selectedTags]);
+    if (selectedItem.length >= limit) setReadOnly(true);
+    else setReadOnly(false);
+  }, [selectedItem, selectedTags, limit]);
 
+  function readOnlyCheck() {
+    if (selectedItem.length >= limit) setReadOnly(true);
+    else setReadOnly(false);
+    console.log("readOnlyCheck", limit, selectedItem.length, readOnly);
+  }
   function handleKeyDown(event) {
     if (event.key === "Enter") {
       event.preventDefault();
+
       const newSelectedItem = [...selectedItem];
       const duplicatedValues = newSelectedItem.indexOf(
         event.target.value.trim()
@@ -36,6 +50,7 @@ export default function TagsInput({ ...props }) {
       setSelectedItem(newSelectedItem);
       setInputValue("");
       placeholderCheck();
+      readOnlyCheck();
     }
     if (
       selectedItem.length &&
@@ -88,6 +103,7 @@ export default function TagsInput({ ...props }) {
           return (
             <div>
               <TextField
+                disabled={readOnly}
                 InputProps={{
                   startAdornment: selectedItem.map((item, idx) => (
                     <TechTag

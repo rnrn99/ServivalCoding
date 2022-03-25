@@ -65,6 +65,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="languages"
           placeholder="주로 사용하는 언어를 태깅해보세요."
           label="Languages"
+          limit={3}
           tags={languages}
         />
 
@@ -76,6 +77,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="frameworks"
           placeholder="주로 사용하는 프레임웍을 태깅해보세요."
           label="Frameworks"
+          limit={3}
           tags={frameworks}
         />
 
@@ -87,6 +89,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="tools"
           placeholder="주로 사용하는 개발 도구를 태깅해보세요."
           label="tools"
+          limit={3}
           tags={tools}
         />
         <TagsInput
@@ -97,6 +100,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="favorite"
           placeholder="가장 좋아하는 스킬을 입력해주세요."
           label="my favorite"
+          limit={1}
           tags={favorite}
         />
         <TagsInput
@@ -107,6 +111,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           name="confident"
           placeholder="가장 자신있는 스킬을 입력해주세요."
           label="self-confident"
+          limit={1}
           tags={confident}
         />
 

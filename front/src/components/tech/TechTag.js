@@ -8,7 +8,6 @@ const TechTag = ({ isDeletable, tag, tabIndex, deleteHandler }) => {
   const handleDelete = () => {
     if (isDeletable) {
       deleteHandler(tag);
-      console.log("기술태그 삭제버튼이 눌렸슴다", tag);
     }
   };
 

@@ -19,7 +19,7 @@ const techNameToURL = (techName) => {
       newName = "javascript";
     } else if (newName === "mui") {
       newName = "materialui";
-    } else if (newName === "awc") {
+    } else if (newName === "aws") {
       newName = "amazonwebservices";
     } else if (newName === "visualstudiocode" || newName === "visualstudio") {
       return "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/visualstudio/visualstudio-plain.svg";
