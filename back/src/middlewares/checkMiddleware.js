@@ -5,7 +5,6 @@ const validate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  console.log(errors);
   return res.status(400).json({
     success: false,
     error: {
@@ -21,7 +20,6 @@ const paramsValidate = (req, res, next) => {
   if (errors.isEmpty()) {
     return next();
   }
-  console.log(errors);
   return res.status(404).json({
     success: false,
     error: {
@@ -130,37 +128,41 @@ function checkProjectCreated(req, res, next) {
   }
   next();
 }
-function checkUserCreated(req, res, next) {
-  const fields = ["name", "email", "password"];
-  const body = Object.keys(req.body);
-  const check = fields.filter((field) => !body.includes(field));
-  if (check.length) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 400,
-        message: `${check.join(", ")} 은(는) 필수로 입력해줘야 합니다.`,
-      },
-    });
-  }
-  next();
-}
+const checkUserCreated = [
+  body("name")
+    .exists()
+    .withMessage("이름을 입력해주세요.")
+    .bail()
+    .isLength({ min: 1 })
+    .withMessage("이름은 필수로 1 글자 이상 입력해야 합니다!")
+    .bail(),
+  body("email")
+    .exists()
+    .withMessage("이메일을 입력해주세요.")
+    .bail()
+    .isEmail()
+    .withMessage("올바른 이메일을 입력해주세요.")
+    .bail(),
+  body("password")
+    .exists()
+    .withMessage("비밀번호를 입력해주세요.")
+    .bail()
+    .isLength({ min: 4 })
+    .withMessage("비밀번호는 4글자 이상이어여 합니다."),
+  validate,
+];
 
-function checkUserLogin(req, res, next) {
-  const fields = ["email", "password"];
-  const body = Object.keys(req.body);
-  const check = fields.filter((field) => !body.includes(field));
-  if (check.length) {
-    return res.status(400).json({
-      success: false,
-      error: {
-        code: 400,
-        message: `${check.join(", ")} 은(는) 필수로 입력해줘야 합니다.`,
-      },
-    });
-  }
-  next();
-}
+const checkUserLogin = [
+  body("email")
+    .exists()
+    .withMessage("이메일을 입력해주세요.")
+    .bail()
+    .isEmail()
+    .withMessage("올바른 이메일을 입력해주세요.")
+    .bail(),
+  body("password").exists().withMessage("비밀번호를 입력해주세요.").bail(),
+  validate,
+];
 
 export {
   checkAwardCreated,
