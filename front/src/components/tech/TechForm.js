@@ -1,6 +1,6 @@
 //기술스택 입력 수정 폼
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Stack, Button } from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -9,11 +9,19 @@ import TagsInput from "./TagsInput";
 const TechForm = ({ techs, checkAddComplete }) => {
   //const [title, setTitle] = useState("Languages");
   //const [description, setDescription] = useState("");
-  const [favorite, setFavorite] = useState(techs.favorite);
-  const [confident, setConfident] = useState(techs.confident);
-  const [languages, setLanguages] = useState(techs.languages.list);
-  const [frameworks, setFrameworks] = useState(techs.frameworks.list);
-  const [tools, setTools] = useState(techs.tools.list);
+  const [favorite, setFavorite] = useState(techs?.favorite); //string
+  const [confident, setConfident] = useState(techs?.confident); //string
+  const [languages, setLanguages] = useState(techs?.languages?.list);
+  const [frameworks, setFrameworks] = useState(techs?.frameworks?.list);
+  const [tools, setTools] = useState(techs?.tools?.list);
+
+  // useEffect(() => {
+  //   // setFavorite(techs?.favorite);
+  //   // setConfident(techs?.confident);
+  //   setLanguages(techs?.languages?.list);
+  //   setFrameworks(techs?.frameworks?.list);
+  //   setTools(techs?.tools?.list);
+  // }, [techs]);
 
   //완료되었을때 데이터 techs로 전달
   const onSubmitHandler = async (e) => {
@@ -131,9 +139,17 @@ const TechForm = ({ techs, checkAddComplete }) => {
 export default TechForm;
 TechForm.defaultProps = {
   techs: {
-    languages: [],
-    frameworks: [],
-    tools: [],
+    favorite: "",
+    confident: "",
+    languages: {
+      list: [],
+    },
+    frameworks: {
+      list: [],
+    },
+    tools: {
+      list: [],
+    },
   },
 };
 TechForm.propTypes = {

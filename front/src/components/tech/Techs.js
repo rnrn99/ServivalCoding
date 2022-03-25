@@ -89,7 +89,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       if (result) {
         if (isBlank) {
           console.log("기술스택 정보를 보냅니다.isBlank", result);
-          await Api.put("techs", result).then((res) =>
+          await Api.post("techs", result).then((res) =>
             setTechs(res.data.tech[0])
           );
         } else {
