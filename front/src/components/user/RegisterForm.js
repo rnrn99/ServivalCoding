@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Col, Row, Form, Button } from "react-bootstrap";
+import { Col, Row, Form } from "react-bootstrap";
+
+import {
+  Avatar,
+  Button,
+  TextField,
+  Card,
+  Container,
+  Typography,
+  Link,
+  Grid,
+} from "@mui/material";
 
 import * as Api from "../../api";
+import AlertError from "../utils/AlertError";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -15,13 +27,14 @@ function RegisterForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -52,11 +65,107 @@ function RegisterForm() {
       // 로그인 페이지로 이동함.
       navigate("/login");
     } catch (err) {
-      console.log("회원가입에 실패하였습니다.", err);
+      setErrorMessage(err.response.data.error.message);
     }
   };
 
   return (
+    <Container component="main" maxWidth="xs">
+      <Card
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          backgroundColor: "white",
+          padding: 2,
+          borderRadius: 2,
+        }}
+      >
+        <Avatar
+          src="/logo.png"
+          variant="square"
+          alt="logo"
+          sx={{ width: 128, height: 128, mb: 0 }}
+        />
+        <Typography sx={{ fontSize: "20px" }}>회원가입</Typography>
+
+        <TextField
+          margin="normal"
+          name="email"
+          label="이메일 주소"
+          fullWidth
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <TextField
+          margin="normal"
+          name="password"
+          label="비밀번호"
+          type="password"
+          fullWidth
+          autoComplete="off"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <TextField
+          margin="normal"
+          name="confirmpassword"
+          label="비밀번호 확인"
+          type="password"
+          fullWidth
+          autoComplete="off"
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <TextField
+          margin="normal"
+          name="name"
+          label="이름"
+          type="text"
+          fullWidth
+          autoComplete="off"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        {errorMessage && <AlertError message={errorMessage} />}
+
+        <Button
+          type="submit"
+          name="LOGIN"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 1 }}
+          onClick={handleSubmit}
+        >
+          회원가입
+        </Button>
+
+        <Grid container>
+          <Grid item xs>
+            <Link>비밀번호 찾기</Link>
+          </Grid>
+          <Grid item>
+            <Link onClick={() => navigate("/login")}>로그인하기</Link>
+          </Grid>
+        </Grid>
+      </Card>
+    </Container>
+  );
+}
+
+export default RegisterForm;
+/*  
+
+
+
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col lg={8}>
@@ -140,7 +249,4 @@ function RegisterForm() {
         </Col>
       </Row>
     </Container>
-  );
-}
-
-export default RegisterForm;
+*/

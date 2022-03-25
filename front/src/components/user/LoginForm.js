@@ -9,7 +9,7 @@ import {
   TextField,
   Card,
   Container,
-  // Typography,
+  Typography,
   Link,
   Grid,
 } from "@mui/material";
@@ -30,7 +30,7 @@ const LoginForm = () => {
     return email
       .toLowerCase()
       .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
 
@@ -119,6 +119,7 @@ const LoginForm = () => {
           alt="logo"
           sx={{ width: 128, height: 128, mb: 0 }}
         />
+        <Typography sx={{ fontSize: "20px" }}>로그인</Typography>
 
         <TextField
           margin="normal"
@@ -126,6 +127,7 @@ const LoginForm = () => {
           label="이메일 주소"
           fullWidth
           autoComplete="email"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -137,6 +139,7 @@ const LoginForm = () => {
           type="password"
           fullWidth
           autoComplete="current-password"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
