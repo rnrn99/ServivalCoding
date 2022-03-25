@@ -9,10 +9,12 @@ import {
   Grid,
   Button,
 } from "@mui/material";
-import { defaultImage } from "../../utils";
+import { defaultImage, getImageBaseUrl } from "../../utils";
 
 function UserNetworkCard({ user }) {
   const navigate = useNavigate();
+  const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
+
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
@@ -21,7 +23,7 @@ function UserNetworkCard({ user }) {
           image={
             user &&
             (user.profile !== defaultImage
-              ? process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+              ? imageBaseUrl + user.profile
               : user.profile)
           }
           alt="random"
