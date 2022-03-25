@@ -3,16 +3,15 @@
 //"favorite", "confident" 두가지로 꾸며서 보여주기
 import React from "react";
 import TechIcon from "./TechIcon";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const TechPick = ({ type, techName }) => {
   const setLabel = (type) => {
     if (type === "favorite") return "My Favorite";
     else return "Self-Confident";
   };
+
   return (
-    //<Card style={{ border: "none", boxShadow: "none" }}>
-    // <CardContent>
     <Grid
       container
       direction="column"
@@ -20,7 +19,7 @@ const TechPick = ({ type, techName }) => {
       alignItems="center"
     >
       <Grid item xs={7}>
-        <TechIcon techName={techName} />
+        <TechIcon techName={techName} variant="square" />
       </Grid>
       <Grid item xs sx={{ mb: "4px", mt: "10px" }}>
         <Typography variant="body2" color="text.secondary">
@@ -33,8 +32,6 @@ const TechPick = ({ type, techName }) => {
         </Typography>
       </Grid>
     </Grid>
-    //   </CardContent>
-    // </Card>
   );
 };
 
