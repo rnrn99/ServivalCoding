@@ -12,6 +12,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg"; // 정녕 블로그 아이콘이 없답니까../
 // import Link from '@material-ui/core/Link'; // 추가 설치 드 가야합니다.. > 아이콘에 링크 두려면(깃헙, 블로그, 인스타 등)
+import { defaultImage } from "../../utils";
 
 function UserCard({
   user,
@@ -69,7 +70,12 @@ function UserCard({
           <Container style={{ marginBottom: "25px" }}>
             <Avatar
               alt="Remy Sharp"
-              src="http://placekitten.com/200/200"
+              src={
+                user &&
+                (user.profile !== defaultImage
+                  ? process.env.REACT_APP_IMAGE_URL_DEV + user.profile
+                  : user.profile)
+              }
               sx={{
                 width: 180,
                 height: 180,

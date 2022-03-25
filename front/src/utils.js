@@ -28,3 +28,17 @@ export function getEducationApi(word) {
     },
   });
 }
+
+export function sendFile(formData) {
+  const backendPortNumber = "5001";
+  const serverUrl =
+    "http://" + window.location.hostname + ":" + backendPortNumber + "/";
+  return axios.post(serverUrl + "profiles", formData, {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+      "content-type": "multipart/form-data",
+    },
+  });
+}
+
+export const defaultImage = "http://placekitten.com/200/200";
