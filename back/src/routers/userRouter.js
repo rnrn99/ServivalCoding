@@ -9,6 +9,7 @@ import {
   checkUserCreated,
   checkUpdate,
   checkUserLogin,
+  validate,
 } from "../middlewares/checkMiddleware.js";
 dotenv.config();
 
@@ -339,6 +340,27 @@ userAuthRouter.delete("/users", loginRequired, async (req, res, next) => {
     next(error);
   }
 });
+
+userAuthRouter.post(
+  "/users/password",
+  [
+    body("email")
+      .exists()
+      .withMessage("이메일을 입력해주세요.")
+      .bail()
+      .isEmail()
+      .withMessage("올바른 이메일을 입력해주세요."),
+    validate,
+  ],
+  async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = userAuthService.getEmail({ email });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 function filteredByPermissionList(document) {
   const { permission, ...fields } = document;
