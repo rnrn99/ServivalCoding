@@ -27,7 +27,7 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Techs = ({ portfolioOwnerId, isEditable }) => {
-  const [techs, setTechs] = useState({});
+  const [techs, setTechs] = useState([]);
   const [isAdd, setIsAdd] = useState(false);
   const [isBlank, setIsBlank] = useState();
 
@@ -51,9 +51,11 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
   };
 
   useEffect(() => {
-    Api.get("techs", portfolioOwnerId).then((res) => {
-      setTechs(res.data.tech);
-    });
+    Api.get("techs", portfolioOwnerId)
+      .then((res) => {
+        setTechs(res.data.tech);
+      })
+      .catch((err) => setTechs([]));
   }, [portfolioOwnerId]);
 
   useEffect(() => {

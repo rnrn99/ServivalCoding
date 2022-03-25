@@ -19,9 +19,11 @@ function Awards({ portfolioOwnerId, isEditable }) {
   // 포트폴리오의 주인 ID가 달라지면, 수상이력을 해당 유저의 것으로 새로 불러옵니다.
   useEffect(
     () =>
-      Api.get("award-lists", portfolioOwnerId).then((res) => {
-        setAwardLists(res.data.awards);
-      }),
+      Api.get("award-lists", portfolioOwnerId)
+        .then((res) => {
+          setAwardLists(res.data.awards);
+        })
+        .catch((err) => setAwardLists([])),
     [portfolioOwnerId],
   );
 

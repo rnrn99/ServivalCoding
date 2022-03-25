@@ -9,7 +9,6 @@ const certificateRouter = Router();
 certificateRouter.post(
   "/certificates",
   loginRequired,
-
   commonMiddleware.isBodyEmpty,
   commonMiddleware.checkRequestBody("title", "description", "date"),
   certificateMiddleware.addCertificate,
@@ -33,7 +32,6 @@ certificateRouter.get(
 certificateRouter.put(
   "/certificates/:id",
   loginRequired,
-
   commonMiddleware.getParameter("id"),
   certificateMiddleware.setCertificate,
   commonMiddleware.makeResponseBody("certificate"),
