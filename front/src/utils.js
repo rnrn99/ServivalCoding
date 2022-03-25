@@ -42,3 +42,13 @@ export function sendFile(formData) {
 }
 
 export const defaultImage = "http://placekitten.com/200/200";
+
+export const getImageBaseUrl = () => {
+  let imageBaseUrl = "";
+  if (process.env.NODE_ENV === "development") {
+    imageBaseUrl = process.env.REACT_APP_IMAGE_URL_DEV;
+  } else {
+    imageBaseUrl = process.env.REACT_APP_IMAGE_URL_PROD;
+  }
+  return imageBaseUrl;
+};
