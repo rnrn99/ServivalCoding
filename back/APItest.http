@@ -43,7 +43,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
 
 {
   "title": "자격증1",
@@ -145,6 +145,6 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 
 
 ###
-DELETE http://localhost:5001/users
+DELETE http://localhost:5001/certificates/2a4af481-066e-4a6b-8ab4-21d9a0a5aa30
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0MDVkZmQ2YS1kMGMyLTQ2NzYtOWY1MC1iMzc1YWVkNWIwOGUiLCJpYXQiOjE2NDgxODA2MzZ9.dpRpEbIeLKD9FTCkl9VR93GBGJdK5W-BoibAjzNeOtk
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
