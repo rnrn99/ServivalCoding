@@ -24,7 +24,7 @@ multerRouter.post(
     try {
       const profile = req.file.filename;
       const userId = req.currentUserId;
-      const result = await UserAuthService.setProfile({ userId, profile });
+      await UserAuthService.setProfile({ userId, profile });
       res.status(201).json({
         success: true,
         profiles: req.file,

@@ -1,72 +1,95 @@
 import { AwardService } from "../services/awardService.js";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
+import {
+  checkAwardCreated,
+  checkId,
+  checkUpdate,
+  checkUserId,
+} from "../middlewares/checkMiddleware.js";
 
 const awardRouter = Router();
 
-awardRouter.post("/awards", loginRequired, async (req, res, next) => {
-  try {
-    const { title, description } = req.body;
-    const userId = req.currentUserId;
-    const createdAward = await AwardService.addAward({
-      userId,
-      title,
-      description,
-    });
+awardRouter.post(
+  "/awards",
+  loginRequired,
+  checkAwardCreated,
+  async (req, res, next) => {
+    try {
+      const { title, description } = req.body;
+      const userId = req.currentUserId;
+      const createdAward = await AwardService.addAward({
+        userId,
+        title,
+        description,
+      });
 
-    const body = {
-      success: true,
-      award: {
-        ...createdAward
-      }
+      const body = {
+        success: true,
+        award: {
+          ...createdAward,
+        },
+      };
+
+      return res.status(201).json(body);
+    } catch (error) {
+      next(error);
     }
-
-    return res.status(201).json(body);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-awardRouter.get("/awards/:id", loginRequired, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const award = await AwardService.getAward({ id });
+awardRouter.get(
+  "/awards/:id",
+  loginRequired,
+  checkId,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const award = await AwardService.getAward({ id });
 
-    const body = {
-      success: true,
-      award
+      const body = {
+        success: true,
+        award,
+      };
+
+      return res.status(200).json(body);
+    } catch (error) {
+      next(error);
     }
-
-    return res.status(200).json(body);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
-awardRouter.put("/awards/:id", loginRequired, async (req, res, next) => {
-  try {
-    const { id } = req.params;
+awardRouter.put(
+  "/awards/:id",
+  loginRequired,
+  checkId,
+  checkUpdate,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
 
-    const toUpdate = {
-      ...req.body,
-    };
+      const toUpdate = {
+        ...req.body,
+      };
 
-    const award = await AwardService.updateAward({ id, toUpdate });
+      const award = await AwardService.updateAward({ id, toUpdate });
 
-    const body = {
-      success: true,
-      award
+      const body = {
+        success: true,
+        award,
+      };
+
+      res.status(201).json(body);
+    } catch (error) {
+      next(error);
     }
-
-    res.status(201).json(body);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 awardRouter.get(
   "/award-lists/:userId",
   loginRequired,
+  checkUserId,
   async (req, res, next) => {
     try {
       const { userId } = req.params;
@@ -74,8 +97,8 @@ awardRouter.get(
 
       const body = {
         success: true,
-        awards
-      }
+        awards,
+      };
 
       res.status(200).json(body);
     } catch (error) {
@@ -84,20 +107,25 @@ awardRouter.get(
   }
 );
 
-awardRouter.delete("/awards/:id", loginRequired, async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const award = await AwardService.deleteAward({ id });
+awardRouter.delete(
+  "/awards/:id",
+  loginRequired,
+  checkId,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const award = await AwardService.deleteAward({ id });
 
-    const body = {
-      success: true,
-      award
+      const body = {
+        success: true,
+        award,
+      };
+
+      res.status(200).json(body);
+    } catch (error) {
+      next(error);
     }
-
-    res.status(200).json(body);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 export { awardRouter };

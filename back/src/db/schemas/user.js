@@ -15,10 +15,12 @@ const UserSchema = new Schema(
     name: {
       type: String,
       required: true,
+      minlength: 1,
     },
     password: {
       type: String,
       required: true,
+      minlength: 1,
     },
     description: {
       type: String,
