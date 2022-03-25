@@ -8,7 +8,6 @@ const projectRouter = Router();
 projectRouter.post(
   "/projects",
   loginRequired,
-
   commonMiddleware.isBodyEmpty,
   commonMiddleware.checkRequestBody("title", "description", "from", "to"),
   projectMiddleware.addProject,

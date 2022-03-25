@@ -148,7 +148,7 @@ const checkUserCreated = [
     .withMessage("비밀번호를 입력해주세요.")
     .bail()
     .isLength({ min: 4 })
-    .withMessage("비밀번호는 4글자 이상이어여 합니다."),
+    .withMessage("비밀번호는 4글자 이상이어야 합니다."),
   validate,
 ];
 

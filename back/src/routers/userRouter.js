@@ -4,12 +4,14 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
+import * as userMiddleware from "../middlewares/userMiddleware.js";
 import {
   checkId,
   checkUserCreated,
   checkUpdate,
   checkUserLogin,
 } from "../middlewares/checkMiddleware.js";
+import * as commonMiddleware from "../middlewares/commonMiddleware.js";
 dotenv.config();
 
 const userAuthRouter = Router();
@@ -17,25 +19,17 @@ const userAuthRouter = Router();
 userAuthRouter.post(
   "/users/register",
   checkUserCreated,
+  commonMiddleware.isBodyEmpty,
+  commonMiddleware.checkRequestBody("name", "email", "password"),
   async function (req, res, next) {
     try {
-      if (is.emptyObject(req.body)) {
-        throw new Error(
-          "headers의 Content-Type을 application/json으로 설정해주세요"
-        );
-      }
+      const userId = req.currentUserId; //로그인한 user의 id
 
-      // req (request) 에서 데이터 가져오기
-      const { name, email, password } = req.body;
-
-      // 위 데이터를 유저 db에 추가하기
       const newUser = await UserAuthService.addUser({
-        name,
-        email,
-        password,
+        ...req.toPost
       });
 
-      const result = fieldChecking(
+      const user = fieldChecking(
         newUser["_doc"],
         "id",
         "email",
@@ -46,9 +40,8 @@ userAuthRouter.post(
 
       const body = {
         success: true,
-        user: result,
+        user
       };
-
       res.status(201).json(body);
     } catch (error) {
       next(error);
@@ -59,21 +52,18 @@ userAuthRouter.post(
 userAuthRouter.post(
   "/users/login",
   checkUserLogin,
+  commonMiddleware.checkRequestBody("email", "password"),
   async function (req, res, next) {
     try {
-      // req (request) 에서 데이터 가져오기
-      const { email, password } = req.body;
-
-      // 위 데이터를 이용하여 유저 db에서 유저 찾기
-      const user = await UserAuthService.getUser({ email, password });
+      const user = await UserAuthService.getUser({ ...req.toPost });
 
       const body = {
         success: true,
-        user,
+        user
       };
 
       res.status(200).json(body);
-    } catch (error) {
+    } catch(error) {
       next(error);
     }
   }
@@ -142,20 +132,12 @@ userAuthRouter.put(
   "/users",
   loginRequired,
   checkUpdate,
+  commonMiddleware.checkRequestBody("name", "password", "description", "permission", "sns"),
   async function (req, res, next) {
     try {
       // 토큰에서 사용자 id를 추출함.
       const userId = req.currentUserId;
-
-      // 이메일 필드는 원천적으로 받지 않음
-      const toUpdate = fieldChecking(
-        req.body,
-        "name",
-        "password",
-        "description",
-        "permission",
-        "sns"
-      );
+      const toUpdate = req.toPost;
 
       // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
       const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
