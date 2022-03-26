@@ -35,7 +35,7 @@ class User {
 
   static async findByName({ name }) {
     const user = await UserModel.find(
-      { name: { $regex: name } },
+      { name: { $regex: name, $options: "i" } },
       { _id: false, __v: false }
     );
     return user;
@@ -44,11 +44,11 @@ class User {
   static async findByTech({ name }) {
     const tech = await TechModel.find({
       $or: [
-        { "languages.list": { $regex: name } },
-        { "frameworks.list": { $regex: name } },
-        { "tools.list": { $regex: name } },
-        { confident: { $regex: name } },
-        { favorite: { $regex: name } },
+        { "languages.list": { $regex: name, $options: "i" } },
+        { "frameworks.list": { $regex: name, $options: "i" } },
+        { "tools.list": { $regex: name, $options: "i" } },
+        { confident: { $regex: name, $options: "i" } },
+        { favorite: { $regex: name, $options: "i" } },
       ],
     }).populate("user");
     return tech;
