@@ -50,9 +50,8 @@ techRouter.get(
   commonMiddleware.getParameter("userId"),
   checkUserId,
   async function (req, res, next) {
-    const userId = req.userId;
-
     try {
+      const userId = req.userId;
       // tech id를 이용하여 db에서 기술 스택 검색
       const tech = await TechService.getTechByUserId({ userId });
 
@@ -62,7 +61,9 @@ techRouter.get(
       };
 
       // 200 코드와 함께 기술 스택 정보 전송
-      res.status(200).json(body);
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -74,42 +75,45 @@ techRouter.put(
   loginRequired,
   commonMiddleware.checkRequestBody("confident", "favorite", "languages", "frameworks", "tools"),
   async function (req, res, next) {
-  const userId = req.currentUserId;
+    try {
+      const userId = req.currentUserId;
+      // 업데이트할 정보를 묶어서
+      const toUpdate = req.toPost
 
-  try {
-    // 업데이트할 정보를 묶어서
-    const toUpdate = req.toPost
+      // 기술 스택 정보를 업데이트
+      const updatedTech = await TechService.setTech({ userId, toUpdate });
 
-    // 기술 스택 정보를 업데이트
-    const updatedTech = await TechService.setTech({ userId, toUpdate });
+      const body = {
+        success: true,
+        tech: {
+          ...updatedTech["_doc"],
+        },
+      };
 
-    const body = {
-      success: true,
-      tech: {
-        ...updatedTech["_doc"],
-      },
-    };
-
-    res.status(200).json(body);
-  } catch (error) {
-    next(error);
-  }
+      res
+        .status(200)
+        .json(body);
+    } catch (error) {
+      next(error);
+    }
 });
 
 techRouter.delete(
   "/techs",
   loginRequired,
   async function (req, res, next) {
-  const userId = req.currentUserId;
+    try {
+      const userId = req.currentUserId;
 
-  try {
-    // 에러가 발생하지 않았다면 기술 스택 삭제
-    await TechService.deleteTech({ userId });
+      // 에러가 발생하지 않았다면 기술 스택 삭제
+      await TechService.deleteTech({ userId });
 
-    res.status(200).json({ status: "succ", message: "삭제 성공" });
-  } catch (error) {
-    next(error);
-  }
+      res
+        .status(200)
+        .json({ status: "succ", message: "삭제 성공" });
+    } catch (error) {
+      next(error);
+    }
 });
 
 export { techRouter };
