@@ -17,10 +17,12 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import LockResetIcon from "@mui/icons-material/LockReset";
 
 import { DispatchContext } from "../../App";
 import { sendFile, defaultImage, getImageBaseUrl } from "../../utils";
 import AlertDialog from "../utils/AlertDialog";
+import ModifyPassword from "./ModifyPassword";
 
 // 스타일적용부분은 export 하단으로 옮겨 둠
 
@@ -38,6 +40,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [descPermission, setDescPermission] = useState(true); // description 노출 여부 state
   const [userImage, setUserImage] = useState(user.profile); // 유저의 프로필 사진을 저장합니다.
   const [isDeleteAccount, setIsDeleteAccount] = useState(false); // 회원 탈퇴 버튼 클릭 여부를 저장합니다.
+  const [isModifyPassword, setIsModifyPassword] = useState(false); // 비밀번호 변경 버튼 클릭 여부를 저장합니다.
 
   const [snsURL, setSnsURL] = useState({
     github: "",
@@ -246,16 +249,32 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           취소
         </Button>
       </Stack>
-      <Button
-        variant="text"
-        startIcon={<PersonRemoveIcon />}
-        sx={{ float: "right", color: "#7e7e7e" }}
-        onClick={() => setIsDeleteAccount(true)}
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{ mt: 2, justifyContent: "space-between" }}
       >
-        회원 탈퇴
-      </Button>
+        <Button
+          variant="text"
+          startIcon={<LockResetIcon />}
+          onClick={() => setIsModifyPassword((cur) => !cur)}
+        >
+          비밀번호 변경
+        </Button>
+        <Button
+          variant="text"
+          startIcon={<PersonRemoveIcon />}
+          sx={{ float: "right", color: "#7e7e7e" }}
+          onClick={() => setIsDeleteAccount(true)}
+        >
+          회원 탈퇴
+        </Button>
+      </Stack>
       {isDeleteAccount && (
         <AlertDialog checkDeleteComplete={deleteAccountBtnClick} />
+      )}
+      {isModifyPassword && (
+        <ModifyPassword setIsModifyPassword={setIsModifyPassword} />
       )}
     </Box>
   );
