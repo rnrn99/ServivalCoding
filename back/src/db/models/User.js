@@ -1,5 +1,5 @@
 import { UserModel } from "../schemas/user.js";
-import { TechModel } from "../schemas/tech.js";
+
 class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
@@ -7,7 +7,7 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email }, { _id: false, __v: false });
+    const user = await UserModel.findOne({ email });
     return user;
   }
 
@@ -17,7 +17,7 @@ class User {
   }
 
   static async findAll() {
-    const users = await UserModel.find({}, { _id: false, __v: false });
+    const users = await UserModel.find({});
     return users;
   }
 
@@ -27,7 +27,7 @@ class User {
 
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,
-      { $set: fieldToUpdate },
+      { "$set": fieldToUpdate },
       option
     );
     return updatedUser;

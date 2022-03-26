@@ -20,6 +20,7 @@ const CertificateCard = ({
     //isEditing <<부모 Certificate 한테 전달해줘야함. true값을 전달.
 
     if (event.target.name === "edit") {
+      console.log("수정하기 버튼이 눌렸습니다.");
       checkEditing(true);
     } else if (event.target.name === "delete") {
       //삭제 버튼이 눌렸다면

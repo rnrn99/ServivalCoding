@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { Container, Col, Row, Form, Button } from "react-bootstrap";
+
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
 import {
@@ -20,49 +22,31 @@ import {
   Stack,
 } from "@mui/material";
 
-import AlertError from "../utils/AlertError";
-
-const LoginForm = () => {
+function LoginForm() {
   const navigate = useNavigate();
   const dispatch = useContext(DispatchContext);
 
-  const [email, setEmail] = useState(""); //useState로 email 상태를 생성함.
-  const [password, setPassword] = useState(""); //useState로 password 상태를 생성함.
-  const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
-  const [isOpenDialog, setIsOpenDialog] = useState(false); // 비밀번호 찾기 창 띄우기 여부를 저장합니다.
-  const [sendMailSucc, setSendMailSucc] = useState(false); // 메일 전송 성공 여부를 저장합니다.
-  const [isEmailValid, setIsEmailValid] = useState(false); // 이메일이 유효한 값인지 boolean 값으로 저장합니다.
-  const [isPasswordValid, setIsPasswordValid] = useState(false); // 비밀번호가 유효한 값인지 boolean 값으로 저장합니다.
-  const [isFormValid, setIsFormVaild] = useState(false); // 폼이 유효한 값인지 boolean 값으로 저장합니다.
+  //useState로 email 상태를 생성함.
+  const [email, setEmail] = useState("");
+  //useState로 password 상태를 생성함.
+  const [password, setPassword] = useState("");
 
-  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
+  //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
-    const reg_email =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return reg_email.test(email.toLowerCase());
+    return email
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      );
   };
 
-  // 위 2개 조건이 모두 동시에 만족되는지 여부를 확인함.
-  useEffect(() => {
-    setIsFormVaild(isEmailValid && isPasswordValid);
-  }, [isEmailValid, isPasswordValid]);
-
-  // 폼이 모두 유효한 값이면 에러메세지 없앰
-  useEffect(() => {
-    if (isFormValid) {
-      setErrorMessage(null);
-    }
-  }, [isFormValid]);
-
-  // 이메일 유효한지 확인
-  useEffect(() => {
-    setIsEmailValid(validateEmail(email));
-  }, [email]);
-
-  // 비밀번호 유효한지 확인
-  useEffect(() => {
-    setIsPasswordValid(password.length >= 4);
-  }, [password]);
+  //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
+  const isEmailValid = validateEmail(email);
+  // 비밀번호가 4글자 이상인지 여부를 확인함.
+  const isPasswordValid = password.length >= 4;
+  //
+  // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
+  const isFormValid = isEmailValid && isPasswordValid;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -73,10 +57,8 @@ const LoginForm = () => {
         email,
         password,
       });
-
       // 유저 정보는 response의 data임.
-      const user = res.data.user;
-
+      const user = res.data;
       // JWT 토큰은 유저 정보의 token임.
       const jwtToken = user.token;
       // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
@@ -90,123 +72,52 @@ const LoginForm = () => {
       // 기본 페이지로 이동함.
       navigate("/", { replace: true });
     } catch (err) {
-      setErrorMessage(err.response.data.error.message);
-    }
-  };
-
-  const guestLoginBtnClick = async (e) => {
-    try {
-      // "users/login" 엔드포인트로 post요청함.
-      const res = await Api.post("users/login", {
-        email: process.env.REACT_APP_GUEST_ID,
-        password: process.env.REACT_APP_GUEST_PW,
-      });
-
-      // 유저 정보는 response의 data임.
-      const user = res.data.user;
-
-      // JWT 토큰은 유저 정보의 token임.
-      const jwtToken = user.token;
-      // sessionStorage에 "userToken"이라는 키로 JWT 토큰을 저장함.
-      sessionStorage.setItem("userToken", jwtToken);
-      // dispatch 함수를 이용해 로그인 성공 상태로 만듦.
-      dispatch({
-        type: "LOGIN_SUCCESS",
-        payload: user,
-      });
-
-      // 기본 페이지로 이동함.
-      navigate("/", { replace: true });
-    } catch (err) {
-      setErrorMessage(err.response.data.error.message);
-    }
-  };
-
-  // 입력받은 Email로 임시 비밀번호를 보내는 함수입니다.
-  const sendMailHandler = async (e) => {
-    try {
-      await Api.post("users/password", {
-        email,
-      });
-
-      setSendMailSucc(true);
-      setIsOpenDialog(false);
-    } catch (err) {
-      setErrorMessage(err.response.data.error.message);
-    }
-  };
-
-  const emailInputChecker = () => {
-    if (!isEmailValid) {
-      // 에러 메세지 출력
-      setErrorMessage("이메일 형식이 올바르지 않습니다.");
-    } else {
-      setErrorMessage(null);
-    }
-  };
-  const passwordInputChecker = () => {
-    if (!isPasswordValid) {
-      // 에러 메세지 출력
-      setErrorMessage("비밀번호는 4글자 이상입니다.");
-    } else {
-      setErrorMessage(null);
+      console.log("로그인에 실패하였습니다.\n", err);
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Card
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          backgroundColor: "white",
-          padding: 2,
-          borderRadius: 2,
-          fontFamily: "Elice Digital Baeum",
-        }}
-      >
-        <Avatar
-          src="/logo.png"
-          variant="square"
-          alt="logo"
-          sx={{ width: 128, height: 128, mb: 0 }}
-        />
-        <Typography
-          sx={{
-            fontFamily: "Elice Digital Baeum",
-            fontSize: "22px",
-            fontWeight: 600,
-          }}
-        >
-          로그인
-        </Typography>
+    <Container>
+      <Row className="justify-content-md-center mt-5">
+        <Col lg={8}>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="loginEmail">
+              <Form.Label>이메일 주소</Form.Label>
+              <Form.Control
+                type="email"
+                autoComplete="on"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              {!isEmailValid && (
+                <Form.Text className="text-success">
+                  이메일 형식이 올바르지 않습니다.
+                </Form.Text>
+              )}
+            </Form.Group>
 
-        <TextField
-          margin="normal"
-          name="email"
-          label="이메일 주소"
-          fullWidth
-          autoComplete="email"
-          required
-          value={email}
-          onBlur={emailInputChecker}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+            <Form.Group controlId="loginPassword" className="mt-3">
+              <Form.Label>비밀번호</Form.Label>
+              <Form.Control
+                type="password"
+                autoComplete="on"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              {!isPasswordValid && (
+                <Form.Text className="text-success">
+                  비밀번호는 4글자 이상입니다.
+                </Form.Text>
+              )}
+            </Form.Group>
 
-        <TextField
-          margin="normal"
-          name="password"
-          label="비밀번호"
-          type="password"
-          fullWidth
-          autoComplete="current-password"
-          required
-          value={password}
-          onBlur={passwordInputChecker}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+            <Form.Group as={Row} className="mt-3 text-center">
+              <Col sm={{ span: 20 }}>
+                <Button variant="primary" type="submit" disabled={!isFormValid}>
+                  로그인
+                </Button>
+              </Col>
+            </Form.Group>
 
         {errorMessage && <AlertError message={errorMessage} />}
 
@@ -304,6 +215,6 @@ const LoginForm = () => {
       )}
     </Container>
   );
-};
+}
 
 export default LoginForm;
