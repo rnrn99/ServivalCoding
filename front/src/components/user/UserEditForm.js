@@ -105,10 +105,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       await Api.delete("users");
       // sessionStorage 에 저장했던 JWT 토큰을 삭제합니다.
       sessionStorage.removeItem("userToken");
-      // dispatch 함수를 이용해 로그아웃함.
-      dispatch({ type: "LOGOUT" });
       // 로그인 화면으로 돌아갑니다.
       navigate("/login");
+      // dispatch 함수를 이용해 로그아웃함.
+      dispatch({ type: "LOGOUT" });
     } else {
       setIsDeleteAccount(false);
     }

@@ -132,8 +132,8 @@ const checkUserCreated = [
     .exists()
     .withMessage("이름을 입력해주세요.")
     .bail()
-    .isLength({ min: 1 })
-    .withMessage("이름은 필수로 1 글자 이상 입력해야 합니다!")
+    .isLength({ min: 2 })
+    .withMessage("이름은 필수로 2 글자 이상 입력해야 합니다!")
     .bail(),
   body("email")
     .exists()
@@ -147,7 +147,7 @@ const checkUserCreated = [
     .withMessage("비밀번호를 입력해주세요.")
     .bail()
     .isLength({ min: 4 })
-    .withMessage("비밀번호는 4글자 이상이어여 합니다."),
+    .withMessage("비밀번호는 4글자 이상이어야 합니다."),
   validate,
 ];
 

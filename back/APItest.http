@@ -2,7 +2,7 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "bbb@bbb.com",
+  "email": "chacc@ccc.com",
   "name": "체셔캣",
   "password": "asdf1234"
 }
@@ -12,14 +12,14 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "bbb@bbb.com",
+  "email": "ccc@ccc.com",
   "password": "asdf1234"
 }
 
 ###
 POST http://localhost:5001/projects
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxNjkxNTd9.ouNpC9kcq-halckw6H4MHZIyyHDaBAa37Jbwtn-Gz_M
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "프로젝트1",
@@ -43,7 +43,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "자격증1",
@@ -65,11 +65,12 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 ###
 POST http://localhost:5001/educations
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "school": "학교1",
-  "major": "석사졸업"
+  "major": "문헌정보학",
+  "position": "석사졸업"
 }
 
 ###
@@ -105,7 +106,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 ###
 POST http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMzMxMzZ9.n5sykP86MHICUlt-7xX39VZPFL8MenWar-WG0zgHOKM
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjk4MDB9.vythnshxO7jT6fLpv6-3-5vZP9dMXEVTsvmG3VAIBrI
 
 {
   "confident": "리액트",
@@ -124,7 +125,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/careers
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMjE4MzJ9.hGiLj3UCl44N_H3aORwt1zZd_zDIEnejOwXvO5fx4-4
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "근무1",
@@ -135,7 +136,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/careers
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "근무2",
@@ -143,19 +144,15 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
   "toDate": "2020-07-04"
 }
 ###
-PUT http://localhost:5001/users
+PUT http://localhost:5001/careers/f050e9d8-38b2-49b8-b6a3-ce765f051d3a
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZjliMTUwYi00YmVkLTRhYzQtYThiNy0zZjUxZjAzNTAzYWUiLCJpYXQiOjE2NDgxODY2Nzh9.rnSHngTQlXItVB0l9l7WwbTlJibZUkf9tAH-oa2yiI8
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
-  "sns": {
-    "github": "깃헙주소",
-    "instagram": "인스타그램 주소",
-    "blog": "블로그 주소"
-  }
+  "title": "asdf"
 }
 
 ###
-GET http://localhost:5001/users/7f9b150b-4bed-4ac4-a8b7-3f51f03503ae
+DELETE http://localhost:5001/careers/9a721582-28df-435b-a9b7-2326544a22f5
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY

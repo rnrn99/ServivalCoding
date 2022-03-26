@@ -1,6 +1,7 @@
 import { Education } from "../db/models/Education.js";
 import { User } from "../db/models/User.js";
 import { v4 as uuidv4 } from "uuid";
+import {updateHandler} from "../utils/utils.js";
 class EducationService {
   static async addEducation({ userId, school, major, position }) {
     const id = uuidv4();
@@ -64,7 +65,9 @@ class EducationService {
       throw error;
     }
 
-    const updateData = await Education.update({ id, toUpdate });
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    const updateData = await Education.update({ id, toUpdate: fieldToUpdate });
 
     return updateData;
   }
