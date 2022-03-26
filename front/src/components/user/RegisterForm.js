@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Row, Form } from "react-bootstrap";
-
 import {
   Avatar,
   Button,
@@ -9,8 +7,6 @@ import {
   Card,
   Container,
   Typography,
-  Link,
-  Grid,
 } from "@mui/material";
 
 import * as Api from "../../api";
@@ -28,48 +24,64 @@ function RegisterForm() {
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [isPasswordSame, setIsPasswordSame] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isNameValid, setIsNameValid] = useState(false);
-  const [isFormValid, setIsFormVaild] = useState(false);
+
+  const [isEmailValid, setIsEmailValid] = useState(false); // 이메일이 유효한 값인지 boolean 값으로 저장합니다.
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // 비밀번호가 유효한 값인지 boolean 값으로 저장합니다.
+  const [isPasswordSame, setIsPasswordSame] = useState(false); // 비밀번호 확인이 유효한 값인지 boolean 값으로 저장합니다.
+  const [isNameValid, setIsNameValid] = useState(false); // 이름이 유효한 값인지 boolean 값으로 저장합니다.
+  const [isFormValid, setIsFormVaild] = useState(false); // 폼이 유효한 값인지 boolean 값으로 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
-    return email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
+    const reg_email =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return reg_email.test(email.toLowerCase());
   };
-
-  //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
-  //const isEmailValid = validateEmail(email);
-  // 비밀번호가 4글자 이상인지 여부를 확인함.
-  //const isPasswordValid = password.length >= 4;
-  // 비밀번호와 확인용 비밀번호가 일치하는지 여부를 확인함.
-  //const isPasswordSame = password === confirmPassword;
-  // 이름이 2글자 이상인지 여부를 확인함.
-  //const isNameValid = name.length >= 2;
 
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   useEffect(() => {
     setIsFormVaild(
-      isEmailValid && isPasswordValid && isPasswordSame && isNameValid
+      isEmailValid && isPasswordValid && isPasswordSame && isNameValid,
     );
   }, [isEmailValid, isPasswordValid, isPasswordSame, isNameValid]);
+
+  // 폼이 모두 유효한 값이면 에러메세지 없앰
+  useEffect(() => {
+    if (isFormValid) {
+      setErrorMessage(null);
+    }
+  }, [isFormValid]);
+
+  // 이메일 유효한지 확인
+  useEffect(() => {
+    setIsEmailValid(validateEmail(email));
+  }, [email]);
+
+  // 비밀번호 유효한지 확인
+  useEffect(() => {
+    setIsPasswordValid(password.length >= 4);
+  }, [password]);
+
+  // 비밀번호 확인 유효한지 확인
+  useEffect(() => {
+    setIsPasswordSame(password === confirmPassword);
+  }, [confirmPassword]);
+
+  // 이름 유효한지 확인
+  useEffect(() => {
+    setIsNameValid(name.length >= 2);
+  }, [name]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isFormValid) {
       try {
         // "users/register" 엔드포인트로 post요청함.
-        const res = await Api.post("users/register", {
+        await Api.post("users/register", {
           email,
           password,
           name,
         });
-        console.log("회원가입요청 결과", res);
 
         // 로그인 페이지로 이동함.
         navigate("/login");
@@ -85,37 +97,36 @@ function RegisterForm() {
   };
 
   const emailInputChecker = () => {
-    setIsEmailValid(validateEmail(email));
     if (!isEmailValid) {
-      //에러호출
-      console.log("email not vaild");
+      // 에러 메세지 출력
       setErrorMessage("이메일 형식이 올바르지 않습니다.");
     } else {
-      setErrorMessage();
+      setErrorMessage(null);
     }
   };
   const passwordInputChecker = () => {
-    setIsPasswordValid(password.length >= 4);
     if (!isPasswordValid) {
-      //에러호출
-      console.log("password not vaild");
+      // 에러 메세지 출력
       setErrorMessage("비밀번호는 4글자 이상으로 설정해 주세요.");
+    } else {
+      setErrorMessage(null);
     }
   };
   const pwdconfirmInputChecker = () => {
-    setIsPasswordSame(password === confirmPassword);
     if (!isPasswordSame) {
-      //에러호출
-      console.log("password confirm not vaild");
+      // 에러 메세지 출력
       setErrorMessage("비밀번호가 일치하지 않습니다.");
+    } else {
+      setErrorMessage(null);
     }
   };
+
   const nameInputChecker = () => {
-    setIsNameValid(name.length >= 2);
     if (!isNameValid) {
-      //에러호출
-      console.log("name not vaild");
+      // 에러 메세지 출력
       setErrorMessage("이름은 2글자 이상으로 설정해 주세요.");
+    } else {
+      setErrorMessage(null);
     }
   };
 
@@ -204,105 +215,12 @@ function RegisterForm() {
           회원가입
         </Button>
 
-        <Grid container>
-          <Grid item xs>
-            <Link>비밀번호 찾기</Link>
-          </Grid>
-          <Grid item>
-            <Link onClick={() => navigate("/login")}>로그인하기</Link>
-          </Grid>
-        </Grid>
+        <Button variant="text" onClick={() => navigate("/login")}>
+          로그인하기
+        </Button>
       </Card>
     </Container>
   );
 }
 
 export default RegisterForm;
-/*  
-
-
-
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="registerEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="off"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="off"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상으로 설정해 주세요.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerConfirmPassword" className="mt-3">
-              <Form.Label>비밀번호 재확인</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="off"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {!isPasswordSame && (
-                <Form.Text className="text-success">
-                  비밀번호가 일치하지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerName" className="mt-3">
-              <Form.Label>이름</Form.Label>
-              <Form.Control
-                type="text"
-                autoComplete="off"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {!isNameValid && (
-                <Form.Text className="text-success">
-                  이름은 2글자 이상으로 설정해 주세요.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
-                  회원가입
-                </Button>
-              </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="light" onClick={() => navigate("/login")}>
-                  로그인하기
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-*/

@@ -39,7 +39,11 @@ function Header() {
             src="/logo.png"
             width="96px"
             alt="logo"
-            style={{ display: "flex", justifyContent: "center" }}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              cursor: "pointer",
+            }}
             onClick={() => navigate("/")}
           />
           <Typography
@@ -50,6 +54,7 @@ function Header() {
               display: { xs: "none", sm: "block" },
               fontFamily: "Red Hat Mono, monospace",
               color: "#C7A27C",
+              cursor: "pointer",
             }}
             onClick={() => navigate("/")}
           >

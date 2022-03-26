@@ -26,6 +26,7 @@ function UserNetworkCard({ user }) {
               ? imageBaseUrl + user.profile
               : user.profile)
           }
+          height="262"
           onError={(e) => (e.target.src = "/logo.png")}
           alt={user.name}
         />

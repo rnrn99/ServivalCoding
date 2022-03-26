@@ -7,29 +7,34 @@ import {
   checkAwardCreated,
   checkUserId,
 } from "../middlewares/checkMiddleware.js";
+import * as commonMiddleware from "../middlewares/commonMiddleware.js";
 
 const awardRouter = Router();
 
 awardRouter.post(
   "/awards",
   loginRequired,
+  commonMiddleware.isBodyEmpty,
   checkAwardCreated,
+  commonMiddleware.checkRequestBody("title", "description"),
   async (req, res, next) => {
     try {
-      const { title, description } = req.body;
       const userId = req.currentUserId;
       const createdAward = await AwardService.addAward({
         userId,
-        title,
-        description,
+        ...req.toPost
       });
+
       const body = {
         success: true,
         award: {
           ...createdAward,
         },
       };
-      return res.status(201).json(body);
+
+      res
+        .status(201)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -39,10 +44,12 @@ awardRouter.post(
 awardRouter.get(
   "/awards/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const id = req.id;
+
       const award = await AwardService.getAward({ id });
 
       const body = {
@@ -50,7 +57,9 @@ awardRouter.get(
         award,
       };
 
-      return res.status(200).json(body);
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -60,20 +69,25 @@ awardRouter.get(
 awardRouter.put(
   "/awards/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   checkUpdate,
+  commonMiddleware.checkRequestBody("title", "description"),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const toUpdate = {
-        ...req.body,
-      };
+      const id = req.id;
+
+      const toUpdate = req.toPost
       const award = await AwardService.updateAward({ id, toUpdate });
+
       const body = {
         success: true,
         award,
       };
-      res.status(201).json(body);
+
+      res
+        .status(201)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -83,16 +97,22 @@ awardRouter.put(
 awardRouter.get(
   "/award-lists/:userId",
   loginRequired,
+  commonMiddleware.getParameter("userId"),
   checkUserId,
   async (req, res, next) => {
     try {
-      const { userId } = req.params;
+      const userId = req.userId;
+
       const awards = await AwardService.listAward({ userId });
+
       const body = {
         success: true,
         awards,
       };
-      res.status(200).json(body);
+
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }
@@ -102,16 +122,22 @@ awardRouter.get(
 awardRouter.delete(
   "/awards/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const id = req.id;
+
       const award = await AwardService.deleteAward({ id });
+
       const body = {
         success: true,
         award,
       };
-      res.status(200).json(body);
+
+      res
+        .status(200)
+        .json(body);
     } catch (error) {
       next(error);
     }

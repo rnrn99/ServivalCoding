@@ -14,6 +14,7 @@ export default function TagsInput({ ...props }) {
   const [inputValue, setInputValue] = useState("");
   const [selectedItem, setSelectedItem] = useState(tags);
   const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder);
+  const required = other.isRequired ?? false;
 
   useEffect(() => {
     setSelectedItem(tags);
@@ -104,7 +105,7 @@ export default function TagsInput({ ...props }) {
             <div>
               <TextField
                 disabled={readOnly}
-                required
+                required={required}
                 InputProps={{
                   startAdornment: selectedItem.map((item, idx) => (
                     <TechTag
