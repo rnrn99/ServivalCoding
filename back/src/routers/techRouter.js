@@ -47,10 +47,10 @@ techRouter.post(
 techRouter.get(
   "/techs/:userId",
   loginRequired,
-  commonMiddleware.getParameter("id"),
+  commonMiddleware.getParameter("userId"),
   checkUserId,
   async function (req, res, next) {
-    const userId = req.id;
+    const userId = req.userId;
 
     try {
       // tech id를 이용하여 db에서 기술 스택 검색
