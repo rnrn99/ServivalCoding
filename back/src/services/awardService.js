@@ -1,6 +1,7 @@
 import { Award } from "../db/models/Award.js";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/models/User.js";
+import {updateHandler} from "../utils/utils.js";
 
 class AwardService {
   static async addAward({ userId, title, description }) {
@@ -50,7 +51,9 @@ class AwardService {
       throw error;
     }
 
-    const updateData = await Award.update({ id, toUpdate });
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    const updateData = await Award.update({ id, toUpdate: fieldToUpdate });
 
     return updateData;
   }
