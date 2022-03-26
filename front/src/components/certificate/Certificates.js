@@ -70,9 +70,15 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
     } else if (type === "delete") {
       await Api.delete(`certificates/${id}`);
     }
+    try {
+      const res = await Api.get("certificate-lists", portfolioOwnerId);
 
-    const res = await Api.get("certificate-lists", portfolioOwnerId);
-    setCerts(res.data.certificates);
+      setCerts(res.data.certificates);
+    } catch (e) {
+      console.log(e.message);
+      setCerts([]);
+    }
+
     //type 이 delete인 경우 삭제 요청
   };
 
@@ -84,12 +90,16 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{
-                  fontFamily: "Elice Digital Baeum",
-                  fontSize: "24px",
-                  color: "#616161",
-                  fontWeight: 500,
-                }}>자격증</Typography>
+          <Typography
+            sx={{
+              fontFamily: "Elice Digital Baeum",
+              fontSize: "24px",
+              color: "#616161",
+              fontWeight: 500,
+            }}
+          >
+            자격증
+          </Typography>
         </AccordionSummary>
         <AccordionDetails>{setCertificateList()}</AccordionDetails>
       </Accordion>

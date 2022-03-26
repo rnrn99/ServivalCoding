@@ -17,6 +17,7 @@ import {
   DialogContentText,
   Snackbar,
   Alert,
+  Stack,
 } from "@mui/material";
 
 import AlertError from "../utils/AlertError";
@@ -257,15 +258,33 @@ const LoginForm = () => {
               name="email"
               label="아이디"
               required
+              fullWidth
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            {errorMessage && (
+              <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={!sendMailSucc}
+                autoHideDuration={6000}
+                onClose={() => {
+                  setSendMailSucc(false);
+                  setErrorMessage(null);
+                }}
+              >
+                <Alert severity="error" sx={{ width: "100%" }}>
+                  존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요!
+                </Alert>
+              </Snackbar>
+            )}
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setIsOpenDialog(false)} color="error">
-              취소
-            </Button>
-            <Button onClick={sendMailHandler}>보내기</Button>
+          <DialogActions sx={{ mt: 2, justifyContent: "center" }}>
+            <Stack direction="row" spacing={2}>
+              <Button onClick={() => setIsOpenDialog(false)} color="error">
+                취소
+              </Button>
+              <Button onClick={sendMailHandler}>보내기</Button>
+            </Stack>
           </DialogActions>
         </Dialog>
       )}
