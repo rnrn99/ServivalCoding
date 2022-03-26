@@ -25,15 +25,20 @@ function App() {
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
 
   const fetchCurrentUser = async () => {
-    // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
-    const res = await Api.get("users/current");
-    const currentUser = res.data.user;
+    try {
+      // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
+      const res = await Api.get("users/current");
+      const currentUser = res.data.user;
 
-    // dispatch 함수를 통해 로그인 성공 상태로 만듦.
-    dispatch({
-      type: "LOGIN_SUCCESS",
-      payload: currentUser,
-    });
+      // dispatch 함수를 통해 로그인 성공 상태로 만듦.
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: currentUser,
+      });
+    } catch {
+      console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
+    }
+
     // fetchCurrentUser 과정이 끝났으므로, isFetchCompleted 상태를 true로 바꿔줌
     setIsFetchCompleted(true);
   };
