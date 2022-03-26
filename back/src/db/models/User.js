@@ -47,6 +47,8 @@ class User {
         { "languages.list": { $regex: name } },
         { "frameworks.list": { $regex: name } },
         { "tools.list": { $regex: name } },
+        { confident: { $regex: name } },
+        { favorite: { $regex: name } },
       ],
     }).populate("user");
     return tech;

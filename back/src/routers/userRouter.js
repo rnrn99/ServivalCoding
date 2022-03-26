@@ -243,7 +243,6 @@ userAuthRouter.get(
     try {
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
-      console.log(`빈 값: ${user}`);
       const result = Object.values(user)
         .map((one) =>
           removeFields(
