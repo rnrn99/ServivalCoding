@@ -44,11 +44,11 @@ class User {
   static async findByTech({ name }) {
     const tech = await TechModel.find({
       $or: [
-        { "languages.list": { $regex: name, $options: i } },
-        { "frameworks.list": { $regex: name, $options: i } },
-        { "tools.list": { $regex: name, $options: i } },
-        { confident: { $regex: name, $options: i } },
-        { favorite: { $regex: name, $options: i } },
+        { "languages.list": { $regex: name, $options: "i" } },
+        { "frameworks.list": { $regex: name, $options: "i" } },
+        { "tools.list": { $regex: name, $options: "i" } },
+        { confident: { $regex: name, $options: "i" } },
+        { favorite: { $regex: name, $options: "i" } },
       ],
     }).populate("user");
     return tech;
