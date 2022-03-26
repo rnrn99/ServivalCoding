@@ -1,6 +1,7 @@
 import { Career } from "../db/models/Career.js";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../db/models/User.js";
+import {updateHandler} from "../utils/utils.js";
 
 class careerService {
   static async addCareer({ userId, title, fromDate, toDate }) {
@@ -15,42 +16,71 @@ class careerService {
       author: user,
     };
     const createdCareer = await Career.create({ newCareer });
-    return createdCareer;
+
+    const sendData = {
+      id: createdCareer.id,
+      title: createdCareer.title,
+      fromDate: createdCareer.fromDate,
+      toDate: createdCareer.toDate,
+    };
+
+    return sendData;
   }
 
   static async getCareer({ id }) {
     const career = await Career.find({ id });
-    if (!career) {
-      return { status: "fail", message: "해당 경력 내역이 존재하지 않습니다." };
+
+    if (career === null || career === undefined) {
+      const error = new Error("해당 경력 내역이 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
     }
+
     return career;
   }
 
-  static async setCareer({ id, toUpdate }) {
+  static async updateCareer({ id, toUpdate }) {
     const career = await Career.find({ id });
 
-    if (!career) {
-      return { status: "fail", message: "해당 경력 내역이 존재하지 않습니다." };
+    if (career === null || career === undefined) {
+      const error = new Error("해당 경력 내역이 존재하지 않습니다.");
+      error.status = 404;
+      throw error;
     }
 
-    const updateData = await Career.update({ id, toUpdate });
+    if (toUpdate === null || toUpdate === undefined) {
+      const error = new Error("수정할 값을 넣어주지 않았습니다.");
+      error.status = 400;
+      throw error;
+    }
+
+    // null인 field는 제외하고, 남은 field만 객체에 담음
+    const fieldToUpdate = updateHandler(toUpdate);
+    const updateData = await Career.update({ id, toUpdate: fieldToUpdate });
 
     return updateData;
   }
 
   static async getCareers({ userId }) {
     const careers = await Career.findAll({ userId });
-    if (!careers) {
-      return { status: "fail", message: "존재하지 않는 유저 입니다." };
+
+    if (careers.length === 0) {
+      const error = new Error("경력사항이 없습니다.");
+      error.status = 404;
+      throw error;
     }
+
     return careers;
   }
   static async deleteCareer({ id }) {
-    const deleteCareer = await Career.deleteCareer({ id });
-    if (!deleteCareer) {
-      return false;
+    const career = await Career.delete({ id });
+    if (career === null || career === undefined) {
+      const error = new Error("삭제할 자료가 없습니다.");
+      error.status = 404;
+      throw error;
     }
-    return deleteCareer;
+
+    return career;
   }
 }
 

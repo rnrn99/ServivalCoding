@@ -1,5 +1,5 @@
 import { UserModel } from "../schemas/user.js";
-
+import { TechModel } from "../schemas/tech.js";
 class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
@@ -7,7 +7,7 @@ class User {
   }
 
   static async findByEmail({ email }) {
-    const user = await UserModel.findOne({ email });
+    const user = await UserModel.findOne({ email }, { _id: false, __v: false });
     return user;
   }
 
@@ -17,7 +17,7 @@ class User {
   }
 
   static async findAll() {
-    const users = await UserModel.find({});
+    const users = await UserModel.find({}, { _id: false, __v: false });
     return users;
   }
 
@@ -27,10 +27,46 @@ class User {
 
     const updatedUser = await UserModel.findOneAndUpdate(
       filter,
-      { "$set": fieldToUpdate },
+      { $set: fieldToUpdate },
       option
     );
     return updatedUser;
+  }
+
+  static async findByName({ name }) {
+    const user = await UserModel.find(
+      { name: { $regex: name } },
+      { _id: false, __v: false }
+    );
+    return user;
+  }
+
+  static async findByTech({ name }) {
+    const tech = await TechModel.find({
+      $or: [
+        { "languages.list": { $regex: name } },
+        { "frameworks.list": { $regex: name } },
+        { "tools.list": { $regex: name } },
+        { confident: { $regex: name } },
+        { favorite: { $regex: name } },
+      ],
+    }).populate("user");
+    return tech;
+  }
+
+  static async updateByProfile({ userId, profile }) {
+    const filter = { id: userId };
+    const option = { returnOriginal: false };
+    const updateUser = await UserModel.findOneAndUpdate(
+      filter,
+      { $set: { profile } },
+      option
+    );
+    return updateUser;
+  }
+
+  static async delete({ user }) {
+    await UserModel.findOneAndDelete({ id: user.id });
   }
 }
 

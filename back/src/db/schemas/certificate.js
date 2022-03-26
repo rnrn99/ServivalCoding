@@ -16,11 +16,13 @@ const CertificateSchema = new Schema(
       // 자격증 이름
       type: String,
       required: true,
+      minlength: 1,
     },
     description: {
       // 어떤 자격증인지
       type: String,
       required: true,
+      minlength: 1,
       default: "설명이 아직 없습니다. 추가해 주세요.",
     },
     date: {

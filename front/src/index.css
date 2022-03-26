@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@500&display=swap");
+@import url(//font.elice.io/EliceDigitalBaeum.css);
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  font-family: sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  background: #f4e4ba;
+  font-family: "Elice Digital Baeum", sans-serif;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 13px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f4e4ba;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ddc485ce;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #d8a42aec;
+}
+
