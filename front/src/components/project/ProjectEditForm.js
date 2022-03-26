@@ -82,13 +82,14 @@ function ProjectEditForm({ project, setProjects, setClickEditBtn }) {
         spacing={2}
         sx={{ mt: 2, justifyContent: "center" }}
       >
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple>
           확인
         </Button>{" "}
         <Button
           type="reset"
           onClick={() => setClickEditBtn(false)}
           variant="outlined"
+          sx={ButtonStyle.cancel}
         >
           취소
         </Button>{" "}
@@ -98,3 +99,19 @@ function ProjectEditForm({ project, setProjects, setClickEditBtn }) {
 }
 
 export default ProjectEditForm;
+
+const ButtonStyle = {
+  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
+':hover': {
+  bgcolor: '#b1b068',
+  color: 'white',
+}
+},
+  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
+':hover': {
+  bgcolor: '#bd3421',
+  color: 'white',
+  border: '0px'
+}
+},
+}

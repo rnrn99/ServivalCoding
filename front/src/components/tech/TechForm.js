@@ -121,14 +121,15 @@ const TechForm = ({ techs, checkAddComplete }) => {
           spacing={2}
           sx={{ mt: 2, justifyContent: "center" }}
         >
-          <Button name="accept" variant="contained" type="submit">
-            완료
+          <Button name="accept" variant="contained" type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple>
+            확인
           </Button>
           <Button
             name="cancel"
             type="reset"
             onClick={onSubmitHandler}
             variant="outlined"
+            sx={ButtonStyle.cancel}
           >
             취소
           </Button>
@@ -156,3 +157,48 @@ TechForm.propTypes = {
   checkAddComplete: PropTypes.func.isRequired,
   techs: PropTypes.object,
 };
+/*
+
+{
+        favorite: "javascript",
+        confident: "python",
+        language: { list: [...languages] },
+        framework: { list: [...frameworks] },
+        tool: { list: [...tools] },
+}
+
+
+{ techs, checkAddComplete }
+   
+
+
+        <TextField
+          label="보유 기술 - 개발언어"
+          required
+          onChange={(e) => setTitle(e.target.value)}
+          sx={{ width: "60ch" }}
+        />
+        <TextField
+          label="항목"
+          required
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        
+*/
+
+const ButtonStyle = {
+  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
+':hover': {
+  bgcolor: '#b1b068',
+  color: 'white',
+}
+},
+  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
+':hover': {
+  bgcolor: '#bd3421',
+  color: 'white',
+  border: '0px'
+}
+},
+}

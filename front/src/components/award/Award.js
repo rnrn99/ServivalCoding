@@ -65,6 +65,7 @@ function Award({ award, isEditable, setAwardLists }) {
                   <Button
                     onClick={() => setIsEditing(true)}
                     startIcon={<EditIcon />}
+                    sx={{color: '#054A91'}}
                   >
                     편집
                   </Button>

@@ -207,7 +207,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="git URL"
             sx={{ width: "320px" }}
-            value={snsURL.github}
+            value={snsURL.github || ""}
             onChange={(e) => setSnsURL({ ...snsURL, github: e.target.value })}
           />
           <GitHubIcon sx={iconStyles} />
@@ -216,7 +216,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="instar URL"
             sx={{ width: "320px" }}
-            value={snsURL.instagram}
+            value={snsURL.instagram || ""}
             onChange={(e) =>
               setSnsURL({ ...snsURL, instagram: e.target.value })
             }
@@ -227,7 +227,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="blog URL"
             sx={{ width: "320px" }}
-            value={snsURL.blog}
+            value={snsURL.blog || ""}
             onChange={(e) => setSnsURL({ ...snsURL, blog: e.target.value })}
           />
           <WysiwygIcon sx={iconStyles} />
@@ -238,13 +238,20 @@ function UserEditForm({ user, setIsEditing, setUser }) {
         spacing={2}
         sx={{ mt: 2, justifyContent: "center" }}
       >
-        <Button variant="contained" type="submit">
+        <Button
+          variant="contained"
+          type="submit"
+          sx={ButtonStyle.confirm}
+          disableElevation
+          disableRipple
+        >
           확인
         </Button>{" "}
         <Button
           type="reset"
           onClick={() => setIsEditing(false)}
           variant="outlined"
+          sx={ButtonStyle.cancel}
         >
           취소
         </Button>
@@ -258,6 +265,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           variant="text"
           startIcon={<LockResetIcon />}
           onClick={() => setIsModifyPassword((cur) => !cur)}
+          sx={{ color: "#ae8b66" }}
         >
           비밀번호 변경
         </Button>
@@ -294,3 +302,23 @@ const shapeStyles = { width: 150, height: 150 };
 const shapeCircleStyles = { borderRadius: "50%" };
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
+
+const ButtonStyle = {
+  confirm: {
+    bgcolor: "#D0CE7C",
+    color: "#31311C",
+    ":hover": {
+      bgcolor: "#b1b068",
+      color: "white",
+    },
+  },
+  cancel: {
+    border: "solid 1px #db3f2b",
+    color: "#db3f2b",
+    ":hover": {
+      bgcolor: "#bd3421",
+      color: "white",
+      border: "0px",
+    },
+  },
+};

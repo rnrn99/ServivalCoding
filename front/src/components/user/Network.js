@@ -65,6 +65,7 @@ function Network() {
     delayedSearchWord(e.target.value);
   };
 
+
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
       <Box
@@ -72,6 +73,10 @@ function Network() {
           display: "flex",
           justifyContent: "flex-end",
           mb: 3,
+          fontFamily: "Elice Digital Baeum",
+          fontSize: "10px",
+          color: "#616161",
+          fontWeight: 500,
         }}
       >
         <Input
@@ -83,6 +88,8 @@ function Network() {
           }
           value={searchWord}
           onChange={(e) => inputChangeHandler(e)}
+          placeholder="이름, 기술 태그를 입력하세요"
+          style={{ width: "30%" }}
         />
       </Box>
       <Grid container spacing={4}>

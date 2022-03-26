@@ -2,7 +2,7 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "chacc@ccc.com",
+  "email": "ccc@ccc.com",
   "name": "체셔캣",
   "password": "asdf1234"
 }
@@ -106,7 +106,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yz
 ###
 POST http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjk4MDB9.vythnshxO7jT6fLpv6-3-5vZP9dMXEVTsvmG3VAIBrI
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MDY1ZjdkZS03Nzk0LTQ0NTQtOGMwZC05OWY5NmNlNjU0NjUiLCJpYXQiOjE2NDgyODQzNTh9.dGeiP0bvti4o20aDXDEMMiQVFCbSYWVWsmQqNNJRnAA
 
 {
   "confident": "리액트",
@@ -144,15 +144,15 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yz
   "toDate": "2020-07-04"
 }
 ###
-PUT http://localhost:5001/awards/ecba37a2-8c3c-427c-a223-c76e18cfe3cd
+PUT http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MDY1ZjdkZS03Nzk0LTQ0NTQtOGMwZC05OWY5NmNlNjU0NjUiLCJpYXQiOjE2NDgyODQ1NDh9.0eHbi4sADRH7ZHtgpyoSJqqaJcJSgY7SIrSs-XZAshU
 
 {
-  "title": "asdf"
+  "favorite": "c"
 }
 
 ###
-DELETE http://localhost:5001/awards/ecba37a2-8c3c-427c-a223-c76e18cfe3cd
+DELETE http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3MDY1ZjdkZS03Nzk0LTQ0NTQtOGMwZC05OWY5NmNlNjU0NjUiLCJpYXQiOjE2NDgyODQ1NDh9.0eHbi4sADRH7ZHtgpyoSJqqaJcJSgY7SIrSs-XZAshU

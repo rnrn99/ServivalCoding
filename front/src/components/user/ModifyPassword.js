@@ -105,17 +105,17 @@ function ModifyPassword({ setIsModifyPassword }) {
         {errorMessage && <AlertError message={errorMessage} />}
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", mb: 2 }}>
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2} sx={{ height: "35px" }}>
           <Button
             onClick={modifyPasswordBtnClick}
             autoFocus
-            variant="contained"
             size="small"
             disabled={!isFormValid}
+            sx={ButtonStyle.confirm}
           >
             변경
           </Button>
-          <Button onClick={handleClose} variant="outlined" size="small">
+          <Button onClick={handleClose} sx={ButtonStyle.cancel} size="small">
             취소
           </Button>
         </Stack>
@@ -123,5 +123,25 @@ function ModifyPassword({ setIsModifyPassword }) {
     </Dialog>
   );
 }
+
+const ButtonStyle = {
+  confirm: {
+    bgcolor: "#D0CE7C",
+    color: "#31311C",
+    ":hover": {
+      bgcolor: "#b1b068",
+      color: "white",
+    },
+  },
+  cancel: {
+    border: "solid 1px #db3f2b",
+    color: "#db3f2b",
+    ":hover": {
+      bgcolor: "#bd3421",
+      color: "white",
+      border: "0px",
+    },
+  },
+};
 
 export default ModifyPassword;

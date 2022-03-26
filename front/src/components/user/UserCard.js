@@ -60,7 +60,12 @@ function UserCard({
       return (
         <Typography
           className="text-muted"
-          style={{ fontSize: "13px", marginBottom: "12px" }}
+          sx={{
+            fontFamily: "Elice Digital Baeum",
+            fontSize: "13px",
+            fontWeight: 500,
+            mb: '12px'
+          }}
         >
           {user?.email}
         </Typography>
@@ -71,7 +76,11 @@ function UserCard({
     if (user?.permission?.description === false) {
       return <Typography />;
     } else {
-      return <Typography>{user?.description}</Typography>;
+      return <Typography sx={{
+        fontFamily: "Elice Digital Baeum",
+        fontSize: "16px",
+        fontWeight: 500,
+      }}>{user?.description}</Typography>;
     }
   };
 
@@ -99,7 +108,7 @@ function UserCard({
             <Typography
               sx={{
                 fontFamily: "Elice Digital Baeum",
-                fontSize: "27px",
+                fontSize: "23px",
                 fontWeight: 500,
               }}
             >
@@ -119,7 +128,13 @@ function UserCard({
               }
             />
             <Typography
-              style={{ display: "inline", fontSize: "13px", margin: "0" }}
+              sx={{
+                fontFamily: "Elice Digital Baeum",
+                fontSize: "13px",
+                fontWeight: 500,
+                display: "inline", 
+                m: '0'
+              }}
             >
               {heartCount}명이 좋아합니다
             </Typography>
@@ -128,34 +143,39 @@ function UserCard({
             sx={{ marginBottom: "10px" }}
             style={{ paddingRight: "0" }}
           >
-            <Button
+            {user?.sns?.github && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<GitHubIcon />}
               href={user?.sns?.github}
               target="_blank"
-            />
-            <Button
+            />)}
+            {user?.sns?.instagram && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<InstagramIcon />}
               href={user?.sns?.instagram}
               target="_blank"
-            />
-            <Button
+            />)}
+            {user?.sns?.blog && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<WysiwygIcon />}
               href={user?.sns?.blog}
               target="_blank"
-            />
+            />)}
           </Container>
           <Container sx={{ paddingBottom: "0" }}>
             {isEditable && (
               <Button
                 onClick={() => setIsEditing(true)}
                 startIcon={<EditIcon />}
-                style={{ color: "#C7A27C" }}
+                sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "#C7A27C",
+                }}
               >
                 {" "}
                 편집
