@@ -20,17 +20,6 @@ function getParameter(...args) {
   };
 }
 
-function makeResponseBody(content) {
-  return (req, res, next) => {
-    req.body = {
-      success: true,
-      [content]: req[content]
-    };
-
-    next();
-  };
-}
-
 function checkRequestBody(...args) {
   return (req, res, next) => {
     req.toPost = fieldChecking(req.body, ...args);
@@ -39,4 +28,4 @@ function checkRequestBody(...args) {
   }
 }
 
-export { isBodyEmpty, getParameter, makeResponseBody, checkRequestBody }
+export { isBodyEmpty, getParameter, checkRequestBody }

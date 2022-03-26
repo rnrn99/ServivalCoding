@@ -1,5 +1,3 @@
-//기술스택 입력 수정 폼
-
 import React, { useState } from "react";
 import { Box, Stack, Button } from "@mui/material";
 import PropTypes from "prop-types";
@@ -7,14 +5,14 @@ import PropTypes from "prop-types";
 import TagsInput from "./TagsInput";
 
 const TechForm = ({ techs, checkAddComplete }) => {
-  //const [title, setTitle] = useState("Languages");
-  //const [description, setDescription] = useState("");
+  //string >array
   const [favorite, setFavorite] = useState(
     techs?.favorite && [techs?.favorite]
-  ); //string >array
+  );
   const [confident, setConfident] = useState(
     techs?.confident && [techs?.confident]
-  ); //string >array
+  );
+
   const [languages, setLanguages] = useState(techs?.languages?.list);
   const [frameworks, setFrameworks] = useState(techs?.frameworks?.list);
   const [tools, setTools] = useState(techs?.tools?.list);
@@ -64,7 +62,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           variant="outlined"
           id="languages"
           name="languages"
-          placeholder="주로 사용하는 언어를 태깅해보세요."
+          placeholder="주로 사용하는 언어를 태깅해보세요. 최대 3개"
           label="Languages"
           limit={3}
           tags={languages}
@@ -76,7 +74,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           variant="outlined"
           id="frameworks"
           name="frameworks"
-          placeholder="주로 사용하는 프레임웍을 태깅해보세요."
+          placeholder="주로 사용하는 프레임웍을 태깅해보세요. 최대 3개."
           label="Frameworks"
           limit={3}
           tags={frameworks}
@@ -88,7 +86,7 @@ const TechForm = ({ techs, checkAddComplete }) => {
           variant="outlined"
           id="tools"
           name="tools"
-          placeholder="주로 사용하는 개발 도구를 태깅해보세요."
+          placeholder="주로 사용하는 개발 도구를 태깅해보세요. 최대 3개."
           label="tools"
           limit={3}
           tags={tools}
@@ -99,10 +97,11 @@ const TechForm = ({ techs, checkAddComplete }) => {
           variant="outlined"
           id="favorite"
           name="favorite"
-          placeholder="가장 좋아하는 스킬을 입력해주세요."
+          placeholder="가장 좋아하는 스킬을 입력해주세요. (필수항목)"
           label="my favorite"
           limit={1}
           tags={favorite}
+          isRequired={true}
         />
         <TagsInput
           selectedTags={handleSelecetedConfident}
@@ -110,10 +109,11 @@ const TechForm = ({ techs, checkAddComplete }) => {
           variant="outlined"
           id="confident"
           name="confident"
-          placeholder="가장 자신있는 스킬을 입력해주세요."
+          placeholder="가장 자신있는 스킬을 입력해주세요. (필수항목)"
           label="self-confident"
           limit={1}
           tags={confident}
+          isRequired={true}
         />
 
         <Stack
@@ -142,8 +142,6 @@ const TechForm = ({ techs, checkAddComplete }) => {
 export default TechForm;
 TechForm.defaultProps = {
   techs: {
-    // favorite: "",
-    // confident: "",
     languages: {
       list: [],
     },

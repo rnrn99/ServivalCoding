@@ -1,32 +1,24 @@
-import is from "@sindresorhus/is";
 import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { TechService } from "../services/techService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
+import * as commonMiddleware from "../middlewares/commonMiddleware.js";
+import { checkUserId } from "../middlewares/checkMiddleware.js";
 
 const techRouter = Router();
 
-techRouter.post("/techs", loginRequired, async function (req, res, next) {
+techRouter.post(
+  "/techs",
+  loginRequired,
+  commonMiddleware.isBodyEmpty,
+  commonMiddleware.checkRequestBody("confident", "favorite", "languages", "frameworks", "tools"),
+  async function (req, res, next) {
   // 새로운 기술 스택을 등록
   // 로그인 필요
   try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        "headers의 Content-Type을 application/json으로 설정해주세요"
-      );
-    }
-
     // req (request) 에서 데이터 가져오기
     const userId = req.currentUserId; //로그인한 user의 id
-    const toPost = fieldChecking(
-      req.body,
-      "confident",
-      "favorite",
-      "languages",
-      "frameworks",
-      "tools"
-    );
 
     // user 정보를 db에서 가져오기
     const user = await UserAuthService.getUserInfo({ userId: userId });
@@ -34,7 +26,7 @@ techRouter.post("/techs", loginRequired, async function (req, res, next) {
     // 에러가 나지 않았다면 위 데이터들을 프로젝트 db에 추가하기
     const newTech = await TechService.addTech({
       user,
-      ...toPost,
+      ...req.toPost,
     });
 
     const filteredUser = fieldChecking(user["_doc"], "id");
@@ -55,8 +47,10 @@ techRouter.post("/techs", loginRequired, async function (req, res, next) {
 techRouter.get(
   "/techs/:userId",
   loginRequired,
+  commonMiddleware.getParameter("id"),
+  checkUserId,
   async function (req, res, next) {
-    const { userId } = req.params;
+    const userId = req.id;
 
     try {
       // tech id를 이용하여 db에서 기술 스택 검색
@@ -75,19 +69,16 @@ techRouter.get(
   }
 );
 
-techRouter.put("/techs", loginRequired, async function (req, res, next) {
+techRouter.put(
+  "/techs",
+  loginRequired,
+  commonMiddleware.checkRequestBody("confident", "favorite", "languages", "frameworks", "tools"),
+  async function (req, res, next) {
   const userId = req.currentUserId;
 
   try {
     // 업데이트할 정보를 묶어서
-    const toUpdate = fieldChecking(
-      req.body,
-      "confident",
-      "favorite",
-      "languages",
-      "frameworks",
-      "tools"
-    );
+    const toUpdate = req.toPost
 
     // 기술 스택 정보를 업데이트
     const updatedTech = await TechService.setTech({ userId, toUpdate });
@@ -105,7 +96,10 @@ techRouter.put("/techs", loginRequired, async function (req, res, next) {
   }
 });
 
-techRouter.delete("/techs", loginRequired, async function (req, res, next) {
+techRouter.delete(
+  "/techs",
+  loginRequired,
+  async function (req, res, next) {
   const userId = req.currentUserId;
 
   try {

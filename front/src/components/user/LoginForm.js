@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Api from "../../api";
 import { DispatchContext } from "../../App";
-
 import {
   Avatar,
   Button,
@@ -20,7 +19,6 @@ import {
   Alert,
 } from "@mui/material";
 
-//import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import AlertError from "../utils/AlertError";
 
 const LoginForm = () => {
@@ -32,23 +30,38 @@ const LoginForm = () => {
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
   const [isOpenDialog, setIsOpenDialog] = useState(false); // 비밀번호 찾기 창 띄우기 여부를 저장합니다.
   const [sendMailSucc, setSendMailSucc] = useState(false); // 메일 전송 성공 여부를 저장합니다.
+  const [isEmailValid, setIsEmailValid] = useState(false); // 이메일이 유효한 값인지 boolean 값으로 저장합니다.
+  const [isPasswordValid, setIsPasswordValid] = useState(false); // 비밀번호가 유효한 값인지 boolean 값으로 저장합니다.
+  const [isFormValid, setIsFormVaild] = useState(false); // 폼이 유효한 값인지 boolean 값으로 저장합니다.
 
-  //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
+  // 이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
-    return email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      );
+    const reg_email =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return reg_email.test(email.toLowerCase());
   };
 
-  //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
-  const isEmailValid = validateEmail(email);
-  // 비밀번호가 4글자 이상인지 여부를 확인함.
-  const isPasswordValid = password.length >= 4;
-  //
-  // 이메일과 비밀번호 조건이 동시에 만족되는지 확인함.
-  const isFormValid = isEmailValid && isPasswordValid;
+  // 위 2개 조건이 모두 동시에 만족되는지 여부를 확인함.
+  useEffect(() => {
+    setIsFormVaild(isEmailValid && isPasswordValid);
+  }, [isEmailValid, isPasswordValid]);
+
+  // 폼이 모두 유효한 값이면 에러메세지 없앰
+  useEffect(() => {
+    if (isFormValid) {
+      setErrorMessage(null);
+    }
+  }, [isFormValid]);
+
+  // 이메일 유효한지 확인
+  useEffect(() => {
+    setIsEmailValid(validateEmail(email));
+  }, [email]);
+
+  // 비밀번호 유효한지 확인
+  useEffect(() => {
+    setIsPasswordValid(password.length >= 4);
+  }, [password]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -122,6 +135,23 @@ const LoginForm = () => {
     }
   };
 
+  const emailInputChecker = () => {
+    if (!isEmailValid) {
+      // 에러 메세지 출력
+      setErrorMessage("이메일 형식이 올바르지 않습니다.");
+    } else {
+      setErrorMessage(null);
+    }
+  };
+  const passwordInputChecker = () => {
+    if (!isPasswordValid) {
+      // 에러 메세지 출력
+      setErrorMessage("비밀번호는 4글자 이상입니다.");
+    } else {
+      setErrorMessage(null);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Card
@@ -160,6 +190,7 @@ const LoginForm = () => {
           autoComplete="email"
           required
           value={email}
+          onBlur={emailInputChecker}
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -172,6 +203,7 @@ const LoginForm = () => {
           autoComplete="current-password"
           required
           value={password}
+          onBlur={passwordInputChecker}
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -183,6 +215,7 @@ const LoginForm = () => {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 1 }}
+          disabled={!isFormValid}
           onClick={handleSubmit}
         >
           로그인

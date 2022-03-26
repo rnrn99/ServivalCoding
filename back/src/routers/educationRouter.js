@@ -8,19 +8,22 @@ import {
   checkUserId,
   checkEducationCreated,
 } from "../middlewares/checkMiddleware.js";
+import * as commonMiddleware from "../middlewares/commonMiddleware.js";
 
 const educationRouter = Router();
 
 educationRouter.post(
   "/educations",
   loginRequired,
+  commonMiddleware.isBodyEmpty,
   checkEducationCreated,
+  commonMiddleware.checkRequestBody("school", "major", "position"),
   async function (req, res, next) {
     try {
       const userId = req.currentUserId;
       const newEducation = await EducationService.addEducation({
         userId,
-        ...req.body,
+        ...req.toPost,
       });
 
       const body = {
@@ -42,10 +45,11 @@ educationRouter.post(
 educationRouter.get(
   "/educations/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async function (req, res, next) {
     try {
-      const id = req.params.id;
+      const id = req.id;
       const education = await EducationService.getEducation({ id });
 
       const body = {
@@ -63,10 +67,11 @@ educationRouter.get(
 educationRouter.get(
   "/education-lists/:userId",
   loginRequired,
+  commonMiddleware.getParameter("userId"),
   checkUserId,
   async function (req, res, next) {
     try {
-      const { userId } = req.params;
+      const userId = req.userId;
 
       // author 정보를 db에서 가져오기
       const author = await UserAuthService.getUserInfo({ userId });
@@ -88,14 +93,15 @@ educationRouter.get(
 educationRouter.put(
   "/educations/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   checkUpdate,
+  commonMiddleware.checkRequestBody("school", "major", "position"),
   async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const toUpdate = {
-        ...req.body,
-      };
+      const id = req.id;
+      const toUpdate = req.toPost;
+
       const education = await EducationService.updateEducation({
         id,
         toUpdate,
@@ -116,10 +122,11 @@ educationRouter.put(
 educationRouter.delete(
   "/educations/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async (req, res, next) => {
     try {
-      const { id } = req.params;
+      const id = req.id;
       const education = await EducationService.deleteEducation({ id });
 
       const body = {

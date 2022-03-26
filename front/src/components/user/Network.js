@@ -88,6 +88,8 @@ function Network() {
           }
           value={searchWord}
           onChange={(e) => inputChangeHandler(e)}
+          placeholder="이름, 기술 태그를 입력하세요"
+          style={{ width: "30%" }}
         />
       </Box>
       <Grid container spacing={4}>
