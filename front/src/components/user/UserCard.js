@@ -108,7 +108,7 @@ function UserCard({
             <Typography
               sx={{
                 fontFamily: "Elice Digital Baeum",
-                fontSize: "27px",
+                fontSize: "23px",
                 fontWeight: 500,
               }}
             >
@@ -143,27 +143,27 @@ function UserCard({
             sx={{ marginBottom: "10px" }}
             style={{ paddingRight: "0" }}
           >
-            <Button
+            {user?.sns?.github && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<GitHubIcon />}
               href={user?.sns?.github}
               target="_blank"
-            />
-            <Button
+            />)}
+            {user?.sns?.instagram && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<InstagramIcon />}
               href={user?.sns?.instagram}
               target="_blank"
-            />
-            <Button
+            />)}
+            {user?.sns?.blog && (<Button
               style={{ color: "black", minWidth: "0", padding: "0" }}
               size="large"
               startIcon={<WysiwygIcon />}
               href={user?.sns?.blog}
               target="_blank"
-            />
+            />)}
           </Container>
           <Container sx={{ paddingBottom: "0" }}>
             {isEditable && (
