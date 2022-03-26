@@ -1,6 +1,3 @@
-//기술스택 모듈 전체를 매니징
-//서버와 통신은 Techs에서만 작업.
-
 import React, { useState, useEffect } from "react";
 import * as Api from "../../api";
 
@@ -23,16 +20,23 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
+
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import QuestionPopover from "../utils/QuestionPopover";
 
 const Techs = ({ portfolioOwnerId, isEditable }) => {
-  const [techs, setTechs] = useState([]);
+  const [techs, setTechs] = useState({});
   const [isAdd, setIsAdd] = useState(false);
   const [isBlank, setIsBlank] = useState();
 
   //accordion expand check
   const [expanded, setExpanded] = useState(false);
+
+  //기술스택입력창 팝업 메시지
+  const techPopMessage =
+    "태그는 문자 입력 후 엔터를 치면 자동생성됩니다. 자신있는 기술과 좋아하는 기술은 필수입력 항목입니다.";
+
   //accordion expand change handle
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -55,7 +59,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       .then((res) => {
         setTechs(res.data.tech);
       })
-      .catch((err) => setTechs([]));
+      .catch((err) => setTechs({}));
   }, [portfolioOwnerId]);
 
   useEffect(() => {
@@ -185,7 +189,31 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
           </Box>
 
           <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
-            <DialogTitle>기술스택 입력</DialogTitle>
+            <DialogTitle>
+              <Grid
+                container
+                spacing={1}
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="center"
+              >
+                <Grid item xs>
+                  <Typography
+                    sx={{
+                      fontFamily: "Elice Digital Baeum",
+                      fontSize: "22px",
+                      color: "#616161",
+                      fontWeight: 400,
+                    }}
+                  >
+                    기술스택 입력
+                  </Typography>
+                </Grid>
+                <Grid item justifyContent="flex-start">
+                  <QuestionPopover message={techPopMessage} />
+                </Grid>
+              </Grid>
+            </DialogTitle>
             <DialogContent>
               <TechForm checkAddComplete={checkAddComplete} techs={techs} />
             </DialogContent>
