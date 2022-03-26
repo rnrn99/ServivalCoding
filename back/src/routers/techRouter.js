@@ -17,7 +17,7 @@ techRouter.post(
   // 새로운 기술 스택을 등록
   // 로그인 필요
   try {
-    // req (request) 에서 데이터 가져오기
+    // req (request) 에서 데이터 가져오기g
     const userId = req.currentUserId; //로그인한 user의 id
 
     // user 정보를 db에서 가져오기
