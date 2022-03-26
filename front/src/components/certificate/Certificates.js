@@ -84,7 +84,12 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>자격증</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>자격증</Typography>
         </AccordionSummary>
         <AccordionDetails>{setCertificateList()}</AccordionDetails>
       </Accordion>

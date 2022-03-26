@@ -55,12 +55,13 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
         spacing={2}
         sx={{ mt: 2, justifyContent: "center" }}
       >
-        <Button variant="contained" type="submit">
+        <Button type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple >
           확인
         </Button>{" "}
         <Button
           variant="outlined"
           type="reset"
+          sx={ButtonStyle.cancel}
           onClick={() => setIsEditing(false)}
         >
           취소
@@ -71,3 +72,19 @@ function AwardEditForm({ award, setIsEditing, setAwardLists }) {
 }
 
 export default AwardEditForm;
+
+const ButtonStyle = {
+  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
+':hover': {
+  bgcolor: '#b1b068',
+  color: 'white',
+}
+},
+  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
+':hover': {
+  bgcolor: '#bd3421',
+  color: 'white',
+  border: '0px'
+}
+},
+}

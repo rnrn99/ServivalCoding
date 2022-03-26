@@ -35,7 +35,12 @@ function Awards({ portfolioOwnerId, isEditable }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>수상이력</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>수상이력</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {awardLists.map((award) => (
