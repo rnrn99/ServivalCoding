@@ -30,10 +30,14 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
 
   const deleteHandler = async (isDeleting) => {
     if (isDeleting) {
-      await Api.delete("careers", career.id);
+      try {
+        await Api.delete("careers", career.id);
 
-      const deleteData = await Api.get("career-lists", userId);
-      setCareerList(deleteData.data.careers);
+        const deleteData = await Api.get("career-lists", userId);
+        setCareerList(deleteData.data.careers);
+      } catch (err) {
+        setCareerList([]);
+      }
     }
   };
 
