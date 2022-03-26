@@ -1,5 +1,5 @@
 import { UserModel } from "../schemas/user.js";
-
+import { TechModel } from "../schemas/tech.js";
 class User {
   static async create({ newUser }) {
     const createdNewUser = await UserModel.create(newUser);
@@ -39,6 +39,17 @@ class User {
       { _id: false, __v: false }
     );
     return user;
+  }
+
+  static async findByTech({ name }) {
+    const tech = await TechModel.find({
+      $or: [
+        { "languages.list": { $regex: name } },
+        { "frameworks.list": { $regex: name } },
+        { "tools.list": { $regex: name } },
+      ],
+    }).populate("user");
+    return tech;
   }
 
   static async updateByProfile({ userId, profile }) {

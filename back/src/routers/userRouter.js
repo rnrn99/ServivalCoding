@@ -1,6 +1,7 @@
 import is from "@sindresorhus/is";
 import dotenv from "dotenv";
 import { Router } from "express";
+import { body, param } from "express-validator";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
@@ -9,7 +10,11 @@ import {
   checkUserCreated,
   checkUpdate,
   checkUserLogin,
+  validate,
+  paramsValidate,
 } from "../middlewares/checkMiddleware.js";
+import { transPort } from "../utils/mailer.js";
+
 dotenv.config();
 
 const userAuthRouter = Router();
@@ -226,11 +231,19 @@ userAuthRouter.get(
 userAuthRouter.get(
   "/users/search/:name",
   loginRequired,
+  [
+    param("name")
+      .exists()
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage("검색어를 한 글자 이상 입력해주세요."),
+    paramsValidate,
+  ],
   async (req, res, next) => {
     try {
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
-
+      console.log(`빈 값: ${user}`);
       const result = Object.values(user)
         .map((one) =>
           removeFields(
@@ -269,7 +282,7 @@ userAuthRouter.post(
       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
       if (liked === req.currentUserId) {
         // 에러 발생
-        const error = new Error("잘못된 접근입니다.");
+        const error = new Error("본인은 불가합니다.");
         error.status = 401;
         throw error;
       }
@@ -339,6 +352,72 @@ userAuthRouter.delete("/users", loginRequired, async (req, res, next) => {
     next(error);
   }
 });
+
+userAuthRouter.post(
+  "/users/password",
+  [
+    body("email")
+      .exists()
+      .withMessage("이메일을 입력해주세요.")
+      .bail()
+      .isEmail()
+      .withMessage("올바른 이메일을 입력해주세요."),
+    validate,
+  ],
+  async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await UserAuthService.getEmail({ email });
+      const userId = user.id;
+      const newPassword = Math.random().toString(36).slice(2);
+      const mailOptions = {
+        from: process.env.GOOGLE_MAIL,
+        to: user.email,
+        subject: "Our Portfolio 비밀번호 변경",
+        text: newPassword,
+        html: `<div
+        style='
+        text-align: center; 
+        width: 50%; 
+        height: 60%;
+        margin: 5%;
+        padding: 20px;
+        box-shadow: 1px 1px 3px 0px #999;
+        '>
+        <h3>${user.name} 님, 안녕하세요.</h3> <br/> 
+        <h3>변경 된 비밀번호는 아래와 같습니다.</h3><br/>
+        <h4 style='color: red;'> 새 비밀번호 : ${newPassword}</h4> <br/><br/><br/><br/></div>`,
+      };
+      transPort.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          const error = new Error("이메일 전송에 실패했습니다.");
+          error.status = 404;
+          throw error;
+        }
+      });
+      const toUpdate = {
+        password: newPassword,
+      };
+
+      const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
+      const result = removeFields(
+        updatedUser["_doc"],
+        "password",
+        "like",
+        "_id",
+        "__v"
+      );
+      const body = {
+        success: true,
+        user: result,
+      };
+
+      res.status(201).json(body);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 function filteredByPermissionList(document) {
   const { permission, ...fields } = document;

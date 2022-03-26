@@ -28,17 +28,10 @@ export default function AlertDialog({ checkDeleteComplete }) {
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"삭제 확인"}</DialogTitle>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>삭제 확인</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            해당 항목을 삭제하시겠습니까?
-          </DialogContentText>
+          <DialogContentText>정말 삭제하시겠습니까?</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClickCancel}>취소</Button>

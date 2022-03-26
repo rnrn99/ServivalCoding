@@ -40,10 +40,10 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const [isDeleteAccount, setIsDeleteAccount] = useState(false); // 회원 탈퇴 버튼 클릭 여부를 저장합니다.
 
   const [snsURL, setSnsURL] = useState({
-    github: '',
-    instagram: '',
-    blog: '',
-  })
+    github: "",
+    instagram: "",
+    blog: "",
+  });
 
   const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
 
@@ -69,7 +69,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           blog: result.sns.blog,
         };
         return newSNS;
-      })
+      });
     });
   }, []); // 현재의 form 속의 data를 가져오며, email/description 여부도 불러온다
 
@@ -81,7 +81,11 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       name: form.name,
       email: form.email,
       description: form.description,
-      sns: {github: snsURL.github, instagram: snsURL.instagram, blog: snsURL.blog},
+      sns: {
+        github: snsURL.github,
+        instagram: snsURL.instagram,
+        blog: snsURL.blog,
+      },
       permission: { email: emailPermission, description: descPermission },
       profile: userImage,
     });
@@ -105,6 +109,8 @@ function UserEditForm({ user, setIsEditing, setUser }) {
       dispatch({ type: "LOGOUT" });
       // 로그인 화면으로 돌아갑니다.
       navigate("/login");
+    } else {
+      setIsDeleteAccount(false);
     }
   };
 
@@ -121,7 +127,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const avatar = (
     <Avatar
       component="span"
-      alt="Remy Sharp"
+      alt="유저 사진"
       src={userImage === defaultImage ? user.profile : imageBaseUrl + userImage}
       sx={{ ...shapeStyles, ...shapeCircleStyles }}
     />
@@ -195,15 +201,32 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           />
         </Stack>
         <Stack style={{ display: "inline" }}>
-          <TextField label="git URL" sx={{ width: "320px" }} value={snsURL.github} onChange={(e)=> setSnsURL({...snsURL, github: e.target.value})}/>
+          <TextField
+            label="git URL"
+            sx={{ width: "320px" }}
+            value={snsURL.github}
+            onChange={(e) => setSnsURL({ ...snsURL, github: e.target.value })}
+          />
           <GitHubIcon sx={iconStyles} />
         </Stack>
         <Stack style={{ display: "inline" }}>
-          <TextField label="instar URL" sx={{ width: "320px" }} value={snsURL.instagram} onChange={(e)=> setSnsURL({...snsURL, instagram: e.target.value})}/>
+          <TextField
+            label="instar URL"
+            sx={{ width: "320px" }}
+            value={snsURL.instagram}
+            onChange={(e) =>
+              setSnsURL({ ...snsURL, instagram: e.target.value })
+            }
+          />
           <InstagramIcon sx={iconStyles} />
         </Stack>
         <Stack style={{ display: "inline" }}>
-          <TextField label="blog URL" sx={{ width: "320px" }} value={snsURL.blog} onChange={(e)=> setSnsURL({...snsURL, blog: e.target.value})}/>
+          <TextField
+            label="blog URL"
+            sx={{ width: "320px" }}
+            value={snsURL.blog}
+            onChange={(e) => setSnsURL({ ...snsURL, blog: e.target.value })}
+          />
           <WysiwygIcon sx={iconStyles} />
         </Stack>
       </Stack>

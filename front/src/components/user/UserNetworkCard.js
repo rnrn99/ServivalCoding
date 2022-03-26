@@ -26,7 +26,8 @@ function UserNetworkCard({ user }) {
               ? imageBaseUrl + user.profile
               : user.profile)
           }
-          alt="random"
+          onError={(e) => (e.target.src = "/logo.png")}
+          alt={user.name}
         />
         <CardContent sx={{ flexGrow: 1 }}>
           <Typography gutterBottom variant="h5" component="h2">
