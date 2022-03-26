@@ -127,7 +127,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
   const avatar = (
     <Avatar
       component="span"
-      alt="Remy Sharp"
+      alt="유저 사진"
       src={userImage === defaultImage ? user.profile : imageBaseUrl + userImage}
       sx={{ ...shapeStyles, ...shapeCircleStyles }}
     />
