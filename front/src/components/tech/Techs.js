@@ -1,3 +1,6 @@
+//기술스택 모듈 전체를 매니징
+//서버와 통신은 Techs에서만 작업.
+
 import React, { useState, useEffect } from "react";
 import * as Api from "../../api";
 
@@ -20,7 +23,6 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
-
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import QuestionPopover from "../utils/QuestionPopover";
@@ -32,7 +34,6 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
 
   //accordion expand check
   const [expanded, setExpanded] = useState(false);
-
   //기술스택입력창 팝업 메시지
   const techPopMessage =
     "태그는 문자 입력 후 엔터를 치면 자동생성됩니다. 자신있는 기술과 좋아하는 기술은 필수입력 항목입니다.";
@@ -46,7 +47,9 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
     if (
       !techs?.languages?.list &&
       !techs?.frameworks?.list &&
-      !techs?.tools?.list
+      !techs?.tools?.list &&
+      !techs?.confident &&
+      !techs?.favorite
     ) {
       setIsBlank(true);
     } else {
@@ -74,9 +77,6 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
             setTechs(res.data.tech)
           );
         } else {
-          console.log("테크 수정>>>>", result);
-          console.log("테크 수정>>>>favor>>>", result.favorite);
-          console.log("테크 수정>>>>conf>>>", result.confident);
           await Api.put("techs", result).then((res) => setTechs(res.data.tech));
         }
 
