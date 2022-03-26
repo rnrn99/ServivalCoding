@@ -38,6 +38,7 @@ function App() {
     } catch {
       console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
     }
+
     // fetchCurrentUser 과정이 끝났으므로, isFetchCompleted 상태를 true로 바꿔줌
     setIsFetchCompleted(true);
   };

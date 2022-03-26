@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import { Card, Row, Col, Button } from "react-bootstrap";
-
 import * as Api from "../../api";
 import Certificate from "./Certificate";
 import CertificateAddForm from "./CertificateAddForm";
@@ -75,7 +73,6 @@ const Certificates = ({ portfolioOwnerId, isEditable }) => {
 
       setCerts(res.data.certificates);
     } catch (e) {
-      console.log(e.message);
       setCerts([]);
     }
 
