@@ -2,7 +2,7 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "bbbaa@babb.com",
+  "email": "chcc@ccc.com",
   "name": "체셔캣",
   "password": "asdf1234"
 }
@@ -12,14 +12,14 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "bbb@bbb.com",
+  "email": "ccc@ccc.com",
   "password": "asdf1234"
 }
 
 ###
 POST http://localhost:5001/projects
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxNjkxNTd9.ouNpC9kcq-halckw6H4MHZIyyHDaBAa37Jbwtn-Gz_M
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "프로젝트1",
@@ -43,7 +43,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/certificates
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "자격증1",
@@ -143,19 +143,15 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
   "toDate": "2020-07-04"
 }
 ###
-PUT http://localhost:5001/users
+PUT http://localhost:5001/certificates/9ad9b250-cde3-4a36-8460-8420e8e7c7b8
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI3ZjliMTUwYi00YmVkLTRhYzQtYThiNy0zZjUxZjAzNTAzYWUiLCJpYXQiOjE2NDgxODY2Nzh9.rnSHngTQlXItVB0l9l7WwbTlJibZUkf9tAH-oa2yiI8
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
-  "sns": {
-    "github": "깃헙주소",
-    "instagram": "인스타그램 주소",
-    "blog": "블로그 주소"
-  }
+  "title": "이름1"
 }
 
 ###
-GET http://localhost:5001/users/7f9b150b-4bed-4ac4-a8b7-3f51f03503ae
+GET http://localhost:5001/certificate-lists/0fd7c766-76a9-4e04-aa58-bbf4dea86a1c
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMjVlN2NhYS03MTY3LTQ5ODItOWJkMS0xMGMxYTIyMTI2YTgiLCJpYXQiOjE2NDgxODMwNDd9.otONZ9zMxB4IhVEjW6iRj-cqqt83u9w8kqTB17Vlr8I
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY

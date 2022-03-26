@@ -4,7 +4,6 @@ import { body, param } from "express-validator";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { UserAuthService } from "../services/userService.js";
 import { fieldChecking, removeFields } from "../utils/utils.js";
-import * as userMiddleware from "../middlewares/userMiddleware.js";
 import * as commonMiddleware from "../middlewares/commonMiddleware.js";
 import {
   checkId,
@@ -26,8 +25,6 @@ userAuthRouter.post(
   commonMiddleware.checkRequestBody("name", "email", "password"),
   async function (req, res, next) {
     try {
-      const userId = req.currentUserId; //로그인한 user의 id
-
       const newUser = await UserAuthService.addUser({
         ...req.toPost
       });
@@ -73,7 +70,10 @@ userAuthRouter.post(
   }
 );
 
-userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
+userAuthRouter.get(
+  "/users",
+  loginRequired,
+  async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
     const users = await UserAuthService.getUsers();
@@ -168,10 +168,11 @@ userAuthRouter.put(
 userAuthRouter.get(
   "/users/:id",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async function (req, res, next) {
     try {
-      const userId = req.params.id;
+      const userId = req.id;
       const userInfo = await UserAuthService.getUserInfo({ userId });
 
       // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
@@ -212,6 +213,7 @@ userAuthRouter.get(
 userAuthRouter.get(
   "/users/search/:name",
   loginRequired,
+  commonMiddleware.getParameter("name"),
   [
     param("name")
       .exists()
@@ -222,7 +224,7 @@ userAuthRouter.get(
   ],
   async (req, res, next) => {
     try {
-      const { name } = req.params;
+      const name = req.name;
       const user = await UserAuthService.searchUser({ name });
       console.log(`빈 값: ${user}`);
       const result = Object.values(user)
@@ -254,11 +256,12 @@ userAuthRouter.get(
 userAuthRouter.post(
   "/users/:id/likes",
   loginRequired,
+  commonMiddleware.getParameter("id"),
   checkId,
   async function (req, res, next) {
     try {
       const current = req.currentUserId;
-      const liked = req.params.id;
+      const liked = req.id;
 
       // 현재 로그인한 유저와 좋아요를 해줄 유저가 같다면
       if (liked === req.currentUserId) {
