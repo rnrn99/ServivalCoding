@@ -1,12 +1,5 @@
 //기술 명에 따른 아이콘 url 파싱
 const techNameToURL = (techName) => {
-  //소문자 변환
-  //공백제거.
-  //objective-c >> objectivec
-  //csharp 예외처리
-  //c# > csharp 등등 계속 업데이트.
-  //
-
   if (!techName) return "";
   else {
     let newName = techName.toLowerCase().replace(/(\s*)/g, "");

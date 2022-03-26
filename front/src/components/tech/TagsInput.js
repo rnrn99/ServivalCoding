@@ -30,7 +30,6 @@ export default function TagsInput({ ...props }) {
   function readOnlyCheck() {
     if (selectedItem.length >= limit) setReadOnly(true);
     else setReadOnly(false);
-    console.log("readOnlyCheck", limit, selectedItem.length, readOnly);
   }
   function handleKeyDown(event) {
     if (event.key === "Enter") {
@@ -38,7 +37,7 @@ export default function TagsInput({ ...props }) {
 
       const newSelectedItem = [...selectedItem];
       const duplicatedValues = newSelectedItem.indexOf(
-        event.target.value.trim()
+        event.target.value.trim(),
       );
 
       if (duplicatedValues !== -1) {

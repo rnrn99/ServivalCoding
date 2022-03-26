@@ -1,6 +1,3 @@
-//기술스택 모듈 전체를 매니징
-//서버와 통신은 Techs에서만 작업.
-
 import React, { useState, useEffect } from "react";
 import * as Api from "../../api";
 
@@ -74,7 +71,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
       if (result) {
         if (isBlank) {
           await Api.post("techs", result).then((res) =>
-            setTechs(res.data.tech)
+            setTechs(res.data.tech),
           );
         } else {
           await Api.put("techs", result).then((res) => setTechs(res.data.tech));
