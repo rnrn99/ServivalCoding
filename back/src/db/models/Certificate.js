@@ -7,51 +7,39 @@ class Certificate {
   }
 
   static async findByTitle({ title }) {
-    const certificate = await CertificateModel
-      .findOne({ title }, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const certificate = await CertificateModel.findOne({ title }).populate('user');
     return certificate;
   }
 
   static async findById({ id }) {
-    const certificate = await CertificateModel
-      .findOne({ id }, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const certificate = await CertificateModel.findOne({ id }).populate('user');
     return certificate;
   }
 
   static async findByUser({ user }) {
-    const certificates = await CertificateModel
-      .find({ user }, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const certificates = await CertificateModel.find({ user }).populate('user');
     return certificates;
   }
 
   static async find(filter) {
-    const certificates = await CertificateModel
-      .find(filter, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const certificates = await CertificateModel.find(filter).populate('user');
     return certificates;
   }
 
   static async update({ id, fieldToUpdate }) {
     const filter = { id: id };
-    const option = { returnOriginal: false, projection: { _id: false, __v: false } };
+    const option = { returnOriginal: false };
 
     const updatedCertificate = await CertificateModel.findOneAndUpdate(
       filter,
       { "$set": fieldToUpdate },
       option
-    ).populate('user', 'id -_id');
+    );
     return updatedCertificate;
   }
 
   static async delete({ id }) {
     await CertificateModel.deleteOne({ id });
-  }
-
-  static async deleteAll({ user }) {
-    await CertificateModel.deleteMany({ user });
   }
 }
 

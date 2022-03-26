@@ -12,7 +12,6 @@ const AwardSchema = new Schema({
   title: {
     type: String,
     required: true,
-    minlength: 1,
   },
   description: String,
   author: {

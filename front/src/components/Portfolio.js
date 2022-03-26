@@ -4,15 +4,12 @@ import { Container, Grid } from "@mui/material";
 
 import { UserStateContext } from "../App";
 import * as Api from "../api";
-
 import User from "./user/User";
-import Loading from "./Loading";
-import Techs from "./tech/Techs";
+
 import Educations from "./education/Educations";
 import Awards from "./award/Awards";
 import Projects from "./project/Projects";
 import Certificates from "./certificate/Certificates";
-import Careers from "./career/Careers";
 
 function Portfolio() {
   const navigate = useNavigate();
@@ -28,7 +25,7 @@ function Portfolio() {
     // 유저 id를 가지고 "/users/유저id" 엔드포인트로 요청해 사용자 정보를 불러옴.
     const res = await Api.get("users", ownerId);
     // 사용자 정보는 response의 data임.
-    const ownerData = res.data.user;
+    const ownerData = res.data;
     // portfolioOwner을 해당 사용자 정보로 세팅함.
     setPortfolioOwner(ownerData);
     // fetchPorfolioOwner 과정이 끝났으므로, isFetchCompleted를 true로 바꿈.
@@ -56,28 +53,20 @@ function Portfolio() {
   }, [params, userState, navigate]);
 
   if (!isFetchCompleted) {
-    return <Loading />;
+    return "loading...";
   }
 
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item md={3} xs={12}>
+        <Grid item xs={3}>
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
-          <Careers
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
         </Grid>
-        <Grid item md={9} xs={12}>
-          <Techs
-            portfolioOwnerId={portfolioOwner.id}
-            isEditable={portfolioOwner.id === userState.user?.id}
-          />
-          <Projects
+        <Grid item xs={9}>
+          <Educations
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
@@ -85,7 +74,7 @@ function Portfolio() {
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />
-          <Educations
+          <Projects
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
           />

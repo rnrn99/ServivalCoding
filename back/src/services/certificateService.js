@@ -1,13 +1,29 @@
 import { Certificate } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디폴트로 index.js 로부터 import함.
 import { v4 as uuidv4 } from "uuid";
-import { updateHandler } from "../utils/utils.js";
+
+function updateHandler(toUpdate) {
+  return Object
+    .entries(toUpdate)
+    .filter(([key, value]) => !!value)
+    .reduce((result, [key, value]) => {
+      result[key] = value;
+      return result;
+    }, {});
+}
 
 class CertificateService {
   static async addCertificate({ user, title, description, date }) {
+    // if (certificate.length !== 0) {
+    //   const errorMessage = user.id === certificate.user.id
+    //     ? "같은 이름의 자격증이 이미 존재합니다."
+    //     : null;
+    //   return { errorMessage };
+    // }
     const id = uuidv4();
     const newCertificate = { id, user, title, description, date };
 
     const createdNewCertificate = await Certificate.create({ newCertificate });
+    createdNewCertificate.errorMessage = null;
 
     return createdNewCertificate;
   }
@@ -16,10 +32,9 @@ class CertificateService {
     // 유효한 id인지 확인
     const certificate = await Certificate.findById({ id });
 
-    if (certificate === null) {
-      const error = new Error("자격증 정보가 존재하지 않습니다.");
-      error.status = 404;
-      throw error;
+    if (certificate.length === 0) {
+      const errorMessage = "존재하지 않는 자격증입니다.";
+      return { errorMessage };
     }
 
     return certificate;
@@ -29,11 +44,9 @@ class CertificateService {
     const certificates = await Certificate.findByUser({ user });
 
     if (certificates.length === 0) {
-      const error = new Error("자격증 정보가 존재하지 않습니다.");
-      error.status = 404;
-      throw error;
+      const errorMessage = "자격증 목록이 존재하지 않습니다.";
+      return { errorMessage };
     }
-
     return certificates;
   }
 
@@ -43,9 +56,8 @@ class CertificateService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (certificate.length === 0) {
-      const error = new Error("자격증 정보가 존재하지 않습니다.");
-      error.status = 404;
-      throw error;
+      const errorMessage = "존재하지 않는 자격증입니다.";
+      return { errorMessage };
     }
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
@@ -60,9 +72,8 @@ class CertificateService {
     let certificate = await Certificate.findById({ id });
 
     if (certificate.length === 0) {
-      const error = new Error("자격증 정보가 존재하지 않습니다.");
-      error.status = 404;
-      throw error;
+      const errorMessage = "존재하지 않는 자격증입니다.";
+      return { errorMessage };
     }
 
     await Certificate.delete({ id });
