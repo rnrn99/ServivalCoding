@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Col, Row, Form } from "react-bootstrap";
+//import { Col, Row, Form } from "react-bootstrap";
 
 import {
   Avatar,
@@ -43,16 +43,6 @@ function RegisterForm() {
       );
   };
 
-  //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
-  //const isEmailValid = validateEmail(email);
-  // 비밀번호가 4글자 이상인지 여부를 확인함.
-  //const isPasswordValid = password.length >= 4;
-  // 비밀번호와 확인용 비밀번호가 일치하는지 여부를 확인함.
-  //const isPasswordSame = password === confirmPassword;
-  // 이름이 2글자 이상인지 여부를 확인함.
-  //const isNameValid = name.length >= 2;
-
-  // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
   useEffect(() => {
     setIsFormVaild(
       isEmailValid && isPasswordValid && isPasswordSame && isNameValid
@@ -87,8 +77,6 @@ function RegisterForm() {
   const emailInputChecker = () => {
     setIsEmailValid(validateEmail(email));
     if (!isEmailValid) {
-      //에러호출
-      console.log("email not vaild");
       setErrorMessage("이메일 형식이 올바르지 않습니다.");
     } else {
       setErrorMessage();
@@ -97,24 +85,18 @@ function RegisterForm() {
   const passwordInputChecker = () => {
     setIsPasswordValid(password.length >= 4);
     if (!isPasswordValid) {
-      //에러호출
-      console.log("password not vaild");
       setErrorMessage("비밀번호는 4글자 이상으로 설정해 주세요.");
     }
   };
   const pwdconfirmInputChecker = () => {
     setIsPasswordSame(password === confirmPassword);
     if (!isPasswordSame) {
-      //에러호출
-      console.log("password confirm not vaild");
       setErrorMessage("비밀번호가 일치하지 않습니다.");
     }
   };
   const nameInputChecker = () => {
     setIsNameValid(name.length >= 2);
     if (!isNameValid) {
-      //에러호출
-      console.log("name not vaild");
       setErrorMessage("이름은 2글자 이상으로 설정해 주세요.");
     }
   };
@@ -218,91 +200,3 @@ function RegisterForm() {
 }
 
 export default RegisterForm;
-/*  
-
-
-
-    <Container>
-      <Row className="justify-content-md-center mt-5">
-        <Col lg={8}>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="registerEmail">
-              <Form.Label>이메일 주소</Form.Label>
-              <Form.Control
-                type="email"
-                autoComplete="off"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              {!isEmailValid && (
-                <Form.Text className="text-success">
-                  이메일 형식이 올바르지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerPassword" className="mt-3">
-              <Form.Label>비밀번호</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="off"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {!isPasswordValid && (
-                <Form.Text className="text-success">
-                  비밀번호는 4글자 이상으로 설정해 주세요.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerConfirmPassword" className="mt-3">
-              <Form.Label>비밀번호 재확인</Form.Label>
-              <Form.Control
-                type="password"
-                autoComplete="off"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-              {!isPasswordSame && (
-                <Form.Text className="text-success">
-                  비밀번호가 일치하지 않습니다.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group controlId="registerName" className="mt-3">
-              <Form.Label>이름</Form.Label>
-              <Form.Control
-                type="text"
-                autoComplete="off"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              {!isNameValid && (
-                <Form.Text className="text-success">
-                  이름은 2글자 이상으로 설정해 주세요.
-                </Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="primary" type="submit" disabled={!isFormValid}>
-                  회원가입
-                </Button>
-              </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mt-3 text-center">
-              <Col sm={{ span: 20 }}>
-                <Button variant="light" onClick={() => navigate("/login")}>
-                  로그인하기
-                </Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-*/
