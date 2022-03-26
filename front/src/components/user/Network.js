@@ -65,6 +65,7 @@ function Network() {
     delayedSearchWord(e.target.value);
   };
 
+
   return (
     <Container sx={{ py: 8 }} maxWidth="md">
       <Box
@@ -72,6 +73,10 @@ function Network() {
           display: "flex",
           justifyContent: "flex-end",
           mb: 3,
+          fontFamily: "Elice Digital Baeum",
+          fontSize: "10px",
+          color: "#616161",
+          fontWeight: 500,
         }}
       >
         <Input
