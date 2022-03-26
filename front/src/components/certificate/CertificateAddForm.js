@@ -6,6 +6,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const CertificateAddForm = ({ checkAddComplete }) => {
+  console.log("CertificateAddForm 불러왔습니다.");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date());
@@ -29,8 +30,10 @@ const CertificateAddForm = ({ checkAddComplete }) => {
     // const isAccepted = accept;
 
     if (e.target.name === "cancel") {
+      console.log("추가하기 취소 버튼이 눌렸습니다.");
       checkAddComplete(null);
     } else {
+      console.log("추가하기 완료 버튼이 눌렸습니다.");
       checkAddComplete({ title, description, date: strDate });
     }
   };
@@ -67,7 +70,7 @@ const CertificateAddForm = ({ checkAddComplete }) => {
           spacing={2}
           sx={{ mt: 2, justifyContent: "center" }}
         >
-          <Button name="accept" variant="contained" type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple>
+          <Button name="accept" variant="contained" type="submit">
             확인
           </Button>{" "}
           <Button
@@ -75,7 +78,6 @@ const CertificateAddForm = ({ checkAddComplete }) => {
             type="reset"
             onClick={onSubmitHandler}
             variant="outlined"
-            sx={ButtonStyle.cancel}
           >
             취소
           </Button>{" "}
@@ -86,19 +88,3 @@ const CertificateAddForm = ({ checkAddComplete }) => {
 };
 
 export default CertificateAddForm;
-
-const ButtonStyle = {
-  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
-':hover': {
-  bgcolor: '#b1b068',
-  color: 'white',
-}
-},
-  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
-':hover': {
-  bgcolor: '#bd3421',
-  color: 'white',
-  border: '0px'
-}
-},
-}

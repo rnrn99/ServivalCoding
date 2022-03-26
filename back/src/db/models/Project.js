@@ -7,45 +7,35 @@ class Project {
   }
 
   static async findById({ id }) {
-    const project = await ProjectModel
-      .findOne({ id }, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const project = await ProjectModel.findOne({ id }).populate('user');
     return project;
   }
 
   static async findByUser({ user }) {
-    const projects = await ProjectModel
-      .find({ user }, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const projects = await ProjectModel.find({ user }).populate('user');
     return projects;
   }
 
   static async find(filter) {
-    const projects = await ProjectModel
-      .find(filter, { _id: false, __v: false })
-      .populate('user', 'id -_id');
+    const projects = await ProjectModel.find(filter).populate('user');
     return projects;
   }
 
   static async update({ id, fieldToUpdate }) {
     const filter = { id: id };
-    const option = { returnOriginal: false, projection: { _id: false, __v: false } };
+    const option = { returnOriginal: false };
 
     const updatedProject = await ProjectModel.findOneAndUpdate(
       filter,
       { "$set": fieldToUpdate },
       option
-    ).populate('user', 'id -_id');
+    );
 
     return updatedProject;
   }
 
   static async delete({ id }) {
     await ProjectModel.deleteOne({ id });
-  }
-
-  static async deleteAll({ user }) {
-    await ProjectModel.deleteMany({ user });
   }
 }
 
