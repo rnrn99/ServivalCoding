@@ -71,6 +71,7 @@ certificateRouter.put(
   loginRequired,
   commonMiddleware.getParameter("id"),
   checkId,
+  commonMiddleware.checkRequestBody("title", "description", "date"),
   async function (req, res, next) {
     try {
       const id = req.id;
@@ -92,7 +93,7 @@ certificateRouter.put(
       }
 
       // 업데이트할 정보를 묶어서
-      const toUpdate = fieldChecking(req.body, "title", "description", "date");
+      const toUpdate = req.toPost
 
       // 자격증 정보를 업데이트
       const updatedCertificate = await CertificateService.setCertificate({

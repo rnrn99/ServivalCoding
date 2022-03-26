@@ -105,7 +105,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
 ###
 POST http://localhost:5001/techs
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMzMxMzZ9.n5sykP86MHICUlt-7xX39VZPFL8MenWar-WG0zgHOKM
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjk4MDB9.vythnshxO7jT6fLpv6-3-5vZP9dMXEVTsvmG3VAIBrI
 
 {
   "confident": "리액트",
@@ -143,15 +143,15 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
   "toDate": "2020-07-04"
 }
 ###
-PUT http://localhost:5001/certificates/9ad9b250-cde3-4a36-8460-8420e8e7c7b8
+PUT http://localhost:5001/certificates/8eb97487-a96d-474c-acb4-8c68cdd50776
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
-  "title": "이름1"
+  "title": "이름123"
 }
 
 ###
-GET http://localhost:5001/certificate-lists/0fd7c766-76a9-4e04-aa58-bbf4dea86a1c
+DELETE http://localhost:5001/techs
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
