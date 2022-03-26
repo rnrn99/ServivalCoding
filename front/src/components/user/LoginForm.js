@@ -9,9 +9,15 @@ import {
   TextField,
   Card,
   Container,
-  // Typography,
-  Link,
+  Typography,
   Grid,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 //import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -24,6 +30,8 @@ const LoginForm = () => {
   const [email, setEmail] = useState(""); //useState로 email 상태를 생성함.
   const [password, setPassword] = useState(""); //useState로 password 상태를 생성함.
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
+  const [isOpenDialog, setIsOpenDialog] = useState(false); // 비밀번호 찾기 창 띄우기 여부를 저장합니다.
+  const [sendMailSucc, setSendMailSucc] = useState(false); // 메일 전송 성공 여부를 저장합니다.
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -100,6 +108,20 @@ const LoginForm = () => {
     }
   };
 
+  // 입력받은 Email로 임시 비밀번호를 보내는 함수입니다.
+  const sendMailHandler = async (e) => {
+    try {
+      await Api.post("users/password", {
+        email,
+      });
+
+      setSendMailSucc(true);
+      setIsOpenDialog(false);
+    } catch (err) {
+      setErrorMessage(err.response.data.error.message);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Card
@@ -111,6 +133,7 @@ const LoginForm = () => {
           backgroundColor: "white",
           padding: 2,
           borderRadius: 2,
+          fontFamily: "Elice Digital Baeum",
         }}
       >
         <Avatar
@@ -119,6 +142,15 @@ const LoginForm = () => {
           alt="logo"
           sx={{ width: 128, height: 128, mb: 0 }}
         />
+        <Typography
+          sx={{
+            fontFamily: "Elice Digital Baeum",
+            fontSize: "22px",
+            fontWeight: 600,
+          }}
+        >
+          로그인
+        </Typography>
 
         <TextField
           margin="normal"
@@ -126,6 +158,7 @@ const LoginForm = () => {
           label="이메일 주소"
           fullWidth
           autoComplete="email"
+          required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -137,6 +170,7 @@ const LoginForm = () => {
           type="password"
           fullWidth
           autoComplete="current-password"
+          required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -166,13 +200,56 @@ const LoginForm = () => {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Link>비밀번호 찾기</Link>
+            <Button variant="text" onClick={() => setIsOpenDialog(true)}>
+              비밀번호 찾기
+            </Button>
           </Grid>
           <Grid item>
-            <Link onClick={() => navigate("/register")}>회원가입</Link>
+            <Button variant="text" onClick={() => navigate("/register")}>
+              회원가입
+            </Button>
           </Grid>
         </Grid>
       </Card>
+
+      {isOpenDialog && (
+        <Dialog open={isOpenDialog} onClose={() => setIsOpenDialog(false)}>
+          <DialogTitle>비밀번호 찾기</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              아이디를 입력하세요
+            </DialogContentText>
+            <TextField
+              margin="normal"
+              name="email"
+              label="아이디"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIsOpenDialog(false)} color="error">
+              취소
+            </Button>
+            <Button onClick={sendMailHandler}>보내기</Button>
+          </DialogActions>
+        </Dialog>
+      )}
+
+      {sendMailSucc && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={sendMailSucc}
+          autoHideDuration={6000}
+          onClose={() => setSendMailSucc(false)}
+        >
+          <Alert severity="success" sx={{ width: "100%" }}>
+            메일이 성공적으로 발송되었습니다! 메일함으로 가 새 비밀번호를
+            확인하세요!
+          </Alert>
+        </Snackbar>
+      )}
     </Container>
   );
 };

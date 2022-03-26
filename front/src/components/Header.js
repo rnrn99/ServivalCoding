@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Box, Typography, Tab } from "@mui/material";
 import { UserStateContext, DispatchContext } from "../App";
 import GroupIcon from "@mui/icons-material/Group";
@@ -8,8 +8,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function Header() {
   const navigate = useNavigate();
-  const location = useLocation();
-
   const userState = useContext(UserStateContext);
   const dispatch = useContext(DispatchContext);
 
@@ -39,9 +37,10 @@ function Header() {
         <Toolbar>
           <img
             src="/logo.png"
-            width="6%"
+            width="96px"
             alt="logo"
             style={{ display: "flex", justifyContent: "center" }}
+            onClick={() => navigate("/")}
           />
           <Typography
             variant="h5"
@@ -50,13 +49,14 @@ function Header() {
             sx={{
               display: { xs: "none", sm: "block" },
               fontFamily: "Red Hat Mono, monospace",
+              color: "#C7A27C",
             }}
+            onClick={() => navigate("/")}
           >
             Survival Coding
           </Typography>
-
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
             <Tab
               icon={<AccountCircleIcon />}
               label="MY PAGE"
