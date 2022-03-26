@@ -35,8 +35,6 @@ function App() {
         type: "LOGIN_SUCCESS",
         payload: currentUser,
       });
-
-      console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
     } catch {
       console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
     }

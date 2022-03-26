@@ -1,6 +1,3 @@
-//가장 좋아하는 기술
-//가장 자신있는 기술을 보여주기 위한 콤포넌트
-//"favorite", "confident" 두가지로 꾸며서 보여주기
 import React from "react";
 import TechIcon from "./TechIcon";
 import { Grid, Typography } from "@mui/material";
