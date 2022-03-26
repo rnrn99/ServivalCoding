@@ -107,7 +107,16 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
             }}
           >
             <Grid item xs={6}>
-              <Typography sx={{ fontSize: "20px" }}>기술 스택</Typography>
+              <Typography
+                sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}
+              >
+                기술 스택
+              </Typography>
             </Grid>
             <Grid
               container
@@ -137,7 +146,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid container direction={"row"} spacing={1}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Grid container direction={"row"} spacing={1}>
                 <Grid item xs={6}>
                   <TechPick techName={techs?.favorite} type="favorite" />
@@ -147,7 +156,7 @@ const Techs = ({ portfolioOwnerId, isEditable }) => {
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item sx={{ ml: 1 }} xs>
+            <Grid item sx={{ ml: 1 }} xs md>
               <Grid container direction="column" justifyContent="center">
                 <TechLists subtitle="Languages" tags={techs?.languages?.list} />
                 <Divider />

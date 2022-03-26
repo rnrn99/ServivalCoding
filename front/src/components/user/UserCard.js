@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import * as Api from "../../api";
 
 //mui
-import { Button, Container, Card, CardContent, Typography } from "@mui/material";
+import {
+  Button,
+  Container,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
@@ -10,7 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import WysiwygIcon from "@mui/icons-material/Wysiwyg";
- // 정녕 블로그 아이콘이 없답니까../
+// 정녕 블로그 아이콘이 없답니까../
 // import Link from '@material-ui/core/Link'; // 추가 설치 드 가야합니다.. > 아이콘에 링크 두려면(깃헙, 블로그, 인스타 등)
 import { defaultImage, getImageBaseUrl } from "../../utils";
 
@@ -25,7 +31,6 @@ function UserCard({
   const [heartCount, setHeartCount] = useState(0); //좋아요 count를 서버로 부터 받아와 저장합니다
 
   const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
-
 
   // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(() => {
@@ -89,7 +94,13 @@ function UserCard({
                 border: "3px double #9999A1",
               }}
             />
-            <Typography style={{ fontWeight: "bold", fontSize: "22px" }}>
+            <Typography
+              sx={{
+                fontFamily: "Elice Digital Baeum",
+                fontSize: "27px",
+                fontWeight: 500,
+              }}
+            >
               {user?.name}
             </Typography>
             {/* {emailPermission&& (
@@ -117,28 +128,31 @@ function UserCard({
               {heartCount}명이 좋아합니다
             </Typography>
           </Container>
-          <Container sx={{ marginBottom: "10px"}} style={{paddingRight: '0'}}>
+          <Container
+            sx={{ marginBottom: "10px" }}
+            style={{ paddingRight: "0" }}
+          >
             <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<GitHubIcon />}
-                href={user?.sns?.github}
-                target="_blank"
-              />
-              <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<InstagramIcon />}
-                href={user?.sns?.instagram}
-                target="_blank"
-              />
-              <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<WysiwygIcon />}
-                href={user?.sns?.blog}
-                target="_blank"
-              />
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<GitHubIcon />}
+              href={user?.sns?.github}
+              target="_blank"
+            />
+            <Button
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<InstagramIcon />}
+              href={user?.sns?.instagram}
+              target="_blank"
+            />
+            <Button
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<WysiwygIcon />}
+              href={user?.sns?.blog}
+              target="_blank"
+            />
           </Container>
           <Container sx={{ paddingBottom: "0" }}>
             {isEditable && (

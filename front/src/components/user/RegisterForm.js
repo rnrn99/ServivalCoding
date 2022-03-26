@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Col, Row, Form } from "react-bootstrap";
 
@@ -28,6 +28,11 @@ function RegisterForm() {
   //useState로 name 상태를 생성함.
   const [name, setName] = useState("");
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [isPasswordSame, setIsPasswordSame] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [isNameValid, setIsNameValid] = useState(false);
+  const [isFormValid, setIsFormVaild] = useState(false);
 
   //이메일이 abc@example.com 형태인지 regex를 이용해 확인함.
   const validateEmail = (email) => {
@@ -39,33 +44,78 @@ function RegisterForm() {
   };
 
   //위 validateEmail 함수를 통해 이메일 형태 적합 여부를 확인함.
-  const isEmailValid = validateEmail(email);
+  //const isEmailValid = validateEmail(email);
   // 비밀번호가 4글자 이상인지 여부를 확인함.
-  const isPasswordValid = password.length >= 4;
+  //const isPasswordValid = password.length >= 4;
   // 비밀번호와 확인용 비밀번호가 일치하는지 여부를 확인함.
-  const isPasswordSame = password === confirmPassword;
+  //const isPasswordSame = password === confirmPassword;
   // 이름이 2글자 이상인지 여부를 확인함.
-  const isNameValid = name.length >= 2;
+  //const isNameValid = name.length >= 2;
 
   // 위 4개 조건이 모두 동시에 만족되는지 여부를 확인함.
-  const isFormValid =
-    isEmailValid && isPasswordValid && isPasswordSame && isNameValid;
+  useEffect(() => {
+    setIsFormVaild(
+      isEmailValid && isPasswordValid && isPasswordSame && isNameValid
+    );
+  }, [isEmailValid, isPasswordValid, isPasswordSame, isNameValid]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isFormValid) {
+      try {
+        // "users/register" 엔드포인트로 post요청함.
+        const res = await Api.post("users/register", {
+          email,
+          password,
+          name,
+        });
+        console.log("회원가입요청 결과", res);
 
-    try {
-      // "users/register" 엔드포인트로 post요청함.
-      await Api.post("users/register", {
-        email,
-        password,
-        name,
-      });
+        // 로그인 페이지로 이동함.
+        navigate("/login");
+      } catch (err) {
+        setErrorMessage(err.response.data.error.message);
+      }
+    } else {
+      emailInputChecker();
+      passwordInputChecker();
+      pwdconfirmInputChecker();
+      nameInputChecker();
+    }
+  };
 
-      // 로그인 페이지로 이동함.
-      navigate("/login");
-    } catch (err) {
-      setErrorMessage(err.response.data.error.message);
+  const emailInputChecker = () => {
+    setIsEmailValid(validateEmail(email));
+    if (!isEmailValid) {
+      //에러호출
+      console.log("email not vaild");
+      setErrorMessage("이메일 형식이 올바르지 않습니다.");
+    } else {
+      setErrorMessage();
+    }
+  };
+  const passwordInputChecker = () => {
+    setIsPasswordValid(password.length >= 4);
+    if (!isPasswordValid) {
+      //에러호출
+      console.log("password not vaild");
+      setErrorMessage("비밀번호는 4글자 이상으로 설정해 주세요.");
+    }
+  };
+  const pwdconfirmInputChecker = () => {
+    setIsPasswordSame(password === confirmPassword);
+    if (!isPasswordSame) {
+      //에러호출
+      console.log("password confirm not vaild");
+      setErrorMessage("비밀번호가 일치하지 않습니다.");
+    }
+  };
+  const nameInputChecker = () => {
+    setIsNameValid(name.length >= 2);
+    if (!isNameValid) {
+      //에러호출
+      console.log("name not vaild");
+      setErrorMessage("이름은 2글자 이상으로 설정해 주세요.");
     }
   };
 
@@ -98,6 +148,7 @@ function RegisterForm() {
           autoComplete="email"
           required
           value={email}
+          onBlur={emailInputChecker}
           onChange={(e) => setEmail(e.target.value)}
         />
 
@@ -110,6 +161,7 @@ function RegisterForm() {
           autoComplete="off"
           required
           value={password}
+          onBlur={passwordInputChecker}
           onChange={(e) => setPassword(e.target.value)}
         />
 
@@ -122,6 +174,7 @@ function RegisterForm() {
           autoComplete="off"
           required
           value={confirmPassword}
+          onBlur={pwdconfirmInputChecker}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
         <TextField
@@ -133,8 +186,10 @@ function RegisterForm() {
           autoComplete="off"
           required
           value={name}
+          onBlur={nameInputChecker}
           onChange={(e) => setName(e.target.value)}
         />
+
         {errorMessage && <AlertError message={errorMessage} />}
 
         <Button
@@ -143,6 +198,7 @@ function RegisterForm() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 1 }}
+          disabled={!isFormValid}
           onClick={handleSubmit}
         >
           회원가입
