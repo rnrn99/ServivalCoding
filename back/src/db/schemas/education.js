@@ -11,7 +11,11 @@ const EducationSchema = new Schema({
     unique: true,
     required: true,
   },
-  school: String,
+  school: {
+    type: String,
+    required: true,
+    minlength: 1,
+  },
   major: String,
   position: {
     type: String,

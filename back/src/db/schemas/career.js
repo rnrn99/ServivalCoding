@@ -12,6 +12,7 @@ const CareerSchema = new Schema({
   title: {
     type: String,
     required: true,
+    minlength: 1,
   },
   fromDate: {
     type: String,
@@ -28,6 +29,6 @@ const CareerSchema = new Schema({
   },
 });
 
-const CareerModel = model("Carrer", CareerSchema);
+const CareerModel = model("Career", CareerSchema);
 
 export { CareerSchema, CareerModel };

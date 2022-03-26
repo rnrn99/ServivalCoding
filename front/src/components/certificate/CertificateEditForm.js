@@ -26,10 +26,8 @@ const CertificateEditForm = (props) => {
 
     const strDate = dateToString(date);
     if (e.target.name !== "cancel") {
-      console.log("완료 버튼이 눌렸습니다.");
       props.checkEdited(true, { title, description, date: strDate });
     } else {
-      console.log("취소 버튼이 눌렸습니다.");
       props.checkEdited(false, {});
     }
   };
@@ -68,7 +66,7 @@ const CertificateEditForm = (props) => {
           spacing={2}
           sx={{ mt: 2, justifyContent: "center" }}
         >
-          <Button name="accept" variant="contained" type="submit">
+          <Button name="accept" variant="contained" type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple>
             확인
           </Button>{" "}
           <Button
@@ -76,6 +74,7 @@ const CertificateEditForm = (props) => {
             type="reset"
             onClick={onSubmitHandler}
             variant="outlined"
+            sx={ButtonStyle.cancel}
           >
             취소
           </Button>{" "}
@@ -86,3 +85,19 @@ const CertificateEditForm = (props) => {
 };
 
 export default CertificateEditForm;
+
+const ButtonStyle = {
+  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
+':hover': {
+  bgcolor: '#b1b068',
+  color: 'white',
+}
+},
+  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
+':hover': {
+  bgcolor: '#bd3421',
+  color: 'white',
+  border: '0px'
+}
+},
+}

@@ -1,12 +1,8 @@
 import React, { useState, useContext } from "react";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
-import {
-  Box,
-  TextField,
-  Stack,
-  Button,
-} from "@mui/material";
+
+import { Box, TextField, Stack, Button } from "@mui/material";
 
 // 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {수상이력리스트 업데이트 함수}를 props로 받아옵니다.
 function AwardAddForm({ setAddAward, setAwardLists }) {
@@ -31,18 +27,21 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
     await Api.post("awards", uptAwardData);
 
     const updateList = await Api.get("award-lists", userId);
-    setAwardLists(updateList.data);
+    setAwardLists(updateList.data.awards);
 
     setAddAward(false);
   };
 
   return (
-    <Box component="form" onSubmit={addSubmitHandler} sx={{ mt: 1 }}>
+    <Box
+      component="form"
+      onSubmit={addSubmitHandler}
+      sx={{ mt: 1, width: 400 }}
+    >
       <Stack spacing={2}>
         <TextField
           required
           label="수상내역"
-          sx={{ width: "60ch" }}
           defaultValue={awardTitle}
           onChange={(e) => setAwardTitle(e.target.value)}
         />
@@ -50,32 +49,46 @@ function AwardAddForm({ setAddAward, setAwardLists }) {
         <TextField
           required
           label="상세내역"
-          sx={{ width: "60ch" }}
           defaultValue={awardDetail}
           onChange={(e) => setAwardDetail(e.target.value)}
         />
-      </Stack>  
+      </Stack>
 
       <Stack
         direction="row"
         spacing={2}
         sx={{ mt: 2, justifyContent: "center" }}
       >
-          <Button
-            variant="contained" type="submit"
-          >
-            확인
-          </Button>{" "}
-          <Button
-            variant="outlined"
-            type="reset"
-            onClick={() => setAddAward(false)}
-          >
-            취소
-          </Button>
+        <Button variant="contained" type="submit" sx={ButtonStyle.confirm} disableElevation disableRipple>
+          확인
+        </Button>{" "}
+        <Button
+          variant="outlined"
+          type="reset"
+          sx={ButtonStyle.cancel}
+          onClick={() => setAddAward(false)}
+        >
+          취소
+        </Button>
       </Stack>
     </Box>
   );
 }
 
 export default AwardAddForm;
+
+const ButtonStyle = {
+  confirm : { bgcolor: '#D0CE7C', color: '#31311C',
+':hover': {
+  bgcolor: '#b1b068',
+  color: 'white',
+}
+},
+  cancel: { border: 'solid 1px #db3f2b', color: '#db3f2b', 
+':hover': {
+  bgcolor: '#bd3421',
+  color: 'white',
+  border: '0px'
+}
+},
+}
