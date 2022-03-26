@@ -45,6 +45,13 @@ function RegisterForm() {
     );
   }, [isEmailValid, isPasswordValid, isPasswordSame, isNameValid]);
 
+  // 폼이 모두 유효한 값이면 에러메세지 없앰
+  useEffect(() => {
+    if (isFormValid) {
+      setErrorMessage(null);
+    }
+  }, [isFormValid]);
+
   // 이메일 유효한지 확인
   useEffect(() => {
     setIsEmailValid(validateEmail(email));
