@@ -31,10 +31,18 @@ function UserNetworkCard({ user }) {
           alt={user.name}
         />
         <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2" >
+          <Typography gutterBottom variant="h5" component="h2" sx={{
+                fontFamily: "Elice Digital Baeum",
+                fontSize: "23px",
+                fontWeight: 500,
+              }}>
             {user.name}
           </Typography>
-          <Typography className="text-muted" >{user.description}</Typography>
+          <Typography className="text-muted" sx={{
+                fontFamily: "Elice Digital Baeum",
+                fontSize: "16px",
+                fontWeight: 500,
+              }}>{user.description}</Typography>
         </CardContent>
         <CardActions>
           <Button

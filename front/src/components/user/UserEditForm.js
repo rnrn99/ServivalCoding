@@ -207,7 +207,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="git URL"
             sx={{ width: "320px" }}
-            value={snsURL.github}
+            value={snsURL.github || ''}
             onChange={(e) => setSnsURL({ ...snsURL, github: e.target.value })}
           />
           <GitHubIcon sx={iconStyles} />
@@ -216,7 +216,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="instar URL"
             sx={{ width: "320px" }}
-            value={snsURL.instagram}
+            value={snsURL.instagram || ''}
             onChange={(e) =>
               setSnsURL({ ...snsURL, instagram: e.target.value })
             }
@@ -227,7 +227,7 @@ function UserEditForm({ user, setIsEditing, setUser }) {
           <TextField
             label="blog URL"
             sx={{ width: "320px" }}
-            value={snsURL.blog}
+            value={snsURL.blog || ''}
             onChange={(e) => setSnsURL({ ...snsURL, blog: e.target.value })}
           />
           <WysiwygIcon sx={iconStyles} />
