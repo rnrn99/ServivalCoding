@@ -3,42 +3,46 @@ import { Grid, Dialog, DialogTitle, DialogContent } from "@mui/material";
 
 import CertificateEditForm from "./CertificateEditForm";
 import CertificateCard from "./CertificateCard";
-import AlertDialog from "../utils/AlertDialog";
+
+//mvp 구현 1차 완료 이제부터 리파인이다.
+
+//Certicate 모듈입니다. CertificateCard 와 CertificateEditForm 을 호출합니다.
 
 const Certicate = ({
   cert,
-  checkModified, //수정 또는 삭제에 대한 데이터 처리를 해주는 함수
+  checkModified,
   isEditable,
   title,
   description,
   date,
 }) => {
-  //isEditing은 EditForm 활성화 여부를 체크
   const [isEditing, setIsEditing] = useState(false);
 
-  const [isDeleting, setIsDeleting] = useState(false);
+  //isEditing 필요.
+  //isEditable 은 portfolio에서 받아온 데이터. 수정을 할수있느냐의 여부.
+  //Card에게도 전달하여 수정하기 버튼을 활성화 시켜야함
+  //isEditing은 수정하기 버튼이 눌렸을때 작동됨.
 
   const checkEditing = (editing) => {
+    console.log(">>>>>>checkEditing", editing);
     setIsEditing(editing);
   };
-
-  //삭제버튼 클릭을 체크 > 삭제 확인 폼을 출력
   const checkDeleting = () => {
-    setIsDeleting(true);
+    //확인 과정 필요.
+    //Are you sure?  모달창?
+    //지금은 그냥 삭제
+    const type = "delete";
+    checkModified(cert.id, type, {});
   };
 
-  const checkDeleted = (isDelete) => {
-    if (isDelete) {
-      const type = "delete";
-      checkModified(cert.id, type, {});
-    }
-    setIsDeleting(false);
-  };
-
-  //checkEdited 수정이 완료되어 버튼이 눌렸는지 확인
   const checkEdited = (isEdited, props) => {
+    //editForm에서 값이 리턴됨.
+    console.log("checkEdited");
+    //console.log(...props);
+    //setIsEdited(edited);
     if (isEdited) {
       //데이터 수정에관련된 로직
+      console.log("데이터 수정작업이 이루어집니다.");
       const type = "edit";
       checkModified(cert.id, type, props);
     }
@@ -57,22 +61,37 @@ const Certicate = ({
         date={date}
       />
 
-      {isEditing && (
-        <Dialog open={isEditing} onClose={() => setIsEditing((cur) => !cur)}>
-          <DialogTitle>자격증 항목 수정</DialogTitle>
-          <DialogContent>
-            <CertificateEditForm
-              checkEdited={checkEdited}
-              title={title}
-              description={description}
-              date={date}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
-      {isDeleting && <AlertDialog checkDeleteComplete={checkDeleted} />}
+      <Dialog open={isEditing} onClose={() => setIsEditing((cur) => !cur)}>
+        <DialogTitle>자격증 항목 수정</DialogTitle>
+        <DialogContent>
+          <CertificateEditForm
+            checkEdited={checkEdited}
+            title={title}
+            description={description}
+            date={date}
+          />
+        </DialogContent>
+      </Dialog>
     </Grid>
   );
 };
 
 export default Certicate;
+
+/*
+      {isEditing ? (
+                  <Dialog open={isAdd} onClose={() => setIsAdd((cur) => !cur)}>
+                  <DialogTitle>자격증 추가</DialogTitle>
+                  <DialogContent>
+                    <CertificateAddForm checkAddComplete={checkAddComplete} />
+                  </DialogContent>
+                </Dialog>
+
+        <CertificateEditForm
+          checkEdited={checkEdited}
+          title={title}
+          description={description}
+          date={date}
+        />
+      ) : (
+*/
