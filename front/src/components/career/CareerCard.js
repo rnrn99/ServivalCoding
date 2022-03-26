@@ -50,12 +50,12 @@ function CareerCard({ career, setClickEditBtn, isEditable, setCareerList }) {
       <TimelineContent>
         <p
           className="text-muted"
-          style={{ fontSize: "5px", marginBottom: "2px" }}
+          style={{ fontSize: "11px", marginBottom: "2px" }}
         >
           [{career.fromDate}
           <br />~{career.toDate}]
         </p>
-        <p style={{ fontSize: "10px" }}>{career.title}</p>
+        <p style={{ fontSize: "15px" }}>{career.title}</p>
 
         {isEditable && (
           <>
