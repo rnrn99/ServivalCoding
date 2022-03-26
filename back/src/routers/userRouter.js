@@ -20,8 +20,8 @@ const userAuthRouter = Router();
 
 userAuthRouter.post(
   "/users/register",
-  checkUserCreated,
   commonMiddleware.isBodyEmpty,
+  checkUserCreated,
   commonMiddleware.checkRequestBody("name", "email", "password"),
   async function (req, res, next) {
     try {

@@ -73,6 +73,7 @@ projectRouter.put(
   loginRequired,
   commonMiddleware.getParameter("id"),
   checkId,
+  commonMiddleware.checkRequestBody("title", "description", "from", "to"),
   async function (req, res, next) {
     try {
       const id = req.id;
@@ -94,7 +95,7 @@ projectRouter.put(
       }
 
       // 업데이트할 정보를 묶어서
-      const toUpdate = fieldChecking(req.body, "title", "description", "from", "to");
+      const toUpdate = req.toPost;
 
       // 프로젝트 정보를 업데이트
       const updatedProject = await ProjectService.setProject({ id, toUpdate });
