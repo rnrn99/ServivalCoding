@@ -39,7 +39,12 @@ function Projects({ portfolioOwnerId, isEditable }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>프로젝트</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>프로젝트</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {projects.map((project) => (

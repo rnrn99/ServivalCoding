@@ -39,7 +39,12 @@ function Careers({ portfolioOwnerId, isEditable }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>경력</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>경력</Typography>
         </AccordionSummary>
         <AccordionDetails style={{ padding: "2PX" }}>
           <Timeline position="alternate" style={{ padding: "1px" }}>

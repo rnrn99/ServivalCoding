@@ -30,17 +30,17 @@ function UserNetworkCard({ user }) {
           alt={user.name}
         />
         <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" >
             {user.name}
           </Typography>
-          <Typography>{user.description}</Typography>
+          <Typography className="text-muted" >{user.description}</Typography>
         </CardContent>
         <CardActions>
           <Button
             size="small"
             href="#"
             onClick={() => navigate(`/users/${user.id}`)}
-            sx={{ ml: 20 }}
+            sx={{ ml: 20 , color: '#d8a42aec'}}
           >
             Portfolio
           </Button>
