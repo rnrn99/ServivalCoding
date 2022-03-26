@@ -37,7 +37,7 @@ function Header() {
         <Toolbar>
           <img
             src="/logo.png"
-            width="6%"
+            width="96px"
             alt="logo"
             style={{ display: "flex", justifyContent: "center" }}
             onClick={() => navigate("/")}
@@ -55,9 +55,8 @@ function Header() {
           >
             Survival Coding
           </Typography>
-
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
             <Tab
               icon={<AccountCircleIcon />}
               label="MY PAGE"

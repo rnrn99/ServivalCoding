@@ -133,6 +133,7 @@ const LoginForm = () => {
           backgroundColor: "white",
           padding: 2,
           borderRadius: 2,
+          fontFamily: "Elice Digital Baeum",
         }}
       >
         <Avatar
@@ -141,7 +142,15 @@ const LoginForm = () => {
           alt="logo"
           sx={{ width: 128, height: 128, mb: 0 }}
         />
-        <Typography sx={{ fontSize: "20px" }}>로그인</Typography>
+        <Typography
+          sx={{
+            fontFamily: "Elice Digital Baeum",
+            fontSize: "22px",
+            fontWeight: 600,
+          }}
+        >
+          로그인
+        </Typography>
 
         <TextField
           margin="normal"

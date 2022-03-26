@@ -62,7 +62,7 @@ function Portfolio() {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item md={3} xs={12}>
           <User
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}
@@ -72,7 +72,7 @@ function Portfolio() {
             isEditable={portfolioOwner.id === userState.user?.id}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item md={9} xs={12}>
           <Techs
             portfolioOwnerId={portfolioOwner.id}
             isEditable={portfolioOwner.id === userState.user?.id}

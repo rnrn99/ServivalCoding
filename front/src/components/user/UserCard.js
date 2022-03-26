@@ -25,7 +25,6 @@ function UserCard({
   const [errorMessage, setErrorMessage] = useState(null); // 에러 메세지를 저장합니다.
   const imageBaseUrl = getImageBaseUrl(); // 이미지의 baseUrl을 저장합니다.
 
-
   // 포트폴리오 주인이 바뀔때 마다 갱신
   useEffect(() => {
     Api.get("users", portfolioOwnerId).then((res) => {
@@ -97,7 +96,13 @@ function UserCard({
                 border: "3px double #9999A1",
               }}
             />
-            <Typography style={{ fontWeight: "bold", fontSize: "22px" }}>
+            <Typography
+              sx={{
+                fontFamily: "Elice Digital Baeum",
+                fontSize: "27px",
+                fontWeight: 500,
+              }}
+            >
               {user?.name}
             </Typography>
             <TypographyEmail />
@@ -119,28 +124,31 @@ function UserCard({
               {heartCount}명이 좋아합니다
             </Typography>
           </Container>
-          <Container sx={{ marginBottom: "10px"}} style={{paddingRight: '0'}}>
+          <Container
+            sx={{ marginBottom: "10px" }}
+            style={{ paddingRight: "0" }}
+          >
             <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<GitHubIcon />}
-                href={user?.sns?.github}
-                target="_blank"
-              />
-              <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<InstagramIcon />}
-                href={user?.sns?.instagram}
-                target="_blank"
-              />
-              <Button
-                style={{color: 'black', minWidth: '0', padding: '0'}}
-                size="large"
-                startIcon={<WysiwygIcon />}
-                href={user?.sns?.blog}
-                target="_blank"
-              />
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<GitHubIcon />}
+              href={user?.sns?.github}
+              target="_blank"
+            />
+            <Button
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<InstagramIcon />}
+              href={user?.sns?.instagram}
+              target="_blank"
+            />
+            <Button
+              style={{ color: "black", minWidth: "0", padding: "0" }}
+              size="large"
+              startIcon={<WysiwygIcon />}
+              href={user?.sns?.blog}
+              target="_blank"
+            />
           </Container>
           <Container sx={{ paddingBottom: "0" }}>
             {isEditable && (
