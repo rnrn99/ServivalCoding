@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AppBar, Toolbar, Box, Typography, Tab } from "@mui/material";
+import { AppBar, Toolbar, Box, Typography, Tab, Button } from "@mui/material";
 import { UserStateContext, DispatchContext } from "../App";
 import GroupIcon from "@mui/icons-material/Group";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -42,6 +42,7 @@ function Header() {
             width="6%"
             alt="logo"
             style={{ display: "flex", justifyContent: "center" }}
+            onClick={() => navigate("/")}
           />
           <Typography
             variant="h5"
@@ -50,8 +51,9 @@ function Header() {
             sx={{
               display: { xs: "none", sm: "block" },
               fontFamily: "Red Hat Mono, monospace",
-              color: '#C7A27C'
+              color: "#C7A27C",
             }}
+            onClick={() => navigate("/")}
           >
             Survival Coding
           </Typography>
