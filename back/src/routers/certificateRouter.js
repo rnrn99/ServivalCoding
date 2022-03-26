@@ -35,7 +35,9 @@ certificateRouter.post(
         certificate
       };
 
-      res.status(201).json(body);
+      res
+        .status(201)
+        .json(body);
     } catch(error) {
       next(error);
     }
@@ -59,7 +61,9 @@ certificateRouter.get(
         certificate: certificate["_doc"]
       };
 
-      res.status(200).json(body);
+      res
+        .status(200)
+        .json(body);
     } catch(error) {
       next(error);
     }
@@ -106,7 +110,9 @@ certificateRouter.put(
         certificate: updatedCertificate["_doc"]
       };
 
-      res.status(200).json(body);
+      res
+        .status(200)
+        .json(body);
     } catch(error) {
       next(error);
     }
@@ -133,7 +139,9 @@ certificateRouter.get(
         certificates
       };
 
-      res.status(200).json(body);
+      res
+        .status(200)
+        .json(body);
     } catch(error) {
       next(error);
     }
@@ -164,7 +172,9 @@ certificateRouter.delete(
       // 에러가 발생하지 않았다면 certificate를 삭제
       await CertificateService.deleteCertificate({ id });
 
-      res.status(200).json({ success: true, message: "삭제 성공" });
+      res
+        .status(200)
+        .json({ success: true, message: "삭제 성공" });
     } catch(error) {
       next(error);
     }

@@ -125,7 +125,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yz
 ###
 POST http://localhost:5001/careers
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMzUxNi0xMWQyLTRhYTEtYWY5Mi0wZTYwYjdmZTNiYTEiLCJpYXQiOjE2NDgxMjE4MzJ9.hGiLj3UCl44N_H3aORwt1zZd_zDIEnejOwXvO5fx4-4
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "근무1",
@@ -136,7 +136,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjN2FjMz
 ###
 POST http://localhost:5001/careers
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNWJhNi0zNzUxLTQzNTQtYTE0MC1lY2FlYTEzMmY4ZWUiLCJpYXQiOjE2NDgxMjEyMjl9.GBHk8Gc5blc6KTEC5roArUTh_6-SA6ctjgL9TgmzE4g
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
 {
   "title": "근무2",
@@ -144,7 +144,7 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2QzNW
   "toDate": "2020-07-04"
 }
 ###
-PUT http://localhost:5001/projects/1acc7908-12de-4183-b731-33b855acd0e3
+PUT http://localhost:5001/careers/f050e9d8-38b2-49b8-b6a3-ce765f051d3a
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
 
@@ -153,6 +153,6 @@ Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yz
 }
 
 ###
-DELETE http://localhost:5001/educations/d8333a58-cb9b-48b2-992d-37bf1f2a2549
+DELETE http://localhost:5001/careers/9a721582-28df-435b-a9b7-2326544a22f5
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZmQ3Yzc2Ni03NmE5LTRlMDQtYWE1OC1iYmY0ZGVhODZhMWMiLCJpYXQiOjE2NDgyNjQ0NzZ9.m15PTSoeF1Y_jVUl6gm-9hXrzhmeL4Yv1xvAX8v22mY
