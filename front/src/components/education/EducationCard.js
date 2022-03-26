@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import AlertDialog from "../utils/AlertDialog";
 
 function EducationCard({
   education,
@@ -14,16 +15,19 @@ function EducationCard({
 }) {
   const userState = useContext(UserStateContext); // 현재 로그인된 유저의 정보를 가져옵니다.
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null); // Menu Element를 가리킵니다.
+  const [isOpen, setIsOpen] = useState(null); // Menu Element의 Open 상태를 저장합니다.
+  const [isDeleting, setIsDeleting] = useState(false); // 삭제 여부를 저장합니다.
 
-  const open = Boolean(anchorEl);
-  const user_id = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
+  const userId = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    setIsOpen(Boolean(event.currentTarget));
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsOpen(false);
   };
 
   const DelBtnClickHandler = async (isDeleting) => {
@@ -55,25 +59,30 @@ function EducationCard({
             <IconButton onClick={handleClick} sx={{ float: "right", mb: 2 }}>
               <MoreHorizIcon />
             </IconButton>
-            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>
-                <Button
-                  onClick={() => setClickEditBtn((cur) => !cur)}
-                  startIcon={<EditIcon />}
-                >
-                  편집
-                </Button>
-              </MenuItem>
-              <MenuItem onClick={handleClose}>
-                <Button
-                  color="error"
-                  startIcon={<DeleteIcon />}
-                  onClick={DelBtnClickHandler}
-                >
-                  삭제
-                </Button>
-              </MenuItem>
-            </Menu>
+            {isOpen && (
+              <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose}>
+                <MenuItem onClick={handleClose}>
+                  <Button
+                    onClick={() => setClickEditBtn((cur) => !cur)}
+                    startIcon={<EditIcon />}
+                  >
+                    편집
+                  </Button>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Button
+                    color="error"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => setIsDeleting(true)}
+                  >
+                    삭제
+                  </Button>
+                </MenuItem>
+              </Menu>
+            )}
+            {isDeleting && (
+              <AlertDialog checkDeleteComplete={DelBtnClickHandler} />
+            )}
           </>
         )}
       </Grid>

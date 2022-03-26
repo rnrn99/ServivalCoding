@@ -24,9 +24,11 @@ function Projects({ portfolioOwnerId, isEditable }) {
 
   useEffect(() => {
     // "project-lists/유저id" 엔드포인트로 GET 요청을 하고, projects를 response의 data로 세팅함.
-    Api.get("project-lists", portfolioOwnerId).then((res) =>
-      setProjects(res.data),
-    );
+    Api.get("project-lists", portfolioOwnerId)
+      .then((res) => {
+        setProjects(res.data.projects);
+      })
+      .catch((err) => setProjects([]));
   }, [portfolioOwnerId]);
 
   return (
@@ -37,7 +39,12 @@ function Projects({ portfolioOwnerId, isEditable }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>프로젝트</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>프로젝트</Typography>
         </AccordionSummary>
         <AccordionDetails>
           {projects.map((project) => (
@@ -54,26 +61,28 @@ function Projects({ portfolioOwnerId, isEditable }) {
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              color="primary"
+              style={{ color: "#C7A27C" }}
               aria-label="add-education"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
             </IconButton>
           </Box>
-          <Dialog
-            open={clickAddBtn}
-            onClose={() => setClickAddBtn((cur) => !cur)}
-          >
-            <DialogTitle>프로젝트 추가</DialogTitle>
-            <DialogContent>
-              <ProjectAddForm
-                portfolioOwnerId={portfolioOwnerId}
-                setClickAddBtn={setClickAddBtn}
-                setProjects={setProjects}
-              />
-            </DialogContent>
-          </Dialog>
+          {clickAddBtn && (
+            <Dialog
+              open={clickAddBtn}
+              onClose={() => setClickAddBtn((cur) => !cur)}
+            >
+              <DialogTitle>프로젝트 추가</DialogTitle>
+              <DialogContent>
+                <ProjectAddForm
+                  portfolioOwnerId={portfolioOwnerId}
+                  setClickAddBtn={setClickAddBtn}
+                  setProjects={setProjects}
+                />
+              </DialogContent>
+            </Dialog>
+          )}
         </CardContent>
       )}
     </Card>

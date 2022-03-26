@@ -19,14 +19,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import * as Api from "../../api";
 
 function Educations({ portfolioOwnerId, isEditable }) {
-  const [educations, setEducations] = useState([]); // 해당 유저의 학력을 저장합니다.
+  const [educations, setEducations] = useState(null); // 해당 유저의 학력을 저장합니다.
   const [clickAddBtn, setClickAddBtn] = useState(false); // 학력 추가 버튼 클릭 상태를 저장합니다.
 
   useEffect(() => {
     // "education-lists/유저id" 엔드포인트로 GET 요청을 하고, educations를 response의 data로 세팅함.
-    Api.get("education-lists", portfolioOwnerId).then((res) =>
-      setEducations(res.data),
-    );
+    Api.get("education-lists", portfolioOwnerId)
+      .then((res) => {
+        setEducations(res.data.educations);
+      })
+      .catch((err) => setEducations([]));
   }, [portfolioOwnerId]);
 
   return (
@@ -37,44 +39,51 @@ function Educations({ portfolioOwnerId, isEditable }) {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography sx={{ fontSize: "20px" }}>학력</Typography>
+          <Typography sx={{
+                  fontFamily: "Elice Digital Baeum",
+                  fontSize: "24px",
+                  color: "#616161",
+                  fontWeight: 500,
+                }}>학력</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {educations.map((edu) => (
-            <Education
-              key={edu.id}
-              education={edu}
-              setEducations={setEducations}
-              isEditable={isEditable}
-            />
-          ))}
+          {educations &&
+            educations.map((edu) => (
+              <Education
+                key={edu.id}
+                education={edu}
+                setEducations={setEducations}
+                isEditable={isEditable}
+              />
+            ))}
         </AccordionDetails>
       </Accordion>
       {isEditable && (
         <CardContent>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <IconButton
-              color="primary"
+              style={{ color: "#C7A27C" }}
               aria-label="add-education"
               onClick={() => setClickAddBtn((cur) => !cur)}
             >
               <AddCircleRoundedIcon sx={{ width: "38px", height: "38px" }} />
             </IconButton>
           </Box>
-
-          <Dialog
-            open={clickAddBtn}
-            onClose={() => setClickAddBtn((cur) => !cur)}
-          >
-            <DialogTitle>학력 추가</DialogTitle>
-            <DialogContent>
-              <EducationAddForm
-                portfolioOwnerId={portfolioOwnerId}
-                setClickAddBtn={setClickAddBtn}
-                setEducations={setEducations}
-              />
-            </DialogContent>
-          </Dialog>
+          {clickAddBtn && (
+            <Dialog
+              open={clickAddBtn}
+              onClose={() => setClickAddBtn((cur) => !cur)}
+            >
+              <DialogTitle>학력 추가</DialogTitle>
+              <DialogContent>
+                <EducationAddForm
+                  portfolioOwnerId={portfolioOwnerId}
+                  setClickAddBtn={setClickAddBtn}
+                  setEducations={setEducations}
+                />
+              </DialogContent>
+            </Dialog>
+          )}
         </CardContent>
       )}
     </Card>

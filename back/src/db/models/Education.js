@@ -8,34 +8,64 @@ class Education {
   }
 
   static async findById(id) {
-    return await EducationModel.findOne(id);
+    const education = await EducationModel.findOne(
+      { id },
+      { _id: false, __v: false }
+    ).populate("author", "id -_id");
+    return education;
   }
 
   static async findAll({ userId }) {
     const user = await UserModel.findOne({ id: userId });
-    const educations = await EducationModel.find({ author: user });
+    const educations = await EducationModel.find(
+      { author: user },
+      { _id: false, __v: false }
+    );
+    return educations;
+  }
+
+  static async findByAuthor({ author }) {
+    const educations = await EducationModel.find(
+      { author },
+      { _id: false, __v: false }
+    ).populate("author", "id -_id");
     return educations;
   }
 
   static async find({ id }) {
-    return await EducationModel.findOne({ id });
+    return await EducationModel.findOne(
+      { id },
+      { _id: false, __v: false }
+    ).populate("author", "id -_id");
   }
 
   static async update({ id, toUpdate }) {
     const filter = { id };
-    const option = { returnOriginal: false };
+
+    const option = {
+      returnOriginal: false,
+      projection: { _id: false, __v: false },
+    };
 
     const updateEdu = await EducationModel.findOneAndUpdate(
       filter,
       toUpdate,
       option
-    );
+    ).populate("author", "id -_id");
+
     return updateEdu;
   }
 
   static async delete({ id }) {
-    const education = await EducationModel.findOneAndDelete({ id });
+    const education = await EducationModel.findOneAndDelete(
+      { id },
+      { projection: { _id: false, __v: false } }
+    ).populate("author", "id -_id");
     return education;
+  }
+
+  static async deleteAll({ user }) {
+    await EducationModel.deleteMany({ user });
   }
 }
 
