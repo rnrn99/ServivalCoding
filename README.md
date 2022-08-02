@@ -9,11 +9,6 @@
 
 ![image](https://user-images.githubusercontent.com/28249915/175800346-677c3577-6732-45d0-82f6-e566a20f1340.png)
 
-## Application
-https://survival-coding-portfolio.netlify.app
-
-heroku와 netlify를 이용해 배포하였습니다.  
-
 ## 프로젝트 설명
 
 ![main](https://user-images.githubusercontent.com/28249915/175802516-b9d0ce3c-cdbe-467a-a905-cc848ff65cd4.gif)
@@ -119,3 +114,11 @@ heroku와 netlify를 이용해 배포하였습니다.
 lodash에서 제공하는 debounce 함수를 이용해 200ms 마다 사용자의 입력을 가져와 api 요청을 보내도록 하였습니다.  
 
 또한 debounce를 학력 입력 시 학교 옵션을 제공하는 데에도 사용해 성능 저하를 개선할 수 있었습니다.  
+
+## Application 및 프로젝트 정리 블로그 글 링크
+https://survival-coding-portfolio.netlify.app
+
+heroku와 netlify를 이용해 배포하였습니다.  
+
+
+[![Velog's GitHub stats](https://velog-readme-stats.vercel.app/api?name=rnrn99&slug=Project-OurPortfolio-정리)](https://velog.io/@rnrn99/Project-OurPortfolio-%EC%A0%95%EB%A6%AC)
